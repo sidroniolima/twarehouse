@@ -1,0 +1,700 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+ 
+<html xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+    xmlns:h="http://xmlns.jcp.org/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
+    xmlns:c="http://java.sun.com/jstl/core"
+	xmlns:o="http://omnifaces.org/ui">
+<h:head>
+	<c:set var="root" value="#{request.contextPath}/" />
+</h:head>
+<h:body>
+
+	<ui:composition template="/private/template_initial.xhtml">
+	    <ui:define name="top_bar">
+	        <ui:include src="/private/top_bar_logged.xhtml"/>
+	    </ui:define>
+	    
+	    <ui:define name="side_bar">
+	        <ui:include src="/private/side_bar.xhtml"/>
+	    </ui:define>
+	    
+		<ui:define name="page_header">
+			<h3 class="page-header"><i class="fa fa-th-list"></i> Fornecedor</h3>
+			<ol class="breadcrumb">
+				<li><i class="fa fa-home"></i><a href="../dashboard.xhtml">Home</a></li>
+				<li><i class="fa fa-th-list"></i><a href="../fornecedor/pesquisa_fornecedor.xhtml" >Pesquisa</a></li>					  	
+			</ol>
+		</ui:define>
+		<ui:define name="container">
+   			<h:form id="formCadastro">
+   			
+	   			<h:messages 
+			      	id="messages"
+			      	errorClass="alert alert-block alert-danger fade in"
+			      	infoClass="alert alert-success fade in"
+			      	style="padding-left:0px;"
+			      	globalOnly="true"/>
+			       	
+				<div class="row">
+			        
+			        <div class="col-lg-12">
+			            <section class="panel">
+			                <header class="panel-heading">
+			                    Pessoa do fornecedor
+			                </header>
+			                
+		                	<div class="panel-body">
+		                	
+		                		<div class="col-lg-6">
+									<div class="info-box blue-bg">
+										<a class="btn btn-lg btn-block" 
+											jsfc="h:commandLink"
+											type="button"
+											action="#{cadastroFornecedorBean.criaPessoa('FISICA')}">
+								        	
+					                        <f:ajax
+					                        	execute="@form"
+					                        	render="@form"/>
+								        	
+								        	<i class="fa fa-user"></i>
+										</a>
+
+										<div class="title">Física</div>						
+									</div><!--/.info-box-->		
+								</div>	
+									
+								<div class="col-lg-6">
+									<div class="info-box brown-bg">
+										<a class="btn btn-lg btn-block" 
+											jsfc="h:commandLink"
+											type="button"
+											action="#{cadastroFornecedorBean.criaPessoa('JURIDICA')}">
+								        	
+					                        <f:ajax
+					                        	execute="@form"
+					                        	render="@form"/>
+								        	
+								        	<i class="fa fa-building"></i>
+										</a>
+										
+										<div class="title">Jurídica</div>						
+									</div><!--/.info-box-->		
+								</div>	
+								
+								<h:panelGroup
+			                		id="panelPessoaFisica"
+			                		rendered="#{not cadastroFornecedorBean.fornecedor.pessoa.isJuridica() and cadastroFornecedorBean.fornecedor.pessoa ne null}">
+									
+			                        <div class="form-group">
+			                        
+			                            <label for="inputCpf">Cpf<span class="required">*</span></label>
+			                            <h:inputText 
+			                            	pt:type="text" 
+			                            	class="form-control input-sm m-bot15" 
+			                            	id="inputCpf" 
+			                            	pt:placeholder="Cpf"
+			                            	jsfc="h:inputText"
+			                            	value="#{cadastroFornecedorBean.fornecedor.pessoa.cpf}"
+			                            	required="#{not cadastroFornecedorBean.fornecedor.pessoa.isJuridica()}"
+			                            	disabled="#{cadastroFornecedorBean.fornecedor.pessoa eq null}"
+			                            	requiredMessage="Insira o CPF do fornecedor."
+			                            	converterMessage="Cpf inválido."
+			                            	converter="cpfFacesConverter">
+			                            	
+			                            	<f:ajax 
+					                        	event="blur" 
+					                        	render="m_inputCpf" />
+					                        	
+						              	</h:inputText>
+						                    
+						                <h:message 
+						                   	id="m_inputCpf" 
+						                   	for="inputCpf"
+						                   	class="alert-danger fade in"/>
+				                	</div>														
+
+			                        <div class="form-group">
+			                        
+			                            <label for="inputNome">Nome<span class="required">*</span></label>
+			                            <h:inputText 
+			                            	pt:type="text" 
+			                            	class="form-control input-sm m-bot15" 
+			                            	id="inputNome" 
+			                            	pt:placeholder="Nome"
+			                            	jsfc="h:inputText"
+			                            	value="#{cadastroFornecedorBean.fornecedor.pessoa.nome}"
+			                            	required="#{not cadastroFornecedorBean.fornecedor.pessoa.isJuridica()}"
+			                            	disabled="#{cadastroFornecedorBean.fornecedor.pessoa eq null}"
+			                            	requiredMessage="Preencha o nome do fornecedor.">
+			                            	
+			                            	<f:ajax 
+					                        	event="blur" 
+					                        	render="m_inputNome" />
+					                        	
+						              	</h:inputText>
+						                    
+						                <h:message 
+						                   	id="m_inputNome" 
+						                   	for="inputNome"
+						                   	class="alert-danger fade in"/>
+				                	</div>
+
+			                	</h:panelGroup>
+			                
+								<h:panelGroup
+			                		id="panelPessoaJuridica"
+			                		rendered="#{cadastroFornecedorBean.fornecedor.pessoa.isJuridica() and cadastroFornecedorBean.fornecedor.pessoa ne null}">
+									
+			                        <div class="form-group">
+			                        
+			                            <label for="inputCnpj">Cnpj<span class="required">*</span></label>
+			                            <h:inputText 
+			                            	pt:type="text" 
+			                            	class="form-control input-sm m-bot15" 
+			                            	id="inputCnpj" 
+			                            	pt:placeholder="Cnpj"
+			                            	jsfc="h:inputText"
+			                            	value="#{cadastroFornecedorBean.fornecedor.pessoa.cnpj}"
+			                            	required="#{cadastroFornecedorBean.fornecedor.pessoa.isJuridica()}"
+			                            	disabled="#{cadastroFornecedorBean.fornecedor.pessoa eq null}"
+			                            	requiredMessage="Insira o CNPJ do fornecedor."
+			                            	converterMessage="Cnpj inválido."
+			                            	converter="cnpjFacesConverter">
+			                            	
+			                            	<f:ajax 
+					                        	event="blur" 
+					                        	render="m_inputCnpj" />
+					                        	
+						              	</h:inputText>
+						                    
+						                <h:message 
+						                   	id="m_inputCnpj" 
+						                   	for="inputCnpj"
+						                   	class="alert-danger fade in"/>
+				                	</div>														
+
+			                        <div class="form-group">
+			                        
+			                            <label for="inputNomeFantasia">Nome fantasia<span class="required">*</span></label>
+			                            <h:inputText 
+			                            	pt:type="text" 
+			                            	class="form-control input-sm m-bot15" 
+			                            	id="inputNomeFantasia" 
+			                            	pt:placeholder="NomeFantasia"
+			                            	value="#{cadastroFornecedorBean.fornecedor.pessoa.nomeFantasia}"
+			                            	required="#{cadastroFornecedorBean.fornecedor.pessoa.isJuridica()}"
+			                            	disabled="#{cadastroFornecedorBean.fornecedor.pessoa eq null}"
+			                            	requiredMessage="Preencha o nome fantasia do fornecedor.">
+			                            	
+			                            	<f:ajax 
+					                        	event="blur" 
+					                        	render="m_inputNomeFantasia" />
+					                        	
+						              	</h:inputText>
+						                    
+						                <h:message 
+						                   	id="m_inputNomeFantasia" 
+						                   	for="inputNomeFantasia"
+						                   	class="alert-danger fade in"/>
+				                	</div>
+				                	
+			                        <div class="form-group">
+			                        
+			                            <label for="inputRazaoSocial">Razao social<span class="required">*</span></label>
+			                            <h:inputText 
+			                            	pt:type="text" 
+			                            	class="form-control input-sm m-bot15" 
+			                            	id="inputRazaoSocial" 
+			                            	pt:placeholder="RazaoSocial"
+			                            	value="#{cadastroFornecedorBean.fornecedor.pessoa.razaoSocial}"
+			                            	required="#{cadastroFornecedorBean.fornecedor.pessoa.isJuridica()}"
+			                            	disabled="#{cadastroFornecedorBean.fornecedor.pessoa eq null}"
+			                            	requiredMessage="Preencha a razão social do fornecedor.">
+			                            	
+			                            	<f:ajax 
+					                        	event="blur" 
+					                        	render="m_inputRazaoSocial" />
+					                        	
+						              	</h:inputText>
+						                    
+						                <h:message 
+						                   	id="m_inputRazaoSocial" 
+						                   	for="inputRazaoSocial"
+						                   	class="alert-danger fade in"/>
+				                	</div>				                	
+			               	 	</h:panelGroup>			                
+			            	</div>   
+			            	
+			            </section>
+			        </div>
+
+			  	</div>
+			  	
+			  	<div class="row">
+			        
+			        <div class="col-lg-12">
+			            <section class="panel">
+			                <header class="panel-heading">
+			                    Cadastro de fornecedor
+			                </header>
+			                
+			            <h:inputHidden
+			            	value="#{cadastroFornecedorBean.fornecedor.codigo}"/>
+			            				                
+			                <div class="panel-body">
+			                    
+			                        <div class="form-group">
+			                        
+			                            <label for="inputCodigo">Código</label>
+			                            <input 
+			                            	pt:type="text" 
+			                            	class="form-control input-sm m-bot15" 
+			                            	id="inputCodigo" 
+			                            	pt:placeholder="Código"
+			                            	jsfc="h:inputText"
+			                            	value="#{cadastroFornecedorBean.fornecedor.codigoFormatado()}"
+			                            	readonly="true"/>
+			                        </div>
+			                        
+		                        <div class="form-group">
+		                        
+		                            <label for="inputCadastro">Data de cadastro<span class="required">*</span></label>
+		                            <h:inputText
+		                            	class="form-control input-sm m-bot15" 
+		                            	id="inputCadastro" 
+		                            	pt:placeholder="Data do cadastro no formato dd/MM/yyyy"
+		                            	value="#{cadastroFornecedorBean.fornecedor.dataDeCadastro}"
+		                            	required="true"
+		                            	requiredMessage="É necessário informar a data de cadastro."
+		                            	mask="99/99/9999">
+		                            	
+		                            	<f:converter
+		                            		converterId="localDateFacesConverter"/>
+		                            	
+		                            	<f:ajax 
+					                        event="blur" 
+					                        render="m_inputCadastro" />
+					                        	
+					              	</h:inputText>	
+					                    
+					                <h:message 
+					                   	id="m_inputCadastro" 
+					                   	for="inputCadastro"
+					                   	class="alert-danger fade in"/>						              	
+					            </div>				                        
+			                        
+			                        <div class="form-group">
+			                        
+			                            <label for="inputEndereco">Endereço<span class="required">*</span></label>
+			                            <h:inputText 
+			                            	pt:type="text" 
+			                            	class="form-control input-sm m-bot15" 
+			                            	id="inputEndereco" 
+			                            	pt:placeholder="Endereco"
+			                            	value="#{cadastroFornecedorBean.fornecedor.endereco}"
+			                            	required="true"
+			                            	disabled="#{cadastroFornecedorBean.fornecedor.pessoa eq null}"
+			                            	requiredMessage="Preencha o endereço do fornecedor.">
+			                            	
+			                            	<f:ajax 
+					                        	event="blur" 
+					                        	render="m_inputEndereco" />
+					                        	
+						              	</h:inputText>
+						                    
+						                <h:message 
+						                   	id="m_inputEndereco" 
+						                   	for="inputEndereco"
+						                   	class="alert-danger fade in"/>
+				                	</div>			                        
+
+			                        <div class="form-group">
+			                        
+			                            <label for="inputBairro">Bairro<span class="required">*</span></label>
+			                            <h:inputText 
+			                            	pt:type="text" 
+			                            	class="form-control input-sm m-bot15" 
+			                            	id="inputBairro" 
+			                            	pt:placeholder="Bairro"
+			                            	value="#{cadastroFornecedorBean.fornecedor.bairro}"
+			                            	required="true"
+			                            	disabled="#{cadastroFornecedorBean.fornecedor.pessoa eq null}"
+			                            	requiredMessage="Preencha o bairro do fornecedor.">
+			                            	
+			                            	<f:ajax 
+					                        	event="blur" 
+					                        	render="m_inputBairro" />
+					                        	
+						              	</h:inputText>
+						                    
+						                <h:message 
+						                   	id="m_inputBairro" 
+						                   	for="inputBairro"
+						                   	class="alert-danger fade in"/>
+				                	</div>			                        
+
+			                        <div class="form-group">
+			                        
+			                            <label for="inputCidade">Cidade<span class="required">*</span></label>
+			                            <h:inputText 
+			                            	pt:type="text" 
+			                            	class="form-control input-sm m-bot15" 
+			                            	id="inputCidade" 
+			                            	pt:placeholder="Cidade"
+			                            	value="#{cadastroFornecedorBean.fornecedor.cidade}"
+			                            	required="true"
+			                            	disabled="#{cadastroFornecedorBean.fornecedor.pessoa eq null}"
+			                            	requiredMessage="Preencha a cidade do fornecedor.">
+			                            	
+			                            	<f:ajax 
+					                        	event="blur" 
+					                        	render="m_inputCidade" />
+					                        	
+						              	</h:inputText>
+						                    
+						                <h:message 
+						                   	id="m_inputCidade" 
+						                   	for="inputCidade"
+						                   	class="alert-danger fade in"/>
+				                	</div>		
+			                        
+			                        <div class="form-group">
+			                        
+			                            <label for="inputNumero">Número</label>
+			                            <h:inputText 
+			                            	pt:type="text" 
+			                            	class="form-control input-sm m-bot15" 
+			                            	id="inputNumero" 
+			                            	pt:placeholder="Numero"
+			                            	value="#{cadastroFornecedorBean.fornecedor.numero}"
+			                            	disabled="#{cadastroFornecedorBean.fornecedor.pessoa eq null}">
+					                        	
+						              	</h:inputText>
+						                    
+				                	</div>		
+				                	
+			                        <div class="form-group">
+			                        
+			                            <label for="inputCep">Cep</label>
+			                            <h:inputText 
+			                            	pt:type="text" 
+			                            	class="form-control input-sm m-bot15" 
+			                            	id="inputCep" 
+			                            	pt:placeholder="Cep"
+			                            	value="#{cadastroFornecedorBean.fornecedor.cep}"
+			                            	disabled="#{cadastroFornecedorBean.fornecedor.pessoa eq null}">
+			                            	
+						              	</h:inputText>
+				                	</div>					
+				                	
+			                        <div class="form-group">
+			                        
+			                            <label for="inputEmail">Email<span class="required">*</span></label>
+			                            <h:inputText 
+			                            	pt:type="text" 
+			                            	class="form-control input-sm m-bot15" 
+			                            	id="inputEmail" 
+			                            	pt:placeholder="Email"
+			                            	value="#{cadastroFornecedorBean.fornecedor.email}"
+			                            	required="true"
+			                            	disabled="#{cadastroFornecedorBean.fornecedor.pessoa eq null}"
+			                            	requiredMessage="Preencha o email do fornecedor.">
+			                            	
+			                            	<f:ajax 
+					                        	event="blur" 
+					                        	render="m_inputEmail" />
+					                        	
+						              	</h:inputText>
+						                    
+						                <h:message 
+						                   	id="m_inputEmail" 
+						                   	for="inputEmail"
+						                   	class="alert-danger fade in"/>
+				                	</div>			
+				                	
+			                        <div class="form-group">
+			                        
+			                            <label for="inputContato">Contato<span class="required">*</span></label>
+			                            <h:inputText 
+			                            	pt:type="text" 
+			                            	class="form-control input-sm m-bot15" 
+			                            	id="inputContato" 
+			                            	pt:placeholder="O contanto pode ser pessoa ou setor"
+			                            	value="#{cadastroFornecedorBean.fornecedor.contato}"
+			                            	required="true"
+			                            	disabled="#{cadastroFornecedorBean.fornecedor.pessoa eq null}"
+			                            	requiredMessage="Preencha o contato do fornecedor.">
+			                            	
+			                            	<f:ajax 
+					                        	event="blur" 
+					                        	render="m_inputContato" />
+					                        	
+						              	</h:inputText>
+						                    
+						                <h:message 
+						                   	id="m_inputContato" 
+						                   	for="inputContato"
+						                   	class="alert-danger fade in"/>
+				                	</div>					                				                	                			                        
+
+			                        <div class="form-group">
+			                        
+			                            <label for="inputSite">Site<span class="required">*</span></label>
+			                            <h:inputText 
+			                            	pt:type="text" 
+			                            	class="form-control input-sm m-bot15" 
+			                            	id="inputSite" 
+			                            	pt:placeholder="Site"
+			                            	value="#{cadastroFornecedorBean.fornecedor.site}"
+			                            	disabled="#{cadastroFornecedorBean.fornecedor.pessoa eq null}">
+			                            	
+						              	</h:inputText>
+				                	</div>	
+			                        
+			                        <h:commandButton
+			                        	class="btn btn-primary"
+			                        	action="#{cadastroFornecedorBean.salvar()}"
+			                        	value="Salvar">
+			                        	
+			                        	<f:ajax
+			                        		execute="@form"
+			                        		render="formCadastro"/>
+			                        </h:commandButton>
+			
+			                </div>
+			            </section>
+			        </div>
+				</div>  
+				
+				<div class="row">
+
+			        <div class="col-lg-10">
+			        
+		   			<h:messages 
+				      	id="messageItem"
+				      	errorClass="alert alert-block alert-danger fade in"
+				      	infoClass="alert alert-success fade in"
+				      	style="padding-left:0px;"
+				      	globalOnly="true"/>						        
+			        
+			            <section class="panel">
+
+			                <header class="panel-heading">
+			                    Adição de telefone
+			                </header>
+			                
+			                <div class="panel-body">
+			                    
+		                        <div class="form-group">
+		                            <label for="inputDDD">DDD<span class="required">*</span></label>
+		                            
+		                            <h:inputText
+		                            	class="form-control input-sm m-bot15" 
+		                            	id="inputDDD" 
+		                            	pt:placeholder="DDD"
+		                            	value="#{cadastroFornecedorBean.telefone.ddd}">
+		                            	
+					              	</h:inputText>
+					                    
+		                        </div>
+		                        
+		                        <div class="form-group">
+		                            
+		                            <label for="inputNumero">Número<span class="required">*</span></label>
+		                            <h:inputText
+		                            	class="form-control input-sm m-bot15" 
+		                            	id="inputNumeroTelefone" 
+		                            	pt:placeholder="DDD"
+		                            	value="#{cadastroFornecedorBean.telefone.numero}">
+		                            	
+					              	</h:inputText>
+					                    
+		                        </div>
+		                        
+		                        <div class="form-group">
+		                            
+		                            <label for="inputRamal">Ramal<span class="required">*</span></label>
+		                            <h:inputText
+		                            	class="form-control input-sm m-bot15" 
+		                            	id="inputRamal" 
+		                            	pt:placeholder="Ramal"
+		                            	value="#{cadastroFornecedorBean.telefone.ramal}">
+		                            	
+					              	</h:inputText>
+					                    
+		                        </div>		                        
+		                        
+		                        <div class="checkbox">
+	                               	<label class="checkbox">
+	                                       <input 
+	                                       	name="inputMovel"
+	                                       	type="checkbox"
+	                                       	jsfc="h:selectBooleanCheckbox" 
+	                                       	value="#{cadastroFornecedorBean.telefone.movel}"/>
+	                                       	Móvel
+	                                </label>
+		                        </div>	
+		                        
+		                        <div class="form-group">
+		                            
+		                            <label for="inputOperadora">Operadora<span class="required">*</span></label>
+		                            <h:selectOneMenu
+		                            	class="form-control input-sm m-bot15" 
+		                            	id="selectOperadora" 
+		                            	pt:placeholder="DDD"
+		                            	value="#{cadastroFornecedorBean.telefone.operadora}">
+		                            	
+		                            	<f:selectItem
+		                            		noSelectionOption="true"
+		                            		itemLabel="Selecione uma operadora"/>
+		                            		
+		                            	<f:selectItems 
+		                            		value="#{cadastroFornecedorBean.operadoras}"
+		                            		var="operadora"
+		                            		itemLabel="#{operadora.descricao}"
+		                            		itemValue="#{operadora}"/>
+		                            		
+					              	</h:selectOneMenu>
+					                    
+		                        </div>		       
+		                        
+		                        <h:commandButton
+		                        	class="btn btn-primary"
+		                        	action="#{cadastroFornecedorBean.adicionaItem()}"
+		                        	value="Adicionar">
+		                        	
+		                        	<f:ajax
+		                        		execute="@form"
+		                        		render="formCadastro messageItem"/>
+		                        </h:commandButton>		                                             
+			                </div>
+			    		</section>
+			    	</div>
+			    	
+			    	<div class="col-lg-10">
+	                    <section class="panelTelefone">
+							<header class="panel-heading">
+	                            Telefones do fornecedor
+	                        </header>
+	                        
+                          	<h:panelGroup
+                          		id="panelTable">
+	                          	<table class="table table-striped table-advance table-hover">
+									<tbody>
+			                          	<tr>
+			                             	<th><i class="icon_pens"></i> DDD</th>
+			                             	<th><i class="icon_pens"></i> Número</th>
+			                             	<th><i class="icon_pens"></i> Ramal</th>
+			                             	<th><i class="icon_pens"></i> Móvel</th>
+			                             	<th><i class="icon_pens"></i> Operadora</th>	
+			                             	<th  style="width:100px"><i class="icon_cogs"></i> Controle</th>
+										</tr>
+										<ui:repeat 
+									   			var="telefone" 
+									   			value="#{cadastroFornecedorBean.fornecedor.telefones}">	
+											<tr>
+											   <td>#{telefone.ddd}</td>	
+											   <td>#{telefone.numero}</td>	
+											   <td>#{telefone.ramal}</td>	
+											   <td>
+											   		<a jsfc="h:link" 
+											   			rendered="#{telefone.movel}" 
+											   			disabled="true">
+											   			<i class="fa fa-check"></i>
+											   		</a>
+											   </td>
+											   <td>#{telefone.operadora.descricao}</td>	
+											   <td>
+											    <div class="btn-group">
+													<a class="btn btn-warning" 
+														jsfc="h:commandLink"
+														type="button"
+														action="#{cadastroFornecedorBean.editaItem()}">
+											        	
+									                   <f:setPropertyActionListener 
+									                   		value="#{telefone}" 
+									                   		target="#{cadastroFornecedorBean.telefoneSelecionado}"/>
+								                        	
+								                        	<f:ajax
+								                        		execute="@form"
+								                        		render="@form"/>
+											        			
+														<i class="icon_check_alt2"></i>
+											        </a>
+											        
+													<a class="btn btn-danger" 
+														jsfc="h:commandLink"
+														type="button"
+														action="#{cadastroFornecedorBean.setTelefoneSelecionado(telefone)}"
+														immediate="true">
+										                   <f:setPropertyActionListener 
+										                   		value="#{telefone}" 
+										                   		target="#{cadastroFornecedorBean.telefoneSelecionado}"/>
+										                   												        	
+										                   <f:passThroughAttribute name="data-toggle" value="modal" />
+										                   <f:passThroughAttribute name="data-target" value="#myModal" />
+										                   <f:ajax/>
+													
+														<i class="icon_close_alt2"></i>
+													</a>
+											    </div>
+											    </td>											   
+											</tr>
+										</ui:repeat>
+									</tbody>
+								</table>
+							</h:panelGroup>
+							
+						</section>		    
+			    	</div>				
+				
+				</div>
+				
+				<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModal" aria-hidden="true" data-keyboard="false" data-backdrop="static">
+				    <div class="modal-dialog modal-sm">
+				        <div class="modal-content">
+				            <h:form id="myForm">
+				                <div class="modal-header">
+				                	<button aria-hidden="true" data-dismiss="modal" class="close" type="button">×</button>
+				                    <h4 class="modal-title">Confirmação de remoção</h4>
+				                </div>
+				                <div class="modal-body">
+				                <h:panelGroup 
+				                	layout="block" 
+				                	id="panelDescricao">
+				                	
+				                	Deseja realmente remover o telefone selecionado?
+				                	
+				                	<a  type="submit"
+				                		class="btn btn-warning btn-sm"
+				                		jsfc="h:commandLink"
+				                		action="#{cadastroFornecedorBean.removeItem()}">
+				                		Sim
+											<f:passThroughAttribute name="data-dismiss" value="modal" />
+										<f:ajax
+						               		execute="@this"
+						               		render="@form"/>
+									</a>
+				                		
+				                	<button 
+				                		id="close"
+				                		type="submit" 
+				                		class="btn btn-info btn-sm">Não</button>
+				                </h:panelGroup>
+				                </div>
+				
+				            </h:form>
+				        </div>
+				    </div>
+				</div>						
+				
+			</h:form> 			
+   		
+	    </ui:define>
+	</ui:composition>
+	
+</h:body>
+</html>

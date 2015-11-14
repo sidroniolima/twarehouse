@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PROCESS model-entity="JSFProcess">
+ <PROCESS-ITEM NAME="rules:#*" PATH="/*" SHAPE="32,17,0,0" model-entity="JSFProcessGroup">
+  <PROCESS-ITEM ID="rules:#*:0" NAME="item" PATH="/*" model-entity="JSFProcessItem">
+   <PROCESS-ITEM-OUTPUT ID="login::#public#login.xhtml" NAME="output"
+    PATH="/public/login.xhtml" TARGET="rules:#public#login.xhtml"
+    TITLE="login" model-entity="JSFProcessItemOutput"/>
+  </PROCESS-ITEM>
+ </PROCESS-ITEM>
+ <PROCESS-ITEM NAME="rules:#public#login.xhtml"
+  PATH="/public/login.xhtml" SHAPE="240,33,0,0" model-entity="JSFProcessGroup"/>
+ <PROCESS-ITEM NAME="rules:#*:1" PATH="/*" SHAPE="32,129,0,0" model-entity="JSFProcessGroup">
+  <PROCESS-ITEM ID="rules:#*:1" NAME="item" PATH="/*" model-entity="JSFProcessItem">
+   <PROCESS-ITEM-OUTPUT
+    ID="cadastro_familia::#private#familia#cadastro_familia.xhtml"
+    NAME="output" PATH="/private/familia/cadastro_familia.xhtml"
+    TARGET="rules:#private#familia#cadastro_familia.xhtml"
+    TITLE="cadastro_familia" model-entity="JSFProcessItemOutput"/>
+  </PROCESS-ITEM>
+ </PROCESS-ITEM>
+ <PROCESS-ITEM NAME="rules:#*:2" PATH="/*" SHAPE="32,241,0,0" model-entity="JSFProcessGroup">
+  <PROCESS-ITEM ID="rules:#*:2" NAME="item" PATH="/*" model-entity="JSFProcessItem">
+   <PROCESS-ITEM-OUTPUT
+    ID="pesquisa_familia::#private#familia#pesquisa_familia.xhtml"
+    NAME="output" PATH="/private/familia/pesquisa_familia.xhtml"
+    TARGET="rules:#private#familia#pesquisa_familia.xhtml"
+    TITLE="pesquisa_familia" model-entity="JSFProcessItemOutput"/>
+  </PROCESS-ITEM>
+ </PROCESS-ITEM>
+ <PROCESS-ITEM NAME="rules:#private#familia#pesquisa_familia.xhtml"
+  PATH="/private/familia/pesquisa_familia.xhtml" SHAPE="240,257,0,0" model-entity="JSFProcessGroup"/>
+ <PROCESS-ITEM NAME="rules:#private#familia#cadastro_familia.xhtml"
+  PATH="/private/familia/cadastro_familia.xhtml" SHAPE="240,145,0,0" model-entity="JSFProcessGroup"/>
+</PROCESS>

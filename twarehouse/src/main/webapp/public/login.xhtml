@@ -1,0 +1,69 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+ 
+<html xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:ui="http://java.sun.com/jsf/facelets"    
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
+    xmlns:p="http://primefaces.org/ui">
+    
+<h:head>
+    <h:outputStylesheet library="css" name="line-icons.css" />
+</h:head>
+
+<h:body>
+
+	<ui:composition template="/public/template_login.xhtml">
+	    <ui:define name="top_bar">
+	        <ui:include src="/public/top_bar.xhtml"/>
+	    </ui:define>
+	    
+	    <ui:define name="container">
+
+		      <h:form class="login-form">        
+		        <div class="login-wrap">
+		            <p class="login-img"><i class="icon_lock_alt"></i></p>
+		            <div class="input-group">
+		              <span class="input-group-addon"><i class="icon_profile"></i></span>
+		              
+		              <h:inputText 
+		              	value="#{loginBean.usuario.email}" 
+		              	styleClass="form-control" 
+		              	pt:placeholder="email" />
+		              	
+		            </div>
+		            <div class="input-group">
+		                <span class="input-group-addon"><i class="icon_key_alt"></i></span>
+		                <h:inputSecret
+		            		value="#{loginBean.usuario.senha}" 
+		            		styleClass="form-control" 
+		            		pt:placeholder="senha" />
+		            </div>
+		            <label class="checkbox">
+		
+		            		
+		                <input type="checkbox" value="remember-me"/> Permanecer logado
+		                <span class="pull-right"> <a href="#"> Esqueceu a senha?</a></span>
+		            </label>
+		            
+		            <button 
+		            	class="btn btn-primary btn-lg btn-block" 
+		            	type="submit"
+		            	jsfc="h:commandButton"
+		            	action="#{loginBean.login()}"
+		            	value="Login"/>
+                     
+                     <div
+                     	id="message"
+                     	style="padding-top:20px;">
+	                     <h:messages
+	                     	id="message"
+	                     	styleClass="alert alert-block alert-danger fade in"/>
+                     </div>
+		        </div>
+		      </h:form>
+		
+	    </ui:define>
+	</ui:composition>
+	
+</h:body>
+</html>

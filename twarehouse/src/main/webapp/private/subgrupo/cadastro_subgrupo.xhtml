@@ -1,0 +1,139 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+ 
+<html xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+    xmlns:h="http://xmlns.jcp.org/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
+    xmlns:c="http://java.sun.com/jstl/core"
+	xmlns:o="http://omnifaces.org/ui">
+<h:head>
+	<c:set var="root" value="#{request.contextPath}/" />
+</h:head>
+<h:body>
+
+	<ui:composition template="/private/template_initial.xhtml">
+	    <ui:define name="top_bar">
+	        <ui:include src="/private/top_bar_logged.xhtml"/>
+	    </ui:define>
+	    
+	    <ui:define name="side_bar">
+	        <ui:include src="/private/side_bar.xhtml"/>
+	    </ui:define>
+	    
+		<ui:define name="page_header">
+			<h3 class="page-header"><i class="fa fa-th-list"></i> Subgrupo</h3>
+			<ol class="breadcrumb">
+				<li><i class="fa fa-home"></i><a href="../dashboard.xhtml">Home</a></li>
+				<li><i class="fa fa-th-list"></i><a href="../subgrupo/pesquisa_subgrupo.xhtml" >Pesquisa</a></li>					  	
+			</ol>
+		</ui:define>
+		<ui:define name="container">
+   			<h:form id="formCadastro">
+   			
+	   			<h:messages 
+			      	id="messages"
+			      	errorClass="alert alert-block alert-danger fade in"
+			      	infoClass="alert alert-success fade in"
+			      	style="padding-left:0px;"
+			      	globalOnly="true"/>
+			       	
+				<div class="row">
+			        <div class="col-lg-6">
+			            <section class="panel">
+			                <header class="panel-heading">
+			                    Cadastro de subgrupo
+			                </header>
+			                
+			            <h:inputHidden
+			            	value="#{cadastroSubgrupoBean.subgrupo.codigo}"/>
+			            				                
+			                <div class="panel-body">
+			                    
+			                        <div class="form-group">
+			                        
+			                            <label for="inputCodigo">Código</label>
+			                            <input 
+			                            	pt:type="text" 
+			                            	class="form-control input-sm m-bot15" 
+			                            	id="inputCodigo" 
+			                            	pt:placeholder="Código"
+			                            	jsfc="h:inputText"
+			                            	value="#{cadastroSubgrupoBean.subgrupo.codigoFormatado()}"
+			                            	readonly="true"/>
+			                            	
+			                        </div>
+			                        
+			                        <div class="form-group">
+			                        
+			                            <label for="inputDescricao">Descrição <span class="required">*</span></label>
+			                            <h:inputText
+			                            	class="form-control input-sm m-bot15" 
+			                            	id="inputDescricao" 
+			                            	pt:placeholder="Descrição"
+			                            	value="#{cadastroSubgrupoBean.subgrupo.descricao}"
+			                            	required="true"
+			                            	requiredMessage="É necessário preencher a descrição.">
+			                            	
+			                            	<f:ajax 
+						                        event="blur" 
+						                        render="m_inputDescricao" />
+						                        	
+						              	</h:inputText>
+						                    
+						                <h:message 
+						                   	id="m_inputDescricao" 
+						                   	for="inputDescricao"
+						                   	class="alert-danger fade in"/>
+			                            	
+			                        </div>		    
+			                        
+			                        <div class="form-group">
+			                        
+ 										<label for="selectGrupo">Grupo <span class="required">*</span></label>
+                                        <h:selectOneMenu 
+                                        	value="#{cadastroSubgrupoBean.subgrupo.grupo}"
+                                        	styleClass="form-control input-sm m-bot15"
+                                        	id="selectGrupo"
+                                        	required="true"
+                                        	requiredMessage="Um subgrupo deve pertencer a um grupo.">
+                                        	
+                                        	<f:selectItem 
+                                        		noSelectionOption="true"/>
+                                        		
+                                        	<f:selectItems
+                                        		itemLabel="${grupo.descricao}"
+                                        		itemValue="${grupo}"
+                                        		var="grupo"
+                                        		value="#{cadastroSubgrupoBean.grupos}"/>
+                                        		
+                                        </h:selectOneMenu>
+                                        
+						                <h:message 
+						                   	id="m_selectGrupo" 
+						                   	for="selectGrupo"
+						                   	class="alert-danger fade in"/>                                        
+			                        </div>
+
+			                        <h:commandButton
+			                        	class="btn btn-primary"
+			                        	action="#{cadastroSubgrupoBean.salvar()}"
+			                        	value="Salvar">
+			                        	
+			                        	<f:ajax
+			                        		execute="@form"
+			                        		render="formCadastro"/>
+			                        </h:commandButton>
+			
+			                </div>
+			            </section>
+			        </div>
+				</div>  
+				
+			</h:form> 			
+   		
+	    </ui:define>
+	</ui:composition>
+	
+</h:body>
+</html>

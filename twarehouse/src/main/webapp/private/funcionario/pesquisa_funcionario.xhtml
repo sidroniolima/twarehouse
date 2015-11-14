@@ -1,0 +1,245 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+ 
+<html xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+    xmlns:h="http://xmlns.jcp.org/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:c="http://java.sun.com/jsp/jstl/core" 
+    xmlns:pt="http://xmlns.jcp.org/jsf/passthrough">
+<h:head>
+
+</h:head>
+<h:body>
+
+	<ui:composition template="/private/template_initial.xhtml">
+	    <ui:define name="top_bar">
+	        <ui:include src="/private/top_bar_logged.xhtml"/>
+	    </ui:define>
+	    
+	    <ui:define name="side_bar">
+	        <ui:include src="/private/side_bar.xhtml"/>
+	    </ui:define>
+	    
+		<ui:define name="page_header">
+			<h3 class="page-header"><i class="fa fa-th-list"></i> Funcionário</h3>
+			<ol class="breadcrumb">
+				<li><i class="fa fa-home"></i><a href="../dashboard.xhtml">Home</a></li>
+				<li><i class="fa fa-th-list"></i><a href="../funcionario/cadastro_funcionario.xhtml">Cadastro</a></li>						  	
+			</ol>
+		</ui:define>
+		<ui:define name="container">
+   			<h:form id="formPesquisa">
+	   			<h:messages 
+			      	id="messages"
+			      	errorClass="alert alert-block alert-danger fade in"
+			      	infoClass="alert alert-success fade in"
+			      	style="padding-left:0px;"/>
+			       	
+				<div class="row">
+                	<div class="col-lg-12">
+	                    <section class="panel">
+							<header class="panel-heading">
+	                            Funcionários cadastrados
+	                        </header>
+	                        <div class="table-responsive">
+	                          	<h:panelGroup
+	                          		id="panelTable">
+		                          	<table class="table table-striped table-advance table-hover">
+										<tbody>
+				                          	<tr>
+				                             	<th><i class="icon_pens"></i> Matrícula</th>
+				                             	<th><i class="icon_pens"></i> Nome</th>
+				                             	<th><i class="icon_calendar"></i> Admissão</th>
+				                             	<th><i class="icon_box-checked"></i> Ativo</th>
+				                             	<th  style="width:100px"><i class="icon_cogs"></i> Controle</th>
+				                          	</tr>
+				                          
+											<ui:repeat 
+										   			var="funcionario" 
+										   			value="#{pesquisaFuncionarioBean.funcionarios}">	
+												<tr>
+												   <td>#{funcionario.matricula}</td>
+												   <td>#{funcionario.nome}</td>
+												   
+												   <td>
+												   		<h:outputText 
+												   			value="#{funcionario.dataDeAdmissao}">
+												   			<f:converter
+												   				converterId="localDateFacesConverter"/>
+												   		</h:outputText>
+												   </td>
+												   
+												   <td>
+												   		<a jsfc="h:link" 
+												   			rendered="#{funcionario.ativo}" 
+												   			disabled="true">
+												   			<i class="fa fa-check"></i>
+												   		</a>
+												   </td>
+												   
+												   <td>
+												    <div class="btn-group">
+												        <h:link
+												        	styleClass="btn btn-warning" 
+												        	outcome="cadastro_funcionario"
+												        	includeViewParams="true">
+												        	
+												        		<f:param
+												        			name="paramCodigo"
+												        			value="#{funcionario.codigo}"/>
+												        			
+															<i class="icon_check_alt2"></i>
+												        </h:link>
+												        
+														<a class="btn btn-danger" 
+															jsfc="h:commandLink"
+															type="button"
+															action="#{pesquisaFuncionarioBean.setFuncionarioSelecionado(funcionario)}"
+															immediate="true">
+														                   <f:setPropertyActionListener 
+														                   	value="#{funcionario}" 
+														                   	target="#{pesquisaFuncionarioBean.funcionarioSelecionado}"/>
+														                   												        	
+														                   <f:passThroughAttribute name="data-toggle" value="modal" />
+														                   <f:passThroughAttribute name="data-target" value="#myModal" />
+														                   <f:ajax/>
+														
+															<i class="icon_close_alt2"></i>
+														</a>
+												    </div>
+												    </td>
+												</tr>
+											</ui:repeat>
+				                 		</tbody>
+		                   			</table>
+				                </h:panelGroup>
+				                
+				        	</div> <!-- table-responsive -->
+			            </section>
+			        </div>
+				</div>  
+
+				<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModal" aria-hidden="true" data-keyboard="false" data-backdrop="static">
+				    <div class="modal-dialog modal-sm">
+				        <div class="modal-content">
+				            <h:form id="myForm">
+				                <div class="modal-header">
+				                	<button aria-hidden="true" data-dismiss="modal" class="close" type="button">×</button>
+				                    <h4 class="modal-title">Confirmação de exclusão</h4>
+				                </div>
+				                <div class="modal-body">
+				                <h:panelGroup 
+				                	layout="block" 
+				                	id="panelDescricao">
+				                	
+				                	Deseja realmente excluir o registro selecionado?
+				                	
+				                	<a  type="submit"
+				                		class="btn btn-warning btn-sm"
+				                		jsfc="h:commandLink"
+				                		action="#{pesquisaFuncionarioBean.excluir()}">
+				                		Sim
+											<f:passThroughAttribute name="data-dismiss" value="modal" />
+										<f:ajax
+						               		execute="@this"
+						               		render="@form"/>
+									</a>
+				                		
+				                	<button 
+				                		id="close"
+				                		type="submit" 
+				                		class="btn btn-info btn-sm">Não</button>
+				                </h:panelGroup>
+				                </div>
+				
+				            </h:form>
+				        </div>
+				    </div>
+				</div>
+
+				<div class="col-md-12">
+		       		
+	       			<h:form 
+	       				name="formNavigator">
+	       		
+		       			<nav
+		       				style="text-align:center">
+		       				
+							  <ul class="pagination">
+							  
+							    <li>
+							    	<h:commandLink 
+							    		actionListener="#{pesquisaFuncionarioBean.paginator.previous()}"
+							    		action="#{pesquisaFuncionarioBean.listarComPaginacao()}" 
+							    		value="«">
+							    		<f:ajax
+							    			render=":formPesquisa:panelTable"/>	
+							    	</h:commandLink>
+							    </li>
+							    
+							    <li>
+							    	<h:commandLink 
+							    		actionListener="#{pesquisaFuncionarioBean.paginator.goTo(1)}" 
+							    		action="#{pesquisaFuncionarioBean.listarComPaginacao()}"
+							    		value="1" >
+							    		
+							    		<f:ajax
+							    			render=":formPesquisa:panelTable"/>	
+							    	</h:commandLink>
+							    </li>
+							    
+								<li>
+									<h:commandLink 
+							    		actionListener="#{pesquisaFuncionarioBean.paginator.goTo(2)}"
+							    		action="#{pesquisaFuncionarioBean.listarComPaginacao()}" 
+							    		value="2">
+							    		
+							    		<f:ajax
+							    			render=":formPesquisa:panelTable"/>	
+							    	</h:commandLink>
+							    </li>
+							    
+							    <li>
+							    	<h:commandLink 
+							    		actionListener="#{pesquisaFuncionarioBean.paginator.goTo(3)}" 
+							    		action="#{pesquisaFuncionarioBean.listarComPaginacao()}"
+							    		value="3">
+							    		
+							    		<f:ajax
+							    			render=":formPesquisa:panelTable"/>	
+							    	</h:commandLink>
+							    </li>
+							    
+							    <li>
+							    	<h:commandLink 
+							    		actionListener="#{pesquisaFuncionarioBean.paginator.goTo(4)}" 
+							    		action="#{pesquisaFuncionarioBean.listarComPaginacao()}"
+							    		value="4">
+							    		
+							    		<f:ajax
+							    			render=":formPesquisa:panelTable"/>	
+							    	</h:commandLink>
+							    </li>
+							    
+							    <li>
+							      <h:commandLink
+							    		actionListener="#{pesquisaFuncionarioBean.paginator.next()}" 
+							    		action="#{pesquisaFuncionarioBean.listarComPaginacao()}"
+							    		value="»">
+							    		
+							    		<f:ajax
+							    			render=":formPesquisa:panelTable"/>	
+							    	</h:commandLink>
+							    </li>
+							  </ul>
+						</nav>		
+					</h:form>
+		       	</div>
+								
+			</h:form> 			
+   		
+	    </ui:define>
+	</ui:composition>
+	
+</h:body>
+</html>

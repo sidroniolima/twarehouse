@@ -1,0 +1,38 @@
+<faces-config xmlns="http://xmlns.jcp.org/xml/ns/javaee"
+              xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+              xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-facesconfig_2_2.xsd"
+              version="2.2">
+	  <faces-config-extension>
+		  <facelets-processing>
+		    <file-extension>.xhtml</file-extension>
+		    <process-as>xhtml</process-as>
+		  </facelets-processing>
+	  </faces-config-extension>
+	
+	 <navigation-rule>
+	 	<from-view-id>/*</from-view-id>
+		<navigation-case>
+			<from-outcome>login</from-outcome>
+			<to-view-id>/public/login.xhtml</to-view-id>
+			<redirect/>
+		</navigation-case>
+	</navigation-rule>
+	
+	 <navigation-rule>
+	 	<from-view-id>/*</from-view-id>
+		<navigation-case>
+			<from-outcome>cadastro_familia</from-outcome>
+			<to-view-id>/private/familia/cadastro_familia.xhtml</to-view-id>
+			<redirect/>
+		</navigation-case>
+	</navigation-rule>	
+	
+	 <navigation-rule>
+	 	<from-view-id>/*</from-view-id>
+		<navigation-case>
+			<from-outcome>pesquisa_familia</from-outcome>
+			<to-view-id>/private/familia/pesquisa_familia.xhtml</to-view-id>
+			<redirect/>
+		</navigation-case>
+	</navigation-rule>		
+</faces-config>

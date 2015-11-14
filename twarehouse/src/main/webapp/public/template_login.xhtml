@@ -1,0 +1,90 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:pt="http://xmlns.jcp.org/jsf/passthrough">
+ 
+  <h:head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <meta name="description" content="Creative - Bootstrap 3 Responsive Admin Template"/>
+    <meta name="author" content="GeeksLabs"/>
+    <meta name="keyword" content="Creative, Dashboard, Admin, Template, Theme, Bootstrap, Responsive, Retina, Minimal"/>
+    <link rel="shortcut icon" href="img/favicon.png"/>
+
+    <title>Twarehouse - tetraTI</title>
+
+    <!-- Bootstrap CSS -->    
+    <h:outputStylesheet library="css" name="bootstrap.min.css" />
+    <!-- bootstrap theme -->
+    <h:outputStylesheet library="css" name="bootstrap-theme.css" />
+    <!--external css-->
+    <!-- font icon -->
+    <h:outputStylesheet library="css" name="elegant-icons-style.css" />
+    <h:outputStylesheet library="css" name="font-awesome.min.css" />
+    <!-- owl carousel -->
+    <h:outputStylesheet library="css" name="owl.carousel.css" />
+    <h:outputStylesheet library="css" name="jquery-jvectormap-1.2.2.css" />
+    <!-- Custom styles -->
+    <h:outputStylesheet library="css" name="line-icons.css" />
+    <h:outputStylesheet library="css" name="fullcalendar.css" />
+    <h:outputStylesheet library="css" name="widgets.css" />
+    <h:outputStylesheet library="css" name="style.css" />
+    <h:outputStylesheet library="css" name="style-responsive.css" />
+    <h:outputStylesheet library="css" name="jquery-ui-1.10.4.min.css" />
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 -->
+    <!--[if lt IE 9]>
+      <script src="js/html5shiv.js"></script>
+      <script src="js/respond.min.js"></script>
+      <script src="js/lte-ie7.js"></script>
+    <![endif]-->
+     
+    <!-- javascripts -->
+    <h:outputScript library="js" name="jquery.js" />
+    <h:outputScript library="js" name="jquery-ui-1.10.4.min.js" />
+    <h:outputScript library="js" name="jquery-1.8.3.min.js" />
+    <h:outputScript library="js" name="jquery-ui-1.9.2.custom.min.js" />
+    <!-- bootstrap -->
+    <h:outputScript library="js" name="bootstrap.min.js" />
+    <!-- nice scroll -->
+    <h:outputScript library="js" name="jquery.scrollTo.min.js" />
+    <h:outputScript library="js" name="jquery.nicescroll.js" />
+   
+    <!--custome script for all page-->
+    <h:outputScript library="js" name="scripts.js" />
+     
+    <script>
+        $a = jQuery.noConflict();
+        $a(document).ready(function() {
+            var heightWindow = $a(window).height();
+            var heightBody   = document.body.clientHeight;
+            if(heightWindow > heightBody){
+                $a("#footer").css('position', 'fixed');
+                $a("#footer").css('bottom', '0');
+            }                
+        });
+    </script>
+    
+</h:head>
+
+<h:body>
+    <div >
+        <ui:insert name="top_bar">
+         
+        </ui:insert>
+    </div>
+    
+			    <div class="container" >
+			        <ui:insert name="container">
+
+			        </ui:insert>
+		    	</div>   
+	<!--main content end-->
+     
+     <ui:insert name="script"/>
+</h:body>
+
+
+</html>

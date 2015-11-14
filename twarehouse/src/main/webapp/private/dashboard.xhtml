@@ -1,0 +1,36 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+ 
+<html xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:ui="http://java.sun.com/jsf/facelets"    
+    xmlns:h="http://java.sun.com/jsf/html">
+    
+<h:head>
+    <h:outputStylesheet library="custom/css" name="custom.css" />
+</h:head>
+
+<h:body>
+
+	<ui:composition template="/private/template_initial.xhtml">
+	    <ui:define name="top_bar">
+	        <ui:include src="/private/top_bar_logged.xhtml"/>
+	    </ui:define>
+	    
+	    <ui:define name="side_bar">
+	        <ui:include src="/private/side_bar.xhtml"/>
+	    </ui:define>
+	    
+	    
+		<ui:define name="page_header">
+			<h3 class="page-header"><i class="fa fa-laptop"></i> Dashboard</h3>
+			<ol class="breadcrumb">
+				<li><i class="fa fa-home"></i><a href="index.html">Home</a></li>
+				<li><i class="fa fa-laptop"></i>Dashboard</li>						  	
+			</ol>
+		</ui:define>
+		<ui:define name="container">
+   		
+	    </ui:define>
+	</ui:composition>
+	
+</h:body>
+</html>

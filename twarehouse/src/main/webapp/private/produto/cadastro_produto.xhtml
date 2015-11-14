@@ -1,0 +1,289 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+ 
+<html xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+    xmlns:h="http://xmlns.jcp.org/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
+    xmlns:c="http://java.sun.com/jstl/core"
+	xmlns:o="http://omnifaces.org/ui">
+<h:head>
+	<c:set var="root" value="#{request.contextPath}/" />
+</h:head>
+<h:body>
+
+	<ui:composition template="/private/template_initial.xhtml">
+	    <ui:define name="top_bar">
+	        <ui:include src="/private/top_bar_logged.xhtml"/>
+	    </ui:define>
+	    
+	    <ui:define name="side_bar">
+	        <ui:include src="/private/side_bar.xhtml"/>
+	    </ui:define>
+	    
+		<ui:define name="page_header">
+			<h3 class="page-header"><i class="fa fa-barcode"></i> Produto</h3>
+			<ol class="breadcrumb">
+				<li><i class="fa fa-home"></i><a href="../dashboard.xhtml">Home</a></li>
+				<li><i class="fa fa-barcode"></i><a href="../produto/pesquisa_produto.xhtml" >Pesquisa</a></li>					  	
+			</ol>
+		</ui:define>
+		<ui:define name="container">
+   			<h:form id="formCadastro">
+   			
+	   			<h:messages 
+			      	id="messages"
+			      	errorClass="alert alert-block alert-danger fade in"
+			      	infoClass="alert alert-success fade in"
+			      	style="padding-left:0px;"
+			      	globalOnly="true"/>
+			       	
+				<div class="row">
+			        
+			        <!-- Session do Produto -->
+			        
+			        <div class="col-lg-6">
+			            <section class="panel">
+			                <header class="panel-heading">
+			                    Cadastro de produto
+			                </header>
+			                
+			            	<h:inputHidden
+			            		value="#{cadastroProdutoBean.produto.codigo}"/>
+			            				                
+			                <div class="panel-body">
+			                    
+			                        <div class="form-group">
+			                        
+			                            <label for="inputCodigo">Código</label>
+			                            <input 
+			                            	pt:type="text" 
+			                            	class="form-control input-sm m-bot15" 
+			                            	id="inputCodigo" 
+			                            	pt:placeholder="Código"
+			                            	jsfc="h:inputText"
+			                            	value="#{cadastroProdutoBean.produto.codigoFormatado()}"
+			                            	readonly="true"/>
+			                            	
+			                        </div>
+			                        
+			                        <div class="form-group">
+			                        
+			                            <label for="inputDescricao">Descrição <span class="required">*</span></label>
+			                            <h:inputText
+			                            	class="form-control input-sm m-bot15" 
+			                            	id="inputDescricao" 
+			                            	pt:placeholder="Descrição"
+			                            	value="#{cadastroProdutoBean.produto.descricao}"
+			                            	required="true"
+			                            	requiredMessage="É necessário preencher a descrição.">
+			                            	
+			                            	<f:ajax 
+						                        event="blur" 
+						                        render="m_inputDescricao" />
+						                        	
+						              	</h:inputText>
+						                    
+						                <h:message 
+						                   	id="m_inputDescricao" 
+						                   	for="inputDescricao"
+						                   	class="alert-danger fade in"/>
+			                            	
+			                        </div>		
+			                        
+			                        <div class="form-group">
+			                        
+			                            <label for="inputCodigoDeBarras">Código de barras</label>
+			                            <h:inputText
+			                            	class="form-control input-sm m-bot15" 
+			                            	id="inputCodigoDeBarras" 
+			                            	pt:placeholder="Código de barras"
+			                            	value="#{cadastroProdutoBean.produto.codigoBarras}">
+			                            	
+						              	</h:inputText>
+						                    
+			                        </div>		
+			                        
+			                        <div class="form-group">
+			                        
+ 										<label for="selectSubgrupo">Subgrupo <span class="required">*</span></label>
+                                        <h:selectOneMenu 
+                                        	value="#{cadastroProdutoBean.produto.subgrupo}"
+                                        	styleClass="form-control input-sm m-bot15"
+                                        	id="selectSubgrupo"
+                                        	required="true"
+                                        	requiredMessage="Um produto deve pertencer a um subgrupo.">
+                                        	
+                                        	<f:selectItem 
+                                        		noSelectionOption="true"/>
+                                        		
+                                        	<f:selectItems
+                                        		itemLabel="${sub.descricao}"
+                                        		itemValue="${sub}"
+                                        		var="sub"
+                                        		value="#{cadastroProdutoBean.subgrupos}"/>
+                                        		
+                                        </h:selectOneMenu>
+                                        
+						                <h:message 
+						                   	id="m_selectSubgrupo" 
+						                   	for="selectSubgrupo"
+						                   	class="alert-danger fade in"/>                                        
+			                        </div>			    
+			                        
+			                        <div class="form-group">
+			                        
+			                            <label for="inputCusto">Custo</label>
+			                            <h:inputText
+			                            	class="form-control input-sm m-bot15" 
+			                            	id="inputCusto" 
+			                            	pt:placeholder="Custo"
+			                            	value="#{cadastroProdutoBean.produto.valorCusto}"
+			                            	readonly="true">
+			                            	
+						              	</h:inputText>
+						                    
+			                        </div>		
+			                        
+			                        <div class="form-group">
+			                        
+			                            <label for="inputCusto">Localização</label>
+			                            <h:inputText
+			                            	class="form-control input-sm m-bot15" 
+			                            	id="inputLocalizacao" 
+			                            	pt:placeholder="Localização física"
+			                            	value="#{cadastroProdutoBean.produto.localizacao}"/>
+						                    
+			                        </div>		
+			                        
+			                        <div class="form-group">
+			                        
+			                            <label for="inputCusto">Observação</label>
+			                            <h:inputTextarea
+			                            	class="form-control input-sm m-bot15" 
+			                            	id="inputObs" 
+			                            	pt:placeholder="Localização física"
+			                            	value="#{cadastroProdutoBean.produto.observacao}"
+			                            	cols="20"
+			                            	rows="5"/>
+						                    
+			                        </div>	
+			                                     
+			                        <h:commandButton
+			                        	class="btn btn-primary"
+			                        	action="#{cadastroProdutoBean.salvar()}"
+			                        	value="Salvar">
+			                        	
+			                        	<f:ajax
+			                        		execute="@form"
+			                        		render="formCadastro"/>
+			                        </h:commandButton>
+			
+			                </div>
+			                
+			            </section>
+			        </div>
+			        
+			        <!-- Session das Unidades -->
+			        <div class="col-lg-6">
+			            <section class="panel">
+			                <header class="panel-heading">
+			                    Unidades do produto
+			                </header>	
+			                
+			                <div class="panel-body">
+								<div class="form-group">
+				                        
+		                            <label for="selectUnEntrada">Entrada <span class="required">*</span></label>
+		                            
+	                                <h:selectOneMenu 
+	                                	value="#{cadastroProdutoBean.produto.unidades.entrada}"
+	                                	styleClass="form-control input-sm m-bot15"
+	                                	id="selectUnEntrada"
+	                                	pt:placeholder="Informe a unidade de entrada."
+	                                	required="true"
+	                                	requiredMessage="É necessário informar a unidade de entrada.">
+	                                	
+	                                	<f:selectItem 
+	                                		noSelectionOption="true"/>
+	                                		
+	                                	<f:selectItems
+	                                		itemLabel="${un.descricao}"
+	                                		itemValue="${un}"
+	                                		var="un"
+	                                		value="#{cadastroProdutoBean.unidades}"/>
+	                                		
+	                                </h:selectOneMenu>
+	                                
+				              		<h:message 
+				                 		id="m_selectUnEntrada" 
+				                 		for="selectUnEntrada"
+				                 		class="alert-danger fade in"/>  
+				                </div>                                      
+		                        
+								<div class="form-group">
+				                        
+		                            <label for="selectUnSaida">Saída <span class="required">*</span></label>
+		                            
+	                                <h:selectOneMenu 
+	                                	value="#{cadastroProdutoBean.produto.unidades.saida}"
+	                                	styleClass="form-control input-sm m-bot15"
+	                                	id="selectUnSaida"
+	                                	pt:placeholder="Informe a unidade de saída."
+	                                	required="true"
+	                                	requiredMessage="É necessário informar a unidade de saída.">
+	                                	
+	                                	<f:selectItem 
+	                                		noSelectionOption="true"/>
+	                                		
+	                                	<f:selectItems
+	                                		itemLabel="${un.descricao}"
+	                                		itemValue="${un}"
+	                                		var="un"
+	                                		value="#{cadastroProdutoBean.unidades}"/>
+	                                		
+	                                </h:selectOneMenu>
+	                                
+				              		<h:message 
+				                 		id="m_selectUnSaida" 
+				                 		for="selectUnSaida"
+				                 		class="alert-danger fade in"/>                                        
+		                        </div>		                        
+		                        
+		                        <div class="form-group">
+		                        
+		                            <label for="inputRazao">Razão <span class="required">*</span></label>
+		                            <h:inputText
+		                            	class="form-control input-sm m-bot15" 
+		                            	id="inputRazao" 
+		                            	value="#{cadastroProdutoBean.produto.unidades.razao}"
+		                            	required="true"
+		                            	pt:placeholder="A razão é dada na forma 1 entrada para x saídas."
+		                            	requiredMessage="É necessário preencher a razão entre a entrada e saída.">
+		                            	
+		                            	<f:ajax 
+					                        event="blur" 
+					                        render="m_inputRazao" />
+					                        	
+					              	</h:inputText>
+					                    
+					                <h:message 
+					                   	id="m_inputRazao" 
+					                   	for="inputRazao"
+					                   	class="alert-danger fade in"/>
+		                            	
+		                        </div>	
+		                       
+		                	</div>
+						</section>
+			       	 	<!-- FIM Session das Unidades -->   
+			       	 	
+			       	 </div>     
+				</div>  
+			</h:form> 			
+   		
+	    </ui:define>
+	</ui:composition>
+	
+</h:body>
+</html>

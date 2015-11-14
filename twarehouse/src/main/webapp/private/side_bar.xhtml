@@ -1,0 +1,90 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
+    xmlns:c="http://java.sun.com/jstl/core">
+ 
+<body>
+
+	<c:set var="root" value="#{request.contextPath}/" />
+
+	<!--sidebar start-->
+    <aside>
+    	<div id="sidebar"  class="nav nav-collapse ">
+        	<!-- sidebar menu start-->
+            <ul class="sidebar-menu">                
+            	<li class="">
+                	<a class="" href="${root}private/dashboard.xhtml">
+                    	<i class="icon_house_alt"></i>
+                         <span>Dashboard</span>
+                    </a>
+                </li>
+				<li class="sub-menu">
+	                <a href="javascript:;" class="">
+	                    <i class="icon_gift_alt"></i>
+	                    <span>Produto</span>
+	                    <span class="menu-arrow arrow_carrot-right"></span>
+	                </a>
+	                <ul class="sub">
+	                	<li><a class="" href="${root}private/unidade/cadastro_unidade.xhtml">Unidades</a></li>
+	                    <li><a class="" href="${root}private/familia/pesquisa_familia.xhtml">Família</a></li>                          
+	                    <li><a class="" href="${root}private/grupo/pesquisa_grupo.xhtml">Grupo</a></li>
+	                    <li><a class="" href="${root}private/subgrupo/pesquisa_subgrupo.xhtml">Subgrupo</a></li>
+	                    <li><a class="" href="${root}private/produto/cadastro_produto.xhtml">Produto</a></li>
+	                </ul>
+	            </li>       
+	            <li class="sub-menu">
+	                <a href="javascript:;" class="">
+	                    <i class="icon_id-2"></i>
+	                    <span>Funcionário</span>
+	                    <span class="menu-arrow arrow_carrot-right"></span>
+	                </a>
+	                <ul class="sub">
+	                    <li><a class="" href="${root}private/funcionario/cadastro_funcionario.xhtml">Funcionário</a></li>
+	                    <li><a class="" href="${root}private/setor/cadastro_setor.xhtml">Setor</a></li>
+	                </ul>
+	            </li>
+	            <li>
+	                <a class="" href="widgets.html">
+	                    <i class="icon_cart_alt"></i>
+	                    <span>Requisição</span>
+	                </a>
+	            </li>
+	                       
+	            <li>
+	                <a class="" href="${root}private/fornecedor/cadastro_fornecedor.xhtml">
+	                    <i class="icon_building"></i>
+	                    <span>Fornecedor</span>
+	                </a>
+	            </li>
+	            
+	            <li class="sub-menu">
+	                <a href="javascript:;" class="">
+	                    <i class="icon_menu-square_alt2"></i>
+	                    <span>Estoque</span>
+	                    <span class="menu-arrow arrow_carrot-right"></span>
+	                </a>
+	                <ul class="sub">
+	               	 	<li><a class="" href="${root}private/almoxarifado/cadastro_almoxarifado.xhtml">Almoxarifado</a></li>
+	                    <li><a class="" href="#">Entrada</a></li>
+	                    <li><a class="" href="${root}private/ajuste/ajuste_estoque.xhtml">Ajuste</a></li>
+	                </ul>
+	            </li>
+	            <li>                     
+	                <a class="" href="chart-chartjs.html">
+	                    <i class="icon_piechart"></i>
+	                    <span>Relatórios</span>
+	                    
+	                </a>
+	                                   
+	            </li>	            
+	            
+	        </ul>
+	        <!-- sidebar menu end-->
+	    </div>
+	</aside>
+	<!--sidebar end-->
+    
+</body>
+</html>
