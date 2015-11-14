@@ -26,15 +26,15 @@ public class SaldoEmUnidades {
 	public SaldoEmUnidades() {	}
 	
 	public BigDecimal getSaldo() {
-		return null;
+		return BigDecimal.ZERO;
 	}
 	
 	public BigDecimal transformaEntradaEmSaida() {
-		return null;
+		return BigDecimal.ZERO;
 	}
 	
 	public BigDecimal transformaSaidaEmEntrada() {
-		return null;
+		return BigDecimal.ZERO;
 	}
 		
 	public Almoxarifado getAlmoxarifado() {
