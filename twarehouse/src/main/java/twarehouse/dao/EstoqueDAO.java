@@ -3,12 +3,14 @@
  */
 package twarehouse.dao;
 
+import java.math.BigInteger;
 import java.util.List;
 
 import twarehouse.model.Produto;
-import twarehouse.model.consulta.SaldoEstoque;
-import twarehouse.molde.estoque.Almoxarifado;
-import twarehouse.molde.estoque.Movimento;
+import twarehouse.model.consulta.ProdutoEmReposicao;
+import twarehouse.model.consulta.SaldoPorAlmoxarifado;
+import twarehouse.model.estoque.Almoxarifado;
+import twarehouse.model.estoque.Movimento;
 
 /**
  * Interface da camada DAO para a Entidade Movimento.
@@ -43,6 +45,42 @@ public interface EstoqueDAO extends GenericDAO<Movimento, Long>{
 	 * @param produtoCodigo
 	 * @return
 	 */
-	public List<SaldoEstoque> saldoDoProdutoEmAlmoxarifados(Long produtoCodigo);
+	public List<SaldoPorAlmoxarifado> saldoDoProdutoEmAlmoxarifados(Long produtoCodigo);
+	
+	/**
+	 * Lista os registros dos produtos com quantidade zerada 
+	 * de forma paginada. 
+	 * 
+	 * @param firstResult
+	 * @param results
+	 * @return
+	 */
+	public List<ProdutoEmReposicao> listarProdutosEsgotados(int firstResult, int results);
+	
+	/**
+	 * Lista os registros dos produtos com quantidade de  
+	 * reposição atingida mas com saldo positivo de forma paginada. 
+	 * 
+	 * @param firstResult
+	 * @param results
+	 * @return
+	 */
+	public List<ProdutoEmReposicao> listarProdutosEmReposicao(int firstResult, int results);
+	
+	/**
+	 * Retorna a quantidade de produtos esgotados, isto é, 
+	 * com saldo de movimentação igual ou menor que zero.
+	 * 
+	 * @return
+	 */
+	public BigInteger qtdDeProdutosEsgotados();
+	
+	/**
+	 * Retorna a quantidade de produtos que atingiram o 
+	 * limite de reposição.
+	 * 
+	 * @return
+	 */
+	public BigInteger qtdDeProdutosEmReposicao();
 	
 }

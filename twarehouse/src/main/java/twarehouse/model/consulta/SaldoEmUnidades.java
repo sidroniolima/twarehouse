@@ -3,7 +3,7 @@ package twarehouse.model.consulta;
 import java.math.BigDecimal;
 
 import twarehouse.model.Produto;
-import twarehouse.molde.estoque.Almoxarifado;
+import twarehouse.model.estoque.Almoxarifado;
 
 /**
  * Fornece o saldo de um produto pelas unidades de 

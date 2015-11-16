@@ -12,7 +12,7 @@ import javax.inject.Inject;
 import twarehouse.dao.AlmoxarifadoDAO;
 import twarehouse.dao.GenericDAO;
 import twarehouse.excpetion.RegraDeNegocioException;
-import twarehouse.molde.estoque.Almoxarifado;
+import twarehouse.model.estoque.Almoxarifado;
 import twarehouse.service.AlmoxarifadoService;
 import twarehouse.service.SimpleServiceLayerImpl;
 import twarehouse.util.AlmoxarifadoPrincipal;

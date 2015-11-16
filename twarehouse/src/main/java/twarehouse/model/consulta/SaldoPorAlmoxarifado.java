@@ -3,14 +3,14 @@ package twarehouse.model.consulta;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 
-public class SaldoEstoque {
+public class SaldoPorAlmoxarifado {
 
 	private BigInteger codigoAlmoxarifado;
 	private String descricaoAlmoxarifado;
 	
 	private BigDecimal saldo;
 	
-	public SaldoEstoque() {	}
+	public SaldoPorAlmoxarifado() {	}
 
 	public BigInteger getCodigoAlmoxarifado() {
 		return codigoAlmoxarifado;

@@ -61,16 +61,14 @@ public class LoginService implements Serializable {
 	 * @return
 	 */
 	public Usuario buscaUsuarioPorEmailESenha(String email, String senha) {
-		Usuario usuario = new Usuario(email, senha);
 		
-		List<Usuario> filtro =
-				usuarioDAO.filtrar(usuario, Arrays.asList("email", "senha"), null);
+		Usuario usuario = usuarioDAO.buscarPorLoginESenha(email, senha);
 		
-		if (null == filtro || filtro.isEmpty()) {
+		if (null == usuario) {
 			return null;
 		}
 		
-		return filtro.get(0);
+		return usuario;
 	}
 
 	/**

@@ -107,8 +107,6 @@ public class AutenticadorAutorizador extends AuthorizingRealm {
 		loginService = this.getLoginService();
 		Usuario usuario = loginService.buscaUsuarioPorEmailESenha(email, senha);
 		
-		System.out.println("Nome ou email:" + email);
-		
 		if (null != usuario) {
 			AuthenticationInfo info = new SimpleAuthenticationInfo(email, senha, getName());
 			

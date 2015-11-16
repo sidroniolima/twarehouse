@@ -13,7 +13,7 @@ import javax.inject.Inject;
 import javax.inject.Named;
 
 import twarehouse.excpetion.RegraDeNegocioException;
-import twarehouse.molde.estoque.Almoxarifado;
+import twarehouse.model.estoque.Almoxarifado;
 import twarehouse.service.AlmoxarifadoService;
 import twarehouse.util.FacesUtil;
 import twarehouse.util.IConstants;

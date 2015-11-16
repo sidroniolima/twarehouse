@@ -1,0 +1,227 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+ 
+<html xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+    xmlns:h="http://xmlns.jcp.org/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
+    xmlns:c="http://java.sun.com/jstl/core"
+	xmlns:o="http://omnifaces.org/ui">
+<h:head>
+	<c:set var="root" value="#{request.contextPath}/" />
+</h:head>
+<h:body>
+
+	<ui:composition template="/private/template_initial.xhtml">
+	    <ui:define name="top_bar">
+	        <ui:include src="/private/top_bar_logged.xhtml"/>
+	    </ui:define>
+	    
+	    <ui:define name="side_bar">
+	        <ui:include src="/private/side_bar.xhtml"/>
+	    </ui:define>
+	    
+		<ui:define name="page_header">
+			<h3 class="page-header"><i class="fa fa-barcode"></i> Produto</h3>
+			<ol class="breadcrumb">
+				<li><i class="fa fa-home"></i><a href="../dashboard.xhtml">Home</a></li>
+				<li><i class="fa fa-barcode"></i><a href="../produto/pesquisa_produto.xhtml" >Pesquisa</a></li>					  	
+			</ol>
+		</ui:define>
+		<ui:define name="container">
+   			<h:form id="formCadastro">
+   			
+	   			<h:messages 
+			      	id="messages"
+			      	errorClass="alert alert-block alert-danger fade in"
+			      	infoClass="alert alert-success fade in"
+			      	style="padding-left:0px;"
+			      	globalOnly="true"/>
+			       	
+				<div class="row">
+			        
+			        <!-- Session do Produto -->
+			        
+			        <div class="col-lg-10">
+			            <section class="panel">
+			                <header class="panel-heading">
+			                    Produto e saldo
+			                </header>
+			                
+			                <div class="panel-body">
+			                    
+			                        <div class="form-group">
+			                        
+			                            <label for="inputCodigo">Código</label>
+			                            <input 
+			                            	pt:type="text" 
+			                            	class="form-control input-sm m-bot15" 
+			                            	id="inputCodigo" 
+			                            	pt:placeholder="Código"
+			                            	jsfc="h:inputText"
+			                            	value="#{visualizaProdutoBean.produto.codigoFormatado()}"
+			                            	readonly="true"/>
+			                            	
+			                        </div>
+			                        
+			                        <div class="form-group">
+			                        
+			                            <label for="inputDescricao">Descrição </label>
+			                            <h:inputText
+			                            	class="form-control input-sm m-bot15" 
+			                            	id="inputDescricao" 
+			                            	value="#{visualizaProdutoBean.produto.descricao}"
+			                            	readonly="true"/>
+			                        </div>		
+			                        
+			                        <div class="form-group">
+			                        
+			                            <label for="inputCodigoDeBarras">Código de barras</label>
+			                            <h:inputText
+			                            	class="form-control input-sm m-bot15" 
+			                            	id="inputCodigoDeBarras" 
+			                            	value="#{visualizaProdutoBean.produto.codigoBarras}"
+			                            	readonly="true"/>
+			                        </div>		
+			                        
+			                        <div class="form-group">
+			                        
+ 										<label for="inputSubgrupo">Subgrupo </label>
+			                            <h:inputText
+			                            	class="form-control input-sm m-bot15" 
+			                            	id="inputSubgrupo" 
+			                            	value="#{visualizaProdutoBean.produto.subgrupo.descricao}"
+			                            	readonly="true"/>
+			                        </div>			    
+			                        
+			                        <div class="form-group">
+			                        
+			                            <label for="inputCusto">Custo</label>
+			                            <h:inputText
+			                            	class="form-control input-sm m-bot15" 
+			                            	id="inputCusto" 
+			                            	value="#{visualizaProdutoBean.produto.valorCusto}"
+			                            	readonly="true">
+			                            	
+						              	</h:inputText>
+						                    
+			                        </div>		
+			                        
+			                        <div class="form-group">
+			                        
+			                            <label for="inputCusto">Localização</label>
+			                            <h:inputText
+			                            	class="form-control input-sm m-bot15" 
+			                            	id="inputLocalizacao" 
+			                            	pt:placeholder="Localização física"
+			                            	value="#{visualizaProdutoBean.produto.localizacao}"
+			                            	readonly="true"/>
+						                    
+			                        </div>		
+			                        
+			                        <div class="form-group">
+			                        
+			                            <label for="inputCusto">Observação</label>
+			                            <h:inputTextarea
+			                            	class="form-control input-sm m-bot15" 
+			                            	id="inputObs" 
+			                            	value="#{visualizaProdutoBean.produto.observacao}"
+			                            	cols="20"
+			                            	rows="5"
+			                            	readonly="true"/>
+						                    
+			                        </div>	
+			                        
+			                        <div class="form-group">
+			                        
+			                            <label for="inputUnEntrada">Un. entrada</label>
+			                            <h:inputText
+			                            	class="form-control input-sm m-bot15" 
+			                            	id="inputUnEntrada" 
+			                            	value="#{visualizaProdutoBean.produto.unidades.entrada.descricao}"
+			                            	readonly="true"/>
+			                        </div>				                        
+			                                     
+			                        <div class="form-group">
+			                        
+			                            <label for="inputUnSaida">Un. saída</label>
+			                            <h:inputText
+			                            	class="form-control input-sm m-bot15" 
+			                            	id="inputUnSaida" 
+			                            	value="#{visualizaProdutoBean.produto.unidades.saida.descricao}"
+			                            	readonly="true"/>
+			                        </div>
+			                        
+			                        <div class="form-group">
+			                        
+			                            <label for="inputUnRazao">Razão</label>
+			                            <h:inputText
+			                            	class="form-control input-sm m-bot15" 
+			                            	id="inputUnRazao" 
+			                            	value="#{visualizaProdutoBean.produto.unidades.razao}"
+			                            	readonly="true">
+			                            	
+			                            	<f:convertNumber 
+			                            		locale="pt_BR"
+			                            		minFractionDigits="2"/>
+			                            </h:inputText>
+			                        </div>		
+			                        					
+			                </div>
+			                
+			            </section>
+			        </div>
+			        
+			        <!-- Session das Unidades -->
+			        <div class="col-lg-10">
+			            <section class="panel">
+			                <header class="panel-heading">
+			                    Saldo do produto
+			                </header>	
+			                
+	                        <div class="table-responsive">
+                          	
+	                          	<h:panelGroup
+	                          		id="panelTable">
+		                          	<table class="table table-striped table-advance table-hover">
+										<tbody>
+				                          	<tr>
+				                             	<th style="width:100px"><i class="icon_id"></i> Cód. almoxarifado</th>
+				                             	<th style="width:220px"><i class="icon_pens"></i> Almoxarifado</th>
+				                             	<th style="width:100px"><i class="icon_pens"></i> Quantidade</th>
+				                          	</tr>
+				                          
+											<ui:repeat 
+										   			var="saldo" 
+										   			value="#{visualizaProdutoBean.saldos}">		                          
+												<tr>
+												   <td>#{saldo.codigoAlmoxarifado}</td>
+												   <td>#{saldo.descricaoAlmoxarifado}</td>
+												   <td>
+												   	<h:outputText 
+												   		value="#{saldo.saldo}">
+												   		
+												   		<f:convertNumber 
+												   			locale="pt_BR"
+												   			minFractionDigits="2"/>
+												   	</h:outputText>
+												   </td>
+												</tr>
+											</ui:repeat>
+										</tbody>
+									</table>
+								</h:panelGroup>
+							</div> <!-- /.table-responsive -->
+
+						</section>
+			       	 	<!-- FIM Session das Unidades -->   
+			       	 	
+			       	 </div>     
+				</div>  
+			</h:form> 			
+   		
+	    </ui:define>
+	</ui:composition>
+	
+</h:body>
+</html>

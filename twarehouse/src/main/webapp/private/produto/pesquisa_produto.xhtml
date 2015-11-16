@@ -55,7 +55,7 @@
 				                             	<th style="width:100px"><i class="icon_arrow_right"></i> Un. entrada</th>
 				                             	<th style="width:100px"><i class="icon_arrow_left"></i> Un. saída</th>
 				                             	<th style="width:150px"><i class="icon_pin"></i> Localização</th>
-				                             	<th><i class="icon_cogs"></i> Controle</th>
+				                             	<th style="width:150px"><i class="icon_cogs"></i> Controle</th>
 				                          	</tr>
 				                          
 											<ui:repeat 
@@ -81,6 +81,18 @@
 												        			
 															<i class="icon_check_alt2"></i>
 												        </h:link>
+												        
+												        <h:link
+												        	styleClass="btn btn-info" 
+												        	outcome="visualiza_produto"
+												        	includeViewParams="true">
+												        	
+												        		<f:param
+												        			name="paramCodigo"
+												        			value="#{produto.codigo}"/>
+												        			
+															<i class="icon_zoom-in_alt"></i>
+												        </h:link>												        
 												        
 														<a class="btn btn-danger" 
 															jsfc="h:commandLink"

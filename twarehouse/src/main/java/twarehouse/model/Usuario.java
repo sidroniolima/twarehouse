@@ -18,6 +18,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.Cascade;
+
 @Entity
 @Vetoed
 @Table(name="usuario")
@@ -25,7 +27,7 @@ public class Usuario {
 
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	private Long id;
+	private Long codigo;
 	
 	@Column(length=60)
 	private String nome;
@@ -37,11 +39,14 @@ public class Usuario {
 	private String senha;
 
 	@CollectionTable(name="usuario_permissoes")
-	@JoinTable(joinColumns= { @JoinColumn(name="usuario_id")})
+	@JoinTable(joinColumns= { @JoinColumn(name="usuario_codigo")})
 	@ElementCollection(targetClass=Permissao.class, fetch=FetchType.EAGER)
 	@Enumerated(EnumType.STRING)
-	@Column(name="permissao_id")
+	@Column(name="permissao_codigo")
 	private List<Permissao> permissoes = new ArrayList<Permissao>();
+	
+	@Column(name="tenant_id", unique=true)
+	private String tentantId;
 	
 	public Usuario() {	}
 	
@@ -58,11 +63,43 @@ public class Usuario {
 		return permissoes.size() > 0;
 	}
 	
-	public Long getId() {
-		return id;
+	/**
+	 * Indica se o usuário é ou não administrado.
+	 * 
+	 * @return
+	 */
+	public boolean isAdmin() {
+		if (null == permissoes) {
+			return false;
+		}
+		
+		for (Permissao permissao : permissoes) {
+			if (permissao.equals(Permissao.USER_ADMIN)) {
+				return true;
+			}
+		}
+		
+		return false;
 	}
-	public void setId(Long id) {
-		this.id = id;
+	
+	/**
+	 * Código formatado com 3 caracteres.
+	 * 
+	 * @return
+	 */
+	public String codigoFormatado() {
+		if (null == codigo) {
+			return "";
+		}
+		
+		return String.format("%06d", codigo);
+	}
+	
+	public Long getCodigo() {
+		return codigo;
+	}
+	public void setCodigo(Long codigo) {
+		this.codigo = codigo;
 	}
 
 	public String getNome() {
@@ -93,11 +130,18 @@ public class Usuario {
 		this.permissoes = permissoes;
 	}
 
+	public String getTentantId() {
+		return tentantId;
+	}
+	public void setTentantId(String tentantId) {
+		this.tentantId = tentantId;
+	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((id == null) ? 0 : id.hashCode());
+		result = prime * result + ((codigo == null) ? 0 : codigo.hashCode());
 		return result;
 	}
 	
@@ -110,10 +154,10 @@ public class Usuario {
 		if (getClass() != obj.getClass())
 			return false;
 		Usuario other = (Usuario) obj;
-		if (id == null) {
-			if (other.id != null)
+		if (codigo == null) {
+			if (other.codigo != null)
 				return false;
-		} else if (!id.equals(other.id))
+		} else if (!codigo.equals(other.codigo))
 			return false;
 		return true;
 	}

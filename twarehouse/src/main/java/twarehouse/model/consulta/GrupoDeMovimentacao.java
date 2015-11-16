@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import twarehouse.model.Produto;
-import twarehouse.molde.estoque.Movimento;
+import twarehouse.model.estoque.Movimento;
 
 /**
  * Dado um conjunto de movimentações de um produto  

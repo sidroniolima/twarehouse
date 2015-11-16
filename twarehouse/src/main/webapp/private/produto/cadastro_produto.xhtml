@@ -147,6 +147,34 @@
 			                        
 			                        <div class="form-group">
 			                        
+			                            <label for="inputReposicao">Reposição <span class="required">*</span></label>
+			                            <h:inputText
+			                            	class="form-control input-sm m-bot15" 
+			                            	id="inputReposicao" 
+			                            	pt:placeholder="Limite para reposição"
+			                            	value="#{cadastroProdutoBean.produto.qtdReposicao}"
+			                            	required="true"
+			                            	requiredMessage="É necessário o limite para reposição.">
+			                            	
+			                            	<f:convertNumber 
+			                            		locale="pt_BR"
+			                            		minFractionDigits="2"/>
+			                            		
+			                            	<f:ajax 
+						                        event="blur" 
+						                        render="m_inputReposicao" />
+						                        	
+						              	</h:inputText>
+						                    
+						                <h:message 
+						                   	id="m_inputReposicao" 
+						                   	for="inputReposicao"
+						                   	class="alert-danger fade in"/>
+			                            	
+			                        </div>	
+			                        
+			                        <div class="form-group">
+			                        
 			                            <label for="inputCusto">Localização</label>
 			                            <h:inputText
 			                            	class="form-control input-sm m-bot15" 
@@ -162,11 +190,10 @@
 			                            <h:inputTextarea
 			                            	class="form-control input-sm m-bot15" 
 			                            	id="inputObs" 
-			                            	pt:placeholder="Localização física"
+			                            	pt:placeholder="Observação do produto"
 			                            	value="#{cadastroProdutoBean.produto.observacao}"
 			                            	cols="20"
 			                            	rows="5"/>
-						                    
 			                        </div>	
 			                                     
 			                        <h:commandButton

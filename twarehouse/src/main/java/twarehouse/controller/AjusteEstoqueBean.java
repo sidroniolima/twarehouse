@@ -15,9 +15,9 @@ import javax.inject.Named;
 
 import twarehouse.excpetion.RegraDeNegocioException;
 import twarehouse.model.Produto;
-import twarehouse.molde.estoque.Ajuste;
-import twarehouse.molde.estoque.Almoxarifado;
-import twarehouse.molde.estoque.TipoMovimento;
+import twarehouse.model.estoque.Ajuste;
+import twarehouse.model.estoque.Almoxarifado;
+import twarehouse.model.estoque.TipoMovimento;
 import twarehouse.service.AlmoxarifadoService;
 import twarehouse.service.EstoqueService;
 import twarehouse.service.impl.ProdutoService;

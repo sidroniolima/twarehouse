@@ -1,4 +1,4 @@
-package twarehouse.molde.estoque;
+package twarehouse.model.estoque;
 
 public enum OrigemMovimento {
 

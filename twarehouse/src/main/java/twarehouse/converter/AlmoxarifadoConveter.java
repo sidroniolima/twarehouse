@@ -7,7 +7,7 @@ import javax.faces.convert.FacesConverter;
 import javax.inject.Inject;
 
 import twarehouse.dao.AlmoxarifadoDAO;
-import twarehouse.molde.estoque.Almoxarifado;
+import twarehouse.model.estoque.Almoxarifado;
 
 @FacesConverter(forClass=Almoxarifado.class)
 public class AlmoxarifadoConveter implements Converter {

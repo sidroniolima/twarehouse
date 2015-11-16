@@ -1,6 +1,6 @@
 package twarehouse.dao;
 
-import twarehouse.molde.estoque.Almoxarifado;
+import twarehouse.model.estoque.Almoxarifado;
 
 public interface AlmoxarifadoDAO extends GenericDAO<Almoxarifado, Long> {
 

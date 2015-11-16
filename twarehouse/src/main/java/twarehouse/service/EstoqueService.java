@@ -4,13 +4,16 @@
 package twarehouse.service;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 import twarehouse.excpetion.RegraDeNegocioException;
 import twarehouse.model.Produto;
-import twarehouse.molde.estoque.Ajuste;
-import twarehouse.molde.estoque.Almoxarifado;
-import twarehouse.molde.estoque.Movimento;
-import twarehouse.molde.estoque.OrigemMovimento;
+import twarehouse.model.consulta.ProdutoEmReposicao;
+import twarehouse.model.consulta.SaldoPorAlmoxarifado;
+import twarehouse.model.estoque.Ajuste;
+import twarehouse.model.estoque.Almoxarifado;
+import twarehouse.model.estoque.Movimento;
+import twarehouse.model.estoque.OrigemMovimento;
 
 /**
  * Interface para abstração do Estoque.
@@ -90,4 +93,44 @@ public interface EstoqueService {
 	 * @param movimentacao
 	 */
 	public void ajusta(Ajuste ajusteDeEstoque) throws RegraDeNegocioException;
+	
+	/**
+	 * Retorna o saldo do produto por almoxarifado.
+	 * 
+	 * @param produtoCodigo Código do produto para cálculo de saldo.
+	 * @return
+	 */
+	public List<SaldoPorAlmoxarifado> saldoDoProdutoEmAlmoxarifados(Long produtoCodigo);
+	
+	/**
+	 * Lista produtos sem estoque, isto é, esgotados.
+	 * 
+	 * @return
+	 */
+	public List<ProdutoEmReposicao> listaProdutosEsgotados(int firstResult, int results);
+	
+	/**
+	 * Lista produtos que atingiram o nível de reposição mas não estão 
+	 * zerados.
+	 * 
+	 * @param firstResult
+	 * @param results
+	 * @return
+	 */
+	public List<ProdutoEmReposicao> listaProdutosEmReposicao(int firstResult, int results);
+	
+	/**
+	 * Retorna a quantidade de produtos esgotados.
+	 * 
+	 * @return
+	 */
+	public Long qtdDeProdutosEsgotados();
+	
+	/**
+	 * Retorna a quantidade de produtos que atingiram a quantidade de 
+	 * reposição.
+	 * 
+	 * @return
+	 */
+	public Long qtdDeProdutosEmReposicao();
 }

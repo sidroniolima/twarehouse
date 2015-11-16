@@ -12,6 +12,9 @@ import org.junit.Test;
 
 import twarehouse.excpetion.RegraDeNegocioException;
 import twarehouse.model.Produto;
+import twarehouse.model.estoque.Ajuste;
+import twarehouse.model.estoque.Almoxarifado;
+import twarehouse.model.estoque.TipoMovimento;
 
 /**
  * Teste da classe de negócios Ajuste.

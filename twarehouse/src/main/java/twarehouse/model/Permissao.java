@@ -16,7 +16,7 @@ public enum Permissao {
 		return descricao;
 	}
 	
-	public Permissao[] getPermissao() {
+	public static Permissao[] getValues() {
 		return Permissao.values();
 	}
 	

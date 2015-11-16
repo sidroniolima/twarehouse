@@ -5,6 +5,7 @@ package twarehouse.service.impl;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.util.List;
 import java.util.Map.Entry;
 
 import javax.ejb.Stateless;
@@ -13,12 +14,14 @@ import javax.inject.Inject;
 import twarehouse.dao.EstoqueDAO;
 import twarehouse.excpetion.RegraDeNegocioException;
 import twarehouse.model.Produto;
-import twarehouse.molde.estoque.Ajuste;
-import twarehouse.molde.estoque.Almoxarifado;
-import twarehouse.molde.estoque.Movimento;
-import twarehouse.molde.estoque.MovimentoBuilder;
-import twarehouse.molde.estoque.OrigemMovimento;
-import twarehouse.molde.estoque.TipoMovimento;
+import twarehouse.model.consulta.ProdutoEmReposicao;
+import twarehouse.model.consulta.SaldoPorAlmoxarifado;
+import twarehouse.model.estoque.Ajuste;
+import twarehouse.model.estoque.Almoxarifado;
+import twarehouse.model.estoque.Movimento;
+import twarehouse.model.estoque.MovimentoBuilder;
+import twarehouse.model.estoque.OrigemMovimento;
+import twarehouse.model.estoque.TipoMovimento;
 import twarehouse.service.EstoqueService;
 
 /**
@@ -164,5 +167,33 @@ public class EstoqueServiceImpl implements EstoqueService, Serializable {
 			}
 		}
 		
+	}
+
+	/* Saldo das movimentaçõe por almoxarifado do produto.
+	 * @see twarehouse.service.EstoqueService#saldoDoProdutoEmAlmoxarifados(java.lang.Long)
+	 */
+	@Override
+	public List<SaldoPorAlmoxarifado> saldoDoProdutoEmAlmoxarifados(Long produtoCodigo) {
+		return estoqueDAO.saldoDoProdutoEmAlmoxarifados(produtoCodigo);
+	}
+
+	@Override
+	public List<ProdutoEmReposicao> listaProdutosEsgotados(int firstResult, int results) {
+		return estoqueDAO.listarProdutosEsgotados(firstResult, results);
+	}
+
+	@Override
+	public List<ProdutoEmReposicao> listaProdutosEmReposicao(int firstResult, int results) {
+		return estoqueDAO.listarProdutosEmReposicao(firstResult, results);
+	}
+
+	@Override
+	public Long qtdDeProdutosEsgotados() {
+		return null;
+	}
+
+	@Override
+	public Long qtdDeProdutosEmReposicao() {
+		return null;
 	}
 }

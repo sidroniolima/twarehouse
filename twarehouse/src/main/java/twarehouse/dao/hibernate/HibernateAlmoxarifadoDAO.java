@@ -7,8 +7,8 @@ import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
 
 import twarehouse.dao.AlmoxarifadoDAO;
-import twarehouse.molde.estoque.Almoxarifado;
-import twarehouse.molde.estoque.Movimento;
+import twarehouse.model.estoque.Almoxarifado;
+import twarehouse.model.estoque.Movimento;
 
 @Stateless
 public class HibernateAlmoxarifadoDAO extends HibernateGenericDAO<Almoxarifado, Long> implements AlmoxarifadoDAO {

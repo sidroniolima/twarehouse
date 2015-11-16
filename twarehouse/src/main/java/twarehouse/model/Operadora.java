@@ -26,7 +26,7 @@ public enum Operadora {
 		return descricao;
 	}
 	
-	public Operadora[] getValues() {
+	public static Operadora[] getValues() {
 		return Operadora.values();
 	}
 }

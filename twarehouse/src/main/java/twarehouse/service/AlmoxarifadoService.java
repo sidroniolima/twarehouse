@@ -3,7 +3,7 @@
  */
 package twarehouse.service;
 
-import twarehouse.molde.estoque.Almoxarifado;
+import twarehouse.model.estoque.Almoxarifado;
 
 /**
  * @author Sidronio
