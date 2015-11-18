@@ -44,6 +44,9 @@ public class Produto implements Serializable {
 	@Column(name="qtd_reposicao")
 	private BigDecimal qtdReposicao;
 	
+	@Column(name="limite_superior")
+	private BigDecimal limiteSuperior;	
+	
 	@OneToOne(
 			fetch=FetchType.LAZY,
 			mappedBy="produto",
@@ -147,6 +150,13 @@ public class Produto implements Serializable {
 		this.qtdReposicao = qtdReposicao;
 	}
 	
+	public BigDecimal getLimiteSuperior() {
+		return limiteSuperior;
+	}
+	public void setLimiteSuperior(BigDecimal limiteSuperior) {
+		this.limiteSuperior = limiteSuperior;
+	}
+
 	public Unidades getUnidades() {
 		return unidades;
 	}

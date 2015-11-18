@@ -68,7 +68,7 @@ public class HibernateEstoqueDAO extends HibernateGenericDAO<Movimento, Long> im
 			+" s.descricao AS 'descricaoSubgrupo', "
 			+" u_ent.descricao AS 'unidadeEntrada', "
 			+" u_sai.descricao AS 'unidadeSaida', "
-			+" us.razao AS 'razao', "
+			+" us.razao AS 'unidadeRazao', "
 			+" p.qtd_reposicao AS 'reposicao', "           
 				        
 			+" 			 COALESCE( "
@@ -107,12 +107,13 @@ public class HibernateEstoqueDAO extends HibernateGenericDAO<Movimento, Long> im
 			                
 			+" GROUP BY "
 			+" 	p.codigo "
+
+			+" HAVING saldo > 0 AND saldo < p.qtd_reposicao "
+			
 			+" ORDER BY "
 			+"	p.descricao	"
 			
-			+" LIMIT :first, :results "
-	
-			+" HAVING saldo > 0 ";
+			+" LIMIT :first, :results ";
 	
 	private final String sqlProdutosEsgotados = 
 			" SELECT "
@@ -121,7 +122,7 @@ public class HibernateEstoqueDAO extends HibernateGenericDAO<Movimento, Long> im
 			+" s.descricao AS 'descricaoSubgrupo', "
 			+" u_ent.descricao AS 'unidadeEntrada', "
 			+" u_sai.descricao AS 'unidadeSaida', "
-			+" us.razao AS 'razao', "
+			+" us.razao AS 'unidadeRazao', "
 			+" p.qtd_reposicao AS 'reposicao', "           
 				        
 			+" 			 COALESCE( "
@@ -160,12 +161,14 @@ public class HibernateEstoqueDAO extends HibernateGenericDAO<Movimento, Long> im
 			                
 			+" GROUP BY "
 			+" 	p.codigo "
+
+			+" HAVING saldo <= 0 "
+			
 			+" ORDER BY "
 			+"	p.descricao	"
 			
-			+" LIMIT :first, :results "
-	
-			+" HAVING saldo <= 0 ";
+			+" LIMIT :first, :results ";
+
 
 	private final String qtdDeProdutosEsgotados = 
 			" SELECT "
@@ -198,18 +201,19 @@ public class HibernateEstoqueDAO extends HibernateGenericDAO<Movimento, Long> im
 			+"	0.00) = 0.00 ";
 	
 	private final String qtdDeProdutosEmReposicao = 
-			" SELECT "
-			+"	count(*) " 
+			"SELECT "
+			+"	count(*)  "
 				                
 			+" FROM "
 			+"	produto p "
-
+			
 			+" WHERE "
-			+" COALESCE( "
+
+			+" (COALESCE( "
 			+"	(SELECT "
 			+"		SUM(qtd) as 'ENTRADA' " 
 			+"	FROM "
-			+"		movimento mENTRADA "  
+			+"		movimento mENTRADA   "
 			+"	WHERE "
 			+"		mENTRADA.tipo_movimento = 'ENTRADA' "
 			+"		AND  mENTRADA.produto_codigo = p.codigo "
@@ -219,12 +223,33 @@ public class HibernateEstoqueDAO extends HibernateGenericDAO<Movimento, Long> im
 			+"	(SELECT "
 			+"		SUM(qtd) as 'SAIDA' "
 			+"	FROM "
-			+"		movimento mSAIDA " 
+			+"		movimento mSAIDA  "
 			+"	WHERE "
-			+"		mSAIDA.tipo_movimento = 'SAIDA' " 
+			+"		mSAIDA.tipo_movimento = 'SAIDA'  "
 			+"		AND  mSAIDA.produto_codigo = p.codigo "
 			+"		), "
-			+"	0.00) < p.qtd_reposicao ";	
+			+"	0.00)) > 0 AND "
+
+			+" (COALESCE( "
+			+"	(SELECT "
+			+"		SUM(qtd) as 'ENTRADA'"  
+			+"	FROM "
+			+"		movimento mENTRADA   "
+			+"	WHERE "
+			+"		mENTRADA.tipo_movimento = 'ENTRADA' "
+			+"		AND  mENTRADA.produto_codigo = p.codigo "
+			+"		), "
+			+"	0.00) - "
+			+" COALESCE( "
+			+"	(SELECT "
+			+"		SUM(qtd) as 'SAIDA' "
+			+"	FROM "
+			+"		movimento mSAIDA  "
+			+"	WHERE "
+			+"		mSAIDA.tipo_movimento = 'SAIDA'  "
+			+"		AND  mSAIDA.produto_codigo = p.codigo "
+			+"		), "
+			+"	0.00)) < p.qtd_reposicao";
 	
 	@SuppressWarnings("unchecked")
 	@Override
@@ -270,7 +295,7 @@ public class HibernateEstoqueDAO extends HibernateGenericDAO<Movimento, Long> im
 	@Override
 	public List<ProdutoEmReposicao> listarProdutosEsgotados(int firstResult, int results) {
 		
-		SQLQuery query = this.getSession().createSQLQuery(sqlProdutosEmReposicao);
+		SQLQuery query = this.getSession().createSQLQuery(sqlProdutosEsgotados);
 		
 		query.setParameter("first", firstResult);
 		query.setParameter("results", results);
@@ -283,7 +308,7 @@ public class HibernateEstoqueDAO extends HibernateGenericDAO<Movimento, Long> im
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<ProdutoEmReposicao> listarProdutosEmReposicao(int firstResult, int results) {
-		SQLQuery query = this.getSession().createSQLQuery(sqlProdutosEsgotados);
+		SQLQuery query = this.getSession().createSQLQuery(sqlProdutosEmReposicao);
 		
 		query.setParameter("first", firstResult);
 		query.setParameter("results", results);

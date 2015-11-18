@@ -32,9 +32,18 @@ public class ProdutoEmReposicao {
 	 * @return
 	 */
 	public BigDecimal qtdNecessariaParaRepor() {
-		
 		return reposicao.subtract(saldo);
 	}
+	
+	/**
+	 * Retorna o código com seis dígitos.
+	 * 
+	 * @return
+	 */
+	public String codigoFormatado() {
+		return String.format("%06d", this.codigoProduto);
+	}
+	
 	public BigInteger getCodigoProduto() {
 		return codigoProduto;
 	}

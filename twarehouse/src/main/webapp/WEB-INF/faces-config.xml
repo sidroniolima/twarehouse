@@ -35,4 +35,13 @@
 			<redirect/>
 		</navigation-case>
 	</navigation-rule>		
+	
+	<navigation-rule>
+	 	<from-view-id>/*</from-view-id>
+		<navigation-case>
+			<from-outcome>visualiza_produto</from-outcome>
+			<to-view-id>/private/produto/visualiza_produto.xhtml</to-view-id>
+			<redirect include-view-params="true"/>
+		</navigation-case>
+	</navigation-rule>		
 </faces-config>

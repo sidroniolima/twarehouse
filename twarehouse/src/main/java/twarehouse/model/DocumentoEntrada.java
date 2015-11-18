@@ -9,6 +9,7 @@ import java.time.LocalDate;
 
 import javax.enterprise.inject.Vetoed;
 import javax.persistence.Column;
+import javax.persistence.Convert;
 import javax.persistence.DiscriminatorColumn;
 import javax.persistence.DiscriminatorType;
 import javax.persistence.Entity;
@@ -20,6 +21,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Transient;
+
+import twarehouse.converter.LocalDateDBConverter;
 
 /**
  * @author Sidronio
@@ -45,7 +48,8 @@ public abstract class DocumentoEntrada implements Serializable {
 	private BigDecimal desconto;
 	private BigDecimal subTotal;
 	
-	@Column(columnDefinition="DATE")
+	@Column(columnDefinition="DATE", name="data")
+	@Convert(converter=LocalDateDBConverter.class)
 	private LocalDate data;
 	
 	public DocumentoEntrada() {	

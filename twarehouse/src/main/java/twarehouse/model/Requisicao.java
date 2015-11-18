@@ -10,6 +10,7 @@ import java.util.NoSuchElementException;
 import javax.enterprise.inject.Vetoed;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
+import javax.persistence.Convert;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
@@ -23,6 +24,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
+import twarehouse.converter.LocalDateDBConverter;
 import twarehouse.model.exception.RequisicaoException;
 
 @Entity
@@ -36,10 +38,12 @@ public class Requisicao implements Serializable {
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Long codigo;
 	
-	@Column(name="data_requisicao")
+	@Column(columnDefinition="DATE", name="data_requisicao")
+	@Convert(converter=LocalDateDBConverter.class)
 	private LocalDate dataRequisicao;
 	
-	@Column(name="data_entrega")
+	@Column(columnDefinition="DATE", name="data_entrega")
+	@Convert(converter=LocalDateDBConverter.class)
 	private LocalDate dataEntrega;
 	
 	@OneToMany(fetch=FetchType.LAZY,

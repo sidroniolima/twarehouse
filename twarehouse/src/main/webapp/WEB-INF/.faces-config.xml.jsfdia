@@ -31,4 +31,15 @@
   PATH="/private/familia/pesquisa_familia.xhtml" SHAPE="240,257,0,0" model-entity="JSFProcessGroup"/>
  <PROCESS-ITEM NAME="rules:#private#familia#cadastro_familia.xhtml"
   PATH="/private/familia/cadastro_familia.xhtml" SHAPE="240,145,0,0" model-entity="JSFProcessGroup"/>
+ <PROCESS-ITEM NAME="rules:#*:3" PATH="/*" SHAPE="32,353,0,0" model-entity="JSFProcessGroup">
+  <PROCESS-ITEM ID="rules:#*:3" NAME="item" PATH="/*" model-entity="JSFProcessItem">
+   <PROCESS-ITEM-OUTPUT
+    ID="visualiza_produto::#private#produto#visualiza_produto.xhtml"
+    NAME="output" PATH="/private/produto/visualiza_produto.xhtml"
+    TARGET="rules:#private#produto#visualiza_produto.xhtml"
+    TITLE="visualiza_produto" model-entity="JSFProcessItemOutput"/>
+  </PROCESS-ITEM>
+ </PROCESS-ITEM>
+ <PROCESS-ITEM NAME="rules:#private#produto#visualiza_produto.xhtml"
+  PATH="/private/produto/visualiza_produto.xhtml" SHAPE="240,369,0,0" model-entity="JSFProcessGroup"/>
 </PROCESS>

@@ -42,7 +42,7 @@
 			        
 			        <!-- Session do Produto -->
 			        
-			        <div class="col-lg-6">
+			        <div class="col-lg-12">
 			            <section class="panel">
 			                <header class="panel-heading">
 			                    Cadastro de produto
@@ -175,6 +175,23 @@
 			                        
 			                        <div class="form-group">
 			                        
+			                            <label for="inputLimSuperior">Limite superior</label>
+			                            <h:inputText
+			                            	class="form-control input-sm m-bot15" 
+			                            	id="inputLimSuperior" 
+			                            	pt:placeholder="Limite para compras"
+			                            	value="#{cadastroProdutoBean.produto.qtdReposicao}">
+			                            	
+			                            	<f:convertNumber 
+			                            		locale="pt_BR"
+			                            		minFractionDigits="2"/>
+			                            		
+						              	</h:inputText>
+						                    
+			                        </div>				                        
+			                        
+			                        <div class="form-group">
+			                        
 			                            <label for="inputCusto">Localização</label>
 			                            <h:inputText
 			                            	class="form-control input-sm m-bot15" 
@@ -212,7 +229,7 @@
 			        </div>
 			        
 			        <!-- Session das Unidades -->
-			        <div class="col-lg-6">
+			        <div class="col-lg-12">
 			            <section class="panel">
 			                <header class="panel-heading">
 			                    Unidades do produto
