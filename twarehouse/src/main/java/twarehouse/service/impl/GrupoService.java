@@ -62,7 +62,7 @@ public class GrupoService implements Serializable {
 	 * @return
 	 */
 	public List<Grupo> listaTodos(){
-		return grupoDAO.filtrar(new Grupo(), null, null);
+		return grupoDAO.filtrar(new Grupo(), null, null, null, null);
 	}
 	
 	/**
@@ -72,7 +72,7 @@ public class GrupoService implements Serializable {
 	 * @return
 	 */
 	public List<Grupo> listaTodosComFamilia(){
-		return grupoDAO.filtrar(new Grupo(), null, Arrays.asList("familia"));
+		return grupoDAO.filtrar(new Grupo(), null, Arrays.asList("familia"), null, null);
 	}
 	
 	/**
@@ -94,13 +94,9 @@ public class GrupoService implements Serializable {
 	 */
 	public Grupo buscaPeloCodigoComFamilia(Long codigo) {
 		
-		Grupo grupo = new Grupo();
-		grupo.setCodigo(codigo);
-		
-		return grupoDAO.filtrar(
-				grupo, 
-				Arrays.asList("codigo"), 
-				Arrays.asList("familia")).get(0);
+		return grupoDAO.buscarPeloCodigoComRelacionamento(
+				codigo,
+				Arrays.asList("familia"));
 	}
 	
 	/**

@@ -53,7 +53,7 @@ public abstract class SimpleServiceLayerImpl<T, ID extends Serializable> impleme
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<T> buscaTodas() {
-		return getDAO().filtrar(classeDaEntidade, null, null);
+		return getDAO().filtrar(classeDaEntidade, null, null, null, null);
 	}
 
 	@SuppressWarnings("rawtypes")
@@ -61,7 +61,11 @@ public abstract class SimpleServiceLayerImpl<T, ID extends Serializable> impleme
 	
 	@SuppressWarnings("unchecked")
 	@Override
-	public List<T> listaComPaginacao(Paginator paginator, List<String> ordenacao, List<String> relacionamentos, List<String> aliases) {
+	public List<T> listaComPaginacao(
+			Paginator paginator, 
+			List<String> ordenacao, 
+			List<String> relacionamentos, 
+			List<String> aliases) {
 		
 		return getDAO().listarComPaginacao(
 				paginator.getFirstResult(), 
@@ -70,5 +74,11 @@ public abstract class SimpleServiceLayerImpl<T, ID extends Serializable> impleme
 				relacionamentos, 
 				aliases);
 		
+	}
+	
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<T> lista() {
+		return getDAO().filtrar(classeDaEntidade, null, null, null, null);
 	}
 }

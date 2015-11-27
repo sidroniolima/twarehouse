@@ -14,6 +14,8 @@ import javax.persistence.DiscriminatorColumn;
 import javax.persistence.DiscriminatorType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
@@ -39,14 +41,15 @@ public abstract class DocumentoEntrada implements Serializable {
 	private static final long serialVersionUID = -3930744103038954411L;
 
 	@Id
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Long codigo;
 	
 	@OneToOne(fetch=FetchType.LAZY)
-	@JoinColumn(name="entrada_codigo")
-	private Entrada entrada;
+	@JoinColumn(name="compra_codigo")
+	private Compra compra;
 	
 	private BigDecimal desconto;
-	private BigDecimal subTotal;
+	private BigDecimal subtotal;
 	
 	@Column(columnDefinition="DATE", name="data")
 	@Convert(converter=LocalDateDBConverter.class)
@@ -54,6 +57,7 @@ public abstract class DocumentoEntrada implements Serializable {
 	
 	public DocumentoEntrada() {	
 		this.desconto = BigDecimal.ZERO;
+		this.data = LocalDate.now();
 	}
 	
 	@Transient
@@ -72,11 +76,11 @@ public abstract class DocumentoEntrada implements Serializable {
 		this.codigo = codigo;
 	}
 	
-	public Entrada getEntrada() {
-		return entrada;
+	public Compra getCompra() {
+		return compra;
 	}
-	public void setEntrada(Entrada entrada) {
-		this.entrada = entrada;
+	public void setCompra(Compra compra) {
+		this.compra = compra;
 	}
 	
 	public LocalDate getData() {
@@ -86,11 +90,11 @@ public abstract class DocumentoEntrada implements Serializable {
 		this.data = data;
 	}
 
-	public BigDecimal getSubTotal() {
-		return subTotal;
+	public BigDecimal getSubtotal() {
+		return subtotal;
 	}
-	public void setSubTotal(BigDecimal subTotal) {
-		this.subTotal = subTotal;
+	public void setSubtotal(BigDecimal subtotal) {
+		this.subtotal = subtotal;
 	}
 
 	public BigDecimal getDesconto() {

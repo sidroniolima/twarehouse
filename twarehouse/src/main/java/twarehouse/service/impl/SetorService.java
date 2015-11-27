@@ -104,6 +104,6 @@ public class SetorService implements Serializable{
 	 * @return
 	 */
 	public List<Setor> listaTodos() {
-		return setorDAO.filtrar(new Setor(), null, null);
+		return setorDAO.filtrar(new Setor(), null, null, null, null);
 	}
 }

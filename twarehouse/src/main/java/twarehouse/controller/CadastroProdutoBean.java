@@ -58,7 +58,7 @@ public class CadastroProdutoBean extends CadastroSingle implements Serializable 
 			novoRegistro();
 		}
 		
-		this.subgrupos = subgrupoService.listaTodos();
+		this.subgrupos = subgrupoService.listaTodas();
 		this.unidades = unidadeService.buscaTodas();
 	}
 

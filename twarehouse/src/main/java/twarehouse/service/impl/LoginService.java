@@ -82,7 +82,12 @@ public class LoginService implements Serializable {
 		usuario.setNome(nome);
 		
 		List<Usuario> filtro =
-				usuarioDAO.filtrar(usuario, Arrays.asList("nome"), Arrays.asList("permissao"));
+				usuarioDAO.filtrar(
+						usuario, 
+						Arrays.asList("nome"), 
+						Arrays.asList("permissao"),
+						null,
+						null);
 		
 		if (null == filtro || filtro.isEmpty()) {
 			return null;

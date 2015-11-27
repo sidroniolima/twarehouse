@@ -77,4 +77,12 @@ public interface SimpleServiceLayer<T, ID extends Serializable> {
 	 * @return Lista de objetos.
 	 */
 	public List<T> listaComPaginacao(Paginator paginator, List<String> ordenacao, List<String> relacionamentos, List<String> aliases);
+	
+	/**
+	 * Apenas listar as entidades
+	 * 
+	 * @param entidade
+	 * @return Lista de registros cadastrados
+	 */
+	public List<T> lista();
 }

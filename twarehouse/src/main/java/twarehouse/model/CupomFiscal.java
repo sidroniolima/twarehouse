@@ -3,7 +3,6 @@
  */
 package twarehouse.model;
 
-import java.io.Serializable;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 
@@ -14,7 +13,7 @@ import javax.persistence.DiscriminatorValue;
  *
  */
 @DiscriminatorValue("CUPOM_FISCAL")
-public class CupomFiscal extends DocumentoEntrada implements Serializable {
+public class CupomFiscal extends DocumentoEntrada {
 
 	private static final long serialVersionUID = -7221105337713266331L;
 	
@@ -47,7 +46,7 @@ public class CupomFiscal extends DocumentoEntrada implements Serializable {
 	
 	@Override
 	public BigDecimal total() {
-		return this.getSubTotal().subtract(this.getDesconto())
+		return this.getSubtotal().subtract(this.getDesconto())
 				.setScale(2, RoundingMode.HALF_UP);
 	}
 	

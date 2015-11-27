@@ -11,7 +11,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import twarehouse.model.CupomFiscal;
-import twarehouse.model.Entrada;
+import twarehouse.model.Compra;
 import twarehouse.model.Fornecedor;
 import twarehouse.model.Produto;
 import twarehouse.model.builder.EntradaBuilder;
@@ -22,7 +22,7 @@ import twarehouse.model.builder.EntradaBuilder;
  */
 public class EntradaTest {
 	
-	Entrada entrada;
+	Compra entrada;
 	Fornecedor fornecedor;
 	
 	CupomFiscal cupomFiscal;

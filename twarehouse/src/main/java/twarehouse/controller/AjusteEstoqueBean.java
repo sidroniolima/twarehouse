@@ -17,6 +17,7 @@ import twarehouse.excpetion.RegraDeNegocioException;
 import twarehouse.model.Produto;
 import twarehouse.model.estoque.Ajuste;
 import twarehouse.model.estoque.Almoxarifado;
+import twarehouse.model.estoque.ItemAjuste;
 import twarehouse.model.estoque.TipoMovimento;
 import twarehouse.service.AlmoxarifadoService;
 import twarehouse.service.EstoqueService;
@@ -36,56 +37,6 @@ public class AjusteEstoqueBean extends CadastroMasterDetail implements Serializa
 
 	private static final long serialVersionUID = -7573957900715930579L;
 
-	/**
-	 * Classe auxiliar utilizada para encapsular o Produto e sua 
-	 * quantidade que será transformada em movimentação do ajuste.
-	 * 
-	 * @author Sidronio
-	 * 09/11/2015
-	 */
-	public class ItemAjuste {
-		
-		private Produto produto;
-		private BigDecimal qtd;
-		
-		public ItemAjuste() { }
-		
-		/**
-		 * @param produto
-		 * @param qtd
-		 */
-		public ItemAjuste(Produto produto, BigDecimal qtd) {
-			this.produto = produto;
-			this.qtd = qtd;
-		}
-
-		public Produto getProduto() {
-			return produto;
-		}
-		public void setProduto(Produto produto) {
-			this.produto = produto;
-		}
-		
-		public BigDecimal getQtd() {
-			return qtd;
-		}
-		public void setQtd(BigDecimal qtd) {
-			this.qtd = qtd;
-		}
-		
-		public void valida() throws RegraDeNegocioException{
-			
-			if (null == produto) {
-				throw new RegraDeNegocioException("É necessário selecionar o produto para o ajuste.");
-			}
-			
-			if (null == qtd || qtd.compareTo(BigDecimal.ZERO) <= 0) {
-				throw new RegraDeNegocioException("A quantidade deve ser maior que 0.");
-			}
-		}
-		
-	}
-	
 	@Inject
 	private EstoqueService estoqueService;
 	
@@ -97,8 +48,8 @@ public class AjusteEstoqueBean extends CadastroMasterDetail implements Serializa
 	
 	private Ajuste ajuste;
 	
-	private ItemAjuste itemMovimento;
-	private Produto produtoSelecionado;
+	private ItemAjuste itemAjuste;
+	private ItemAjuste itemSelecionado;
 	
 	private List<Almoxarifado> almoxarifados;
 	
@@ -166,7 +117,8 @@ public class AjusteEstoqueBean extends CadastroMasterDetail implements Serializa
 		
 		if (null != produtoSelecionado) {
 			
-			//itemMovimento.setProduto(produtoService.buscaPeloCodigoComSubgrupoEUnidades(produtoSelecionado.getCodigo()));
+			itemAjuste.setProduto(
+					produtoService.buscaPeloCodigoComSubgrupoEUnidades(produtoSelecionado.getCodigo()));
 		}
 	}
 
@@ -199,34 +151,18 @@ public class AjusteEstoqueBean extends CadastroMasterDetail implements Serializa
 	 */
 	@Override
 	public boolean isEdicaoDeItem() {
-		return null != produtoSelecionado;
+		return null != itemSelecionado;
 	}
 
-	/* (não utilizado)
+	/* Edita um item.
 	 * @see twarehouse.controller.CadastroMasterDetail#editaItem()
 	 */
 	@Override
 	public void editaItem() {
+		itemAjuste = itemSelecionado;
 
 	}
 	
-	/**
-	 * Seleciona um produto para Edição ou Remoção.
-	 * 
-	 * @param produto
-	 * @param qtd
-	 */
-	public void selecionaProduto(Produto produto) {
-		
-		BigDecimal qtd = BigDecimal.ZERO;
-		
-		produtoSelecionado = produto;
-
-		qtd = ajuste.getMovimentacao().get(produto);
-		
-		itemMovimento = new ItemAjuste(produtoSelecionado, qtd);
-	}
-
 	/* Mensage de inclusão de movimento.
 	 * @see twarehouse.controller.CadastroMasterDetail#getMensagemDeInclusaoDeItem(java.lang.String)
 	 */
@@ -259,19 +195,23 @@ public class AjusteEstoqueBean extends CadastroMasterDetail implements Serializa
 		
 		try {
 			
-			itemMovimento.valida();
+			Produto produtoComUnidadesESubgrupo =
+					produtoService.buscaPeloCodigoComSubgrupoEUnidades(itemAjuste.getProduto().getCodigo());
+			itemAjuste.setProduto(produtoComUnidadesESubgrupo);
+			
+			itemAjuste.valida();
 			
 			if (isEdicaoDeItem()) {
 				
-				FacesUtil.addSuccessMessage(this.getMensagemDeAlteracaoDeItem(itemMovimento.getProduto().getDescricao()));
+				FacesUtil.addSuccessMessage(
+						this.getMensagemDeAlteracaoDeItem(itemAjuste.getProduto().getDescricao()));
 				
 			} else {
-				FacesUtil.addSuccessMessage(this.getMensagemDeInclusaoDeItem(itemMovimento.getProduto().getDescricao()));
+				FacesUtil.addSuccessMessage(
+						this.getMensagemDeInclusaoDeItem(itemAjuste.getProduto().getDescricao()));
 			}
 			
-			itemMovimento.setProduto(produtoService.buscaPeloCodigoComSubgrupoEUnidades(itemMovimento.getProduto().getCodigo()));
-			
-			ajuste.adicionaMovimento(itemMovimento.getProduto(), itemMovimento.getQtd());
+			ajuste.adicionaMovimento(itemAjuste);
 			
 			novoItem();			
 			
@@ -285,7 +225,7 @@ public class AjusteEstoqueBean extends CadastroMasterDetail implements Serializa
 	 */
 	@Override
 	public void removeItem() {
-		ajuste.removeMovimento(produtoSelecionado);
+		ajuste.removeItem(itemSelecionado);
 		
 		novoItem();
 	}
@@ -295,9 +235,9 @@ public class AjusteEstoqueBean extends CadastroMasterDetail implements Serializa
 	 */
 	@Override
 	public void novoItem() {
-		itemMovimento = new ItemAjuste();
+		itemAjuste = new ItemAjuste();
 		
-		produtoSelecionado = null;
+		itemSelecionado = null;
 	}
 
 	public Ajuste getAjuste() {
@@ -307,18 +247,18 @@ public class AjusteEstoqueBean extends CadastroMasterDetail implements Serializa
 		this.ajuste = ajuste;
 	}
 
-	public ItemAjuste getItemMovimento() {
-		return itemMovimento;
+	public ItemAjuste getItemAjuste() {
+		return itemAjuste;
 	}
-	public void setItemMovimento(ItemAjuste itemMovimento) {
-		this.itemMovimento = itemMovimento;
+	public void setItemAjuste(ItemAjuste itemMovimento) {
+		this.itemAjuste = itemMovimento;
 	}
 
-	public Produto getProdutoSelecionado() {
-		return produtoSelecionado;
+	public ItemAjuste getItemSelecionado() {
+		return itemSelecionado;
 	}
-	public void setProdutoSelecionado(Produto produtoSelecionado) {
-		this.produtoSelecionado = produtoSelecionado;
+	public void setItemSelecionado(ItemAjuste itemSelecionado) {
+		this.itemSelecionado = itemSelecionado;
 	}
 
 	public List<Almoxarifado> getAlmoxarifados() {

@@ -36,7 +36,7 @@ public class NotaFiscalEletronica extends DocumentoEntrada {
 	@Override
 	public BigDecimal total() {
 		return 
-			this.getSubTotal().add(valorFrete).subtract(this.getDesconto())
+			this.getSubtotal().add(valorFrete).subtract(this.getDesconto())
 				.setScale(2, RoundingMode.HALF_UP);
 	}
 	

@@ -108,7 +108,7 @@ public class FornecedorService implements Serializable {
 	 * @return
 	 */
 	public List<Fornecedor> buscaTodos() {
-		return fornecedorDAO.filtrar(new Fornecedor(), null, Arrays.asList("pessoa"));
+		return fornecedorDAO.filtrar(new Fornecedor(), null, Arrays.asList("pessoa"), null, null);
 	}
 
 	/**
@@ -119,9 +119,8 @@ public class FornecedorService implements Serializable {
 	 */
 	public Fornecedor buscaPeloCodigoComPessoaETelefones(Long codigo) {
 		
-		Fornecedor fornecedor = new Fornecedor(codigo);
-		
-		return fornecedorDAO.filtrar(fornecedor, Arrays.asList("codigo"), Arrays.asList("pessoa","telefones")).get(0);
+		return fornecedorDAO
+				.buscarPeloCodigoComRelacionamento(codigo, Arrays.asList("pessoa","telefones"));
 	}
 	
 	public List<Fornecedor> listaComPaginacao(Paginator paginator) {

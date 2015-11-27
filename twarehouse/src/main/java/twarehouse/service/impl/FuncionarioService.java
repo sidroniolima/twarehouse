@@ -61,7 +61,7 @@ public class FuncionarioService implements Serializable {
 	 * @return
 	 */
 	public List<Funcionario> listaTodos(){
-		return funcionarioDAO.filtrar(new Funcionario(), null, null);
+		return funcionarioDAO.filtrar(new Funcionario(), null, null, null, null);
 	}
 	
 	/**
@@ -123,12 +123,9 @@ public class FuncionarioService implements Serializable {
 	 */
 	public Funcionario buscaPeloCodigoComSetorETelefones(Long codigo) {
 		
-		Funcionario funcionario = new Funcionario(codigo);
-		
-		return funcionarioDAO.filtrar(
-				funcionario, 
-				Arrays.asList("codigo"), 
-				Arrays.asList("setor","telefones")).get(0);
+		return funcionarioDAO.buscarPeloCodigoComRelacionamento(
+				codigo,
+				Arrays.asList("setor","telefones"));
 	}
 
 	public Funcionario buscaPelaMatricula(String matricula) {
@@ -139,6 +136,8 @@ public class FuncionarioService implements Serializable {
 		return funcionarioDAO.filtrar(
 				funcionario, 
 				Arrays.asList("matricula"), 
+				null,
+				null,
 				null).get(0);
 	}
 

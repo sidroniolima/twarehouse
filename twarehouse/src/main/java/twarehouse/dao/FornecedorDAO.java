@@ -6,7 +6,7 @@ package twarehouse.dao;
 import java.util.List;
 
 import twarehouse.model.Documento;
-import twarehouse.model.Entrada;
+import twarehouse.model.Compra;
 import twarehouse.model.Fornecedor;
 
 /**
@@ -33,7 +33,7 @@ public interface FornecedorDAO extends GenericDAO<Fornecedor, Long>{
 	 * @param fornecedor
 	 * @return
 	 */
-	public List<Entrada> listarEntradasDoFornecedor(Fornecedor fornecedor);
+	public List<Compra> listarEntradasDoFornecedor(Fornecedor fornecedor);
 	
 	/**
 	 * Retorna a lista de registros do filtro.

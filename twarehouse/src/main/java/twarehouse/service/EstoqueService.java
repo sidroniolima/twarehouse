@@ -8,12 +8,15 @@ import java.util.List;
 
 import twarehouse.excpetion.RegraDeNegocioException;
 import twarehouse.model.Produto;
+import twarehouse.model.Unidade;
+import twarehouse.model.Unidades;
 import twarehouse.model.consulta.ProdutoEmReposicao;
 import twarehouse.model.consulta.SaldoPorAlmoxarifado;
 import twarehouse.model.estoque.Ajuste;
 import twarehouse.model.estoque.Almoxarifado;
 import twarehouse.model.estoque.Movimento;
 import twarehouse.model.estoque.OrigemMovimento;
+import twarehouse.model.estoque.TipoMovimento;
 
 /**
  * Interface para abstração do Estoque.
@@ -133,4 +136,5 @@ public interface EstoqueService {
 	 * @return
 	 */
 	public Long qtdDeProdutosEmReposicao();
+	
 }

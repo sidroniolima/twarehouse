@@ -6,7 +6,6 @@ package twarehouse.service.impl;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.List;
-import java.util.Map.Entry;
 
 import javax.ejb.Stateless;
 import javax.inject.Inject;
@@ -18,6 +17,7 @@ import twarehouse.model.consulta.ProdutoEmReposicao;
 import twarehouse.model.consulta.SaldoPorAlmoxarifado;
 import twarehouse.model.estoque.Ajuste;
 import twarehouse.model.estoque.Almoxarifado;
+import twarehouse.model.estoque.ItemAjuste;
 import twarehouse.model.estoque.Movimento;
 import twarehouse.model.estoque.MovimentoBuilder;
 import twarehouse.model.estoque.OrigemMovimento;
@@ -145,24 +145,24 @@ public class EstoqueServiceImpl implements EstoqueService, Serializable {
 	@Override
 	public void ajusta(Ajuste ajusteDeEstoque) throws RegraDeNegocioException {
 		
-		for(Entry<Produto, BigDecimal> entry : ajusteDeEstoque.getMovimentacao().entrySet()) {
-			Produto produto = entry.getKey();
-			BigDecimal qtd = entry.getValue();
+		for (ItemAjuste item : ajusteDeEstoque.getMovimentacao()) {
+			
+			item.ajustaQuantidade();
 			
 			if (ajusteDeEstoque.getTipo().equals(TipoMovimento.ENTRADA)) {
 				
-				this.entrada(ajusteDeEstoque.getAlmOrigem(), produto, qtd, ajusteDeEstoque.getOrigem());
+				this.entrada(ajusteDeEstoque.getAlmOrigem(), item.getProduto(), item.getQtd(), ajusteDeEstoque.getOrigem());
 			
 			} else {
 				
 				if (ajusteDeEstoque.getTipo().equals(TipoMovimento.SAIDA)) {
 					
-					this.saida(ajusteDeEstoque.getAlmOrigem(), produto, qtd, ajusteDeEstoque.getOrigem());
+					this.saida(ajusteDeEstoque.getAlmOrigem(), item.getProduto(), item.getQtd(), ajusteDeEstoque.getOrigem());
 				
 				} else {
 					
 					this.transferencia(ajusteDeEstoque.getAlmOrigem(), ajusteDeEstoque.getAlmDestino(), 
-							produto, qtd, ajusteDeEstoque.getOrigem());
+							item.getProduto(), item.getQtd(), ajusteDeEstoque.getOrigem());
 				}
 			}
 		}
@@ -196,4 +196,5 @@ public class EstoqueServiceImpl implements EstoqueService, Serializable {
 	public Long qtdDeProdutosEmReposicao() {
 		return null;
 	}
+
 }

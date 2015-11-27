@@ -34,7 +34,7 @@ public class DocumentoEntradaBuilder {
 	}
 	
 	public DocumentoEntradaBuilder comSubTotal(BigDecimal subTotal) {
-		instancia.setSubTotal(subTotal);
+		instancia.setSubtotal(subTotal);
 		return this;
 	}
 	

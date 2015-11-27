@@ -6,7 +6,7 @@ package twarehouse.model.builder;
 import java.math.BigDecimal;
 
 import twarehouse.model.DocumentoEntrada;
-import twarehouse.model.Entrada;
+import twarehouse.model.Compra;
 import twarehouse.model.Fornecedor;
 import twarehouse.model.Produto;
 
@@ -16,7 +16,7 @@ import twarehouse.model.Produto;
  */
 public class EntradaBuilder {
 
-	private Entrada instancia = new Entrada();
+	private Compra instancia = new Compra();
 	
 	public EntradaBuilder comDocumento(DocumentoEntrada documento){
 		this.instancia.setDocumento(documento);
@@ -35,7 +35,7 @@ public class EntradaBuilder {
 		return this;
 	}
 	
-	public Entrada cria() {
+	public Compra cria() {
 		return this.instancia;
 	}
 	

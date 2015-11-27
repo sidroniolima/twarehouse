@@ -12,6 +12,7 @@ import javax.inject.Inject;
 
 import twarehouse.dao.SubgrupoDAO;
 import twarehouse.excpetion.RegraDeNegocioException;
+import twarehouse.model.Familia;
 import twarehouse.model.Subgrupo;
 
 /**
@@ -99,12 +100,21 @@ public class SubgrupoService implements Serializable{
 	 * @param paramCodigo
 	 * @return
 	 */
-	public Subgrupo buscaPeloCodigoComGrupo(Long paramCodigo) {
-		Subgrupo subgrupo = new Subgrupo();
-		subgrupo.setCodigo(paramCodigo);
+	public Subgrupo buscaPeloCodigoComGrupo(Long codigo) {
 		
 		return this.subgrupoDAO
-				.filtrar(subgrupo, Arrays.asList("codigo"), Arrays.asList("grupo")).get(0);
+				.buscarPeloCodigoComRelacionamento(
+						codigo,
+						Arrays.asList("grupo"));
+	}
+	
+	/**
+	 * Retorna todas os registros da entidade família.
+	 * 
+	 * @return
+	 */
+	public List<Subgrupo> listaTodas(){
+		return subgrupoDAO.filtrar(new Subgrupo(), null, null, null, null);
 	}
 	
 	/**
@@ -116,14 +126,7 @@ public class SubgrupoService implements Serializable{
 	public List<Subgrupo> listaTodosComGrupo() {
 		
 		return this.subgrupoDAO
-				.filtrar(new Subgrupo(), null, Arrays.asList("grupo"));
+				.filtrar(new Subgrupo(), null, Arrays.asList("grupo"), null, null);
 	}
 
-	/**
-	 * Retorna os registros da entidade subgrupo.
-	 * @return
-	 */
-	public List<Subgrupo> listaTodos() {
-		return subgrupoDAO.filtrar(new Subgrupo(), null, null);
-	}
 }

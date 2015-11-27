@@ -2,7 +2,6 @@ package twarehouse.model;
 
 public enum TipoDocumentoEntrada {
 
-	NOTA_FISCAL("Nota Fiscal"),
 	NFE("NFe"),
 	CUPOM_FISCAL("Cupom fiscal"),
 	AVULSO("Avulso");

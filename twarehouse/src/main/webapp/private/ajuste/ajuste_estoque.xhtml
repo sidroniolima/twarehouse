@@ -47,106 +47,106 @@
 			                
 			                <div class="panel-body">
 			                    
-			                        <div class="form-group">
-			                        
- 										<label for="selectTipo">Tipo de movimento <span class="required">*</span></label>
-                                        <h:selectOneMenu 
-                                        	value="#{ajusteEstoqueBean.ajuste.tipo}"
-                                        	styleClass="form-control input-sm m-bot15"
-                                        	id="selectTipo"
-                                        	required="true"
-                                        	requiredMessage="O ajuste deve ser uma entrada, saída ou transferência.">
-                                        	
-                                        	<f:selectItem 
-                                        		noSelectionOption="true"
-                                        		itemLabel="Selecione o tipo do ajuste"/>
-                                        		
-                                        	<f:selectItems
-                                        		itemLabel="${tipo.descricao}"
-                                        		itemValue="${tipo}"
-                                        		var="tipo"
-                                        		value="#{ajusteEstoqueBean.tipos}"/>
-                                        		
-                                        	<f:ajax
-                                        		execute="@this"
-                                        		render="@form"/>
-                                        		
-                                        </h:selectOneMenu>
-                                        
-						                <h:message 
-						                   	id="m_selectTipo" 
-						                   	for="selectTipo"
-						                   	class="alert-danger fade in"/>                                        
-			                        </div>
-			                        
-			                        <div class="form-group">
-			                        
-			                            <label for="selectAlmOrigem">Almoxarifado origem <span class="required">*</span></label>
-                                        <h:selectOneMenu 
-                                        	value="#{ajusteEstoqueBean.ajuste.almOrigem}"
-                                        	styleClass="form-control input-sm m-bot15"
-                                        	id="selectAlmOrigem"
-                                        	required="true"
-                                        	requiredMessage="Selecione o almoxarifado para movimentação.">
-                                        	
-                                        	<f:selectItem 
-                                        		noSelectionOption="true"
-                                        		itemLabel="Selecione um almoxarifado para movimentação"/>
-                                        		
-                                        	<f:selectItems
-                                        		itemLabel="${alm.descricao}"
-                                        		itemValue="${alm}"
-                                        		var="alm"
-                                        		value="#{ajusteEstoqueBean.almoxarifados}"/>
-                                        		
-                                        </h:selectOneMenu>
-                                        
-						                <h:message 
-						                   	id="m_selectAlmOrigem" 
-						                   	for="selectAlmOrigem"
-						                   	class="alert-danger fade in"/>  
-			                            	
-			                        </div>		             
-			                        
-			                        <div class="form-group">
-			                        
-			                            <label for="selectAlmDestino">Almoxarifado destino <span class="required">*</span></label>
-                                        <h:selectOneMenu 
-                                        	value="#{ajusteEstoqueBean.ajuste.almDestino}"
-                                        	styleClass="form-control input-sm m-bot15"
-                                        	id="selectAlmDestino"
-                                        	required="#{ajusteEstoqueBean.ajuste.isTransferencia()}"
-                                        	requiredMessage="Selecione um almoxarifado destino da transferência."
-                                        	disabled="#{not ajusteEstoqueBean.ajuste.isTransferencia()}">
-                                        	
-                                        	<f:selectItem 
-                                        		noSelectionOption="true"
-                                        		itemLabel="Almoxarifado destino para transferência"/>
-                                        		
-                                        	<f:selectItems
-                                        		itemLabel="${alm.descricao}"
-                                        		itemValue="${alm}"
-                                        		var="alm"
-                                        		value="#{ajusteEstoqueBean.almoxarifados}"/>
+		                        <div class="form-group">
+		                        
+										<label for="selectTipo">Tipo de movimento <span class="required">*</span></label>
+                                       <h:selectOneMenu 
+                                       	value="#{ajusteEstoqueBean.ajuste.tipo}"
+                                       	styleClass="form-control input-sm m-bot15"
+                                       	id="selectTipo"
+                                       	required="true"
+                                       	requiredMessage="O ajuste deve ser uma entrada, saída ou transferência.">
+                                       	
+                                       	<f:selectItem 
+                                       		noSelectionOption="true"
+                                       		itemLabel="Selecione o tipo do ajuste"/>
+                                       		
+                                       	<f:selectItems
+                                       		itemLabel="${tipo.descricao}"
+                                       		itemValue="${tipo}"
+                                       		var="tipo"
+                                       		value="#{ajusteEstoqueBean.tipos}"/>
+                                       		
+                                       	<f:ajax
+                                       		execute="@this"
+                                       		render="@form"/>
+                                       		
+                                       </h:selectOneMenu>
+                                       
+					                <h:message 
+					                   	id="m_selectTipo" 
+					                   	for="selectTipo"
+					                   	class="alert-danger fade in"/>                                        
+		                        </div>
+		                        
+		                        <div class="form-group">
+		                        
+		                            <label for="selectAlmOrigem">Almoxarifado origem <span class="required">*</span></label>
+                                       <h:selectOneMenu 
+                                       	value="#{ajusteEstoqueBean.ajuste.almOrigem}"
+                                       	styleClass="form-control input-sm m-bot15"
+                                       	id="selectAlmOrigem"
+                                       	required="true"
+                                       	requiredMessage="Selecione o almoxarifado para movimentação.">
+                                       	
+                                       	<f:selectItem 
+                                       		noSelectionOption="true"
+                                       		itemLabel="Selecione um almoxarifado para movimentação"/>
+                                       		
+                                       	<f:selectItems
+                                       		itemLabel="${alm.descricao}"
+                                       		itemValue="${alm}"
+                                       		var="alm"
+                                       		value="#{ajusteEstoqueBean.almoxarifados}"/>
+                                       		
+                                       </h:selectOneMenu>
+                                       
+					                <h:message 
+					                   	id="m_selectAlmOrigem" 
+					                   	for="selectAlmOrigem"
+					                   	class="alert-danger fade in"/>  
+		                            	
+		                        </div>		             
+		                        
+		                        <div class="form-group">
+		                        
+		                            <label for="selectAlmDestino">Almoxarifado destino <span class="required">*</span></label>
+                                       <h:selectOneMenu 
+                                       	value="#{ajusteEstoqueBean.ajuste.almDestino}"
+                                       	styleClass="form-control input-sm m-bot15"
+                                       	id="selectAlmDestino"
+                                       	required="#{ajusteEstoqueBean.ajuste.isTransferencia()}"
+                                       	requiredMessage="Selecione um almoxarifado destino da transferência."
+                                       	disabled="#{not ajusteEstoqueBean.ajuste.isTransferencia()}">
+                                       	
+                                       	<f:selectItem 
+                                       		noSelectionOption="true"
+                                       		itemLabel="Almoxarifado destino para transferência"/>
+                                       		
+                                       	<f:selectItems
+                                       		itemLabel="${alm.descricao}"
+                                       		itemValue="${alm}"
+                                       		var="alm"
+                                       		value="#{ajusteEstoqueBean.almoxarifados}"/>
 
-                                        </h:selectOneMenu>
-                                        
-						                <h:message 
-						                   	id="m_selectAlmDestino" 
-						                   	for="selectAlmDestino"
-						                   	class="alert-danger fade in"/>  
-			                            	
-			                        </div>		 			                        
-			                                   
-			                        <h:commandButton
-			                        	class="btn btn-primary"
-			                        	action="#{ajusteEstoqueBean.salvar()}"
-			                        	value="Salvar">
-			                        	
-			                        	<f:ajax
-			                        		execute="@form"
-			                        		render="formCadastro"/>
-			                        </h:commandButton>
+                                       </h:selectOneMenu>
+                                       
+					                <h:message 
+					                   	id="m_selectAlmDestino" 
+					                   	for="selectAlmDestino"
+					                   	class="alert-danger fade in"/>  
+		                            	
+		                        </div>		 			                        
+		                                   
+		                        <h:commandButton
+		                        	class="btn btn-primary"
+		                        	action="#{ajusteEstoqueBean.salvar()}"
+		                        	value="Salvar">
+		                        	
+		                        	<f:ajax
+		                        		execute="@form"
+		                        		render="formCadastro"/>
+		                        </h:commandButton>
 			
 			                </div>
 			            </section>
@@ -175,7 +175,7 @@
 			                        
  										<label for="selectProduto">Produto <span class="required">*</span></label>
                                         <h:selectOneMenu 
-                                        	value="#{ajusteEstoqueBean.itemMovimento.produto}"
+                                        	value="#{ajusteEstoqueBean.itemAjuste.produto}"
                                         	styleClass="form-control input-sm m-bot15"
                                         	id="selectProduto"
                                         	valueChangeListener="#{ajusteEstoqueBean.completaInformacoesDoProduto}">
@@ -193,7 +193,7 @@
                                         	<f:ajax
                                         		execute="@this"
                                         		event="change"
-                                        		render="inputUnEntrada"/>
+                                        		render="selectUnidade"/>
                                         		
                                         </h:selectOneMenu>
                                         
@@ -201,19 +201,33 @@
 			                        
 			                        <div class="form-group">
 			                        
-			                            <label for="inputUnEntrada">Unidade de entrada</label>
-                                        <h:inputText
-                                        	value="#{ajusteEstoqueBean.itemMovimento.produto.unidades.entrada.descricao}"
+ 										<label for="selectUnidade">Unidade <span class="required">*</span></label>
+                                        <h:selectOneMenu 
+                                        	value="#{ajusteEstoqueBean.itemAjuste.unidade}"
                                         	styleClass="form-control input-sm m-bot15"
-                                        	id="inputUnEntrada"
-                                        	readonly="true"/>
-			                        </div>		 			                        
+                                        	id="selectUnidade">
+                                        	
+                                        	<f:selectItem 
+                                        		noSelectionOption="true"
+                                        		itemLabel="Selecione a unidade"/>
+                                        		
+                                        	<f:selectItem 
+                                        		itemLabel="#{ajusteEstoqueBean.itemAjuste.produto.unidades.entrada.descricao}"
+                                        		itemValue="#{ajusteEstoqueBean.itemAjuste.produto.unidades.entrada}"/>                                        		                                        		
+                                        		
+                                        	<f:selectItem 
+                                        		itemLabel="#{ajusteEstoqueBean.itemAjuste.produto.unidades.saida.descricao}"
+                                        		itemValue="#{ajusteEstoqueBean.itemAjuste.produto.unidades.saida}"/>         
+                                        		
+                                        </h:selectOneMenu>
+                                        
+			                        </div>			                        
 			                        
 			                        <div class="form-group">
 			                        
 			                            <label for="inputQtd">Quantidade <span class="required">*</span></label>
                                         <h:inputText
-                                        	value="#{ajusteEstoqueBean.itemMovimento.qtd}"
+                                        	value="#{ajusteEstoqueBean.itemAjuste.qtd}"
                                         	styleClass="form-control input-sm m-bot15"
                                         	id="inputQtd"
                                         	pt:placeholder="Quantidade maior que zero">
@@ -265,16 +279,16 @@
 				                             	<th  style="width:100px"><i class="icon_cogs"></i> Controle</th>
 											</tr>
 											<ui:repeat
-										   			var="mapa" 
-										   			value="#{ajusteEstoqueBean.ajuste.movimentacao.entrySet().toArray()}">	
+										   			var="item" 
+										   			value="#{ajusteEstoqueBean.ajuste.movimentacao}">	
 												<tr>
-												   <td>#{mapa.key.descricao}</td>	
-												   <td>#{mapa.key.subgrupo.descricao}</td>	
-												   <td>#{mapa.key.unidades.entrada.descricao}</td>	
+												   <td>#{item.produto.descricao}</td>	
+												   <td>#{item.produto.subgrupo.descricao}</td>	
+												   <td>#{item.unidade.descricao}</td>	
 												   
 												   <td>
 												   		<h:outputText 
-												   			value="#{mapa.value}">
+												   			value="#{item.qtd}">
 												   			
 												   			<f:convertNumber 
 												   				type="number"
@@ -288,8 +302,11 @@
 													   <div class="btn-group">
 															<a class="btn btn-warning" 
 																jsfc="h:commandLink"
-																type="button"
-																action="#{ajusteEstoqueBean.selecionaProduto(mapa.key)}">
+																type="button">
+																
+																	<f:setPropertyActionListener 
+																		value="#{item}" 
+																		target="#{ajusteEstoqueBean.itemSelecionado}"/>
 																
 										                        	<f:ajax
 										                        		execute="@form"
@@ -303,9 +320,9 @@
 																type="button"
 																immediate="true">
 																
-												        		<f:setPropertyActionListener 
-												        			value="#{mapa.key}" 
-												        			target="#{ajusteEstoqueBean.produtoSelecionado}"/>																
+																<f:setPropertyActionListener 
+																	value="#{item}" 
+																	target="#{ajusteEstoqueBean.itemSelecionado}"/>															
 												                   												        	
 												                   <f:passThroughAttribute name="data-toggle" value="modal" />
 												                   <f:passThroughAttribute name="data-target" value="#myModal" />

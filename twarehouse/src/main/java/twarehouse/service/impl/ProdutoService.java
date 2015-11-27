@@ -12,7 +12,9 @@ import javax.inject.Inject;
 
 import twarehouse.dao.ProdutoDAO;
 import twarehouse.excpetion.RegraDeNegocioException;
+import twarehouse.model.Familia;
 import twarehouse.model.Produto;
+import twarehouse.model.estoque.Movimento;
 import twarehouse.util.Paginator;
 
 /**
@@ -70,6 +72,15 @@ public class ProdutoService implements Serializable {
 	}
 	
 	/**
+	 * Retorna todas os registros da entidade família.
+	 * 
+	 * @return
+	 */
+	public List<Produto> listaTodos(){
+		return produtoDAO.filtrar(new Produto(), null, null, null, null);
+	}
+	
+	/**
 	 * Encaminha a exclusão ao método DAO depois de 
 	 * validá-la.
 	 * 
@@ -93,15 +104,6 @@ public class ProdutoService implements Serializable {
 	}
 	
 	/**
-	 * Retornar todas as instâncias do produto.
-	 * 
-	 * @return
-	 */
-	public List<Produto> listaTodos() {
-		return produtoDAO.filtrar(new Produto(), null, null);
-	}
-	
-	/**
 	 * Lista os registros com paginação.
 	 * 
 	 * @param paginator
@@ -119,9 +121,9 @@ public class ProdutoService implements Serializable {
 	 * @return
 	 */
 	public Produto buscaPeloCodigoComSubgrupoEUnidades(Long codigo) {
-		Produto temp = new Produto(codigo);
 
-		return produtoDAO.filtrar(temp, Arrays.asList("codigo"), Arrays.asList("subgrupo", "unidades")).get(0);
+		return produtoDAO.buscarPeloCodigoComRelacionamento(
+				codigo, 
+				Arrays.asList("subgrupo", "unidades"));
 	}
-	
 }

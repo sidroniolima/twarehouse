@@ -1,0 +1,384 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+ 
+<html xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+    xmlns:h="http://xmlns.jcp.org/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
+    xmlns:c="http://java.sun.com/jstl/core"
+	xmlns:o="http://omnifaces.org/ui">
+<h:head>
+	<c:set var="root" value="#{request.contextPath}/" />
+</h:head>
+<h:body>
+
+	<ui:composition template="/private/template_initial.xhtml">
+	    <ui:define name="top_bar">
+	        <ui:include src="/private/top_bar_logged.xhtml"/>
+	    </ui:define>
+	    
+	    <ui:define name="side_bar">
+	        <ui:include src="/private/side_bar.xhtml"/>
+	    </ui:define>
+	    
+		<ui:define name="page_header">
+			<h3 class="page-header"><i class="fa fa-th-list"></i> Compra</h3>
+			<ol class="breadcrumb">
+				<li><i class="fa fa-home"></i><a href="../dashboard.xhtml">Home</a></li>
+				<li><i class="fa fa-th-list"></i><a href="../compra/pesquisa_compra.xhtml" >Pesquisa</a></li>					  	
+			</ol>
+		</ui:define>
+		<ui:define name="container">
+   			<h:form id="formCadastro">
+   			
+	   			<h:messages 
+			      	id="messages"
+			      	errorClass="alert alert-block alert-danger fade in"
+			      	infoClass="alert alert-success fade in"
+			      	style="padding-left:0px;"
+			      	globalOnly="true"/>
+			       	
+				<div class="row">
+			        
+			        <div class="col-lg-12">
+			            <section class="panel">
+			                <header class="panel-heading">
+			                    Documento da compra
+			                </header>
+			                
+		                	<div class="panel-body">
+		                		
+		                		<div class="col-lg-4">
+									<div class="info-box blue-bg">
+										<a class="btn btn-lg btn-block" 
+											jsfc="h:commandLink"
+											type="button"
+											action="#{cadastroCompraBean.criaDocumento('AVULSO')}">
+								        	
+					                        <f:ajax
+					                        	execute="@form"
+					                        	render="@form"/>
+								        	
+								        	<i class="fa fa-pencil"></i>
+										</a>
+
+										<div class="title">A vulso</div>						
+									</div><!--/.info-box-->		
+								</div>	
+								
+								<div class="col-lg-4">
+									<div class="info-box brown-bg">
+										<a class="btn btn-lg btn-block" 
+											jsfc="h:commandLink"
+											type="button"
+											action="#{cadastroCompraBean.criaDocumento('CUPOM_FISCAL')}">
+								        	
+					                        <f:ajax
+					                        	execute="@form"
+					                        	render="@form"/>
+								        	
+								        	<i class="fa fa-ticket"></i>
+										</a>
+										
+										<div class="title">Cupom fiscal</div>						
+									</div><!--/.info-box-->		
+								</div>	
+									
+								<div class="col-lg-4">
+									<div class="info-box brown-bg">
+										<a class="btn btn-lg btn-block" 
+											jsfc="h:commandLink"
+											type="button"
+											action="#{cadastroCompraBean.criaDocumento('NFE')}">
+
+					                        <f:ajax
+					                        	execute="@form"
+					                        	render="@form"/>
+								        	
+								        	<i class="fa fa-file-text"></i>
+										</a>
+										
+										<div class="title">Nota fiscal</div>						
+									</div><!--/.info-box-->		
+								</div>	
+								
+								<h:panelGroup
+			                		id="panel-cupom"
+			                		rendered="#{cadastroCompraBean.compra.documento != null and cadastroCompraBean.compra.documento.tipo() == 'CUPOM_FISCAL'}">
+								
+									<div class="form-group">
+		                        
+			                            <label for="input-ccf">CCF</label>
+			                            <h:inputText 
+			                            	pt:type="text" 
+			                            	class="form-control input-sm m-bot15" 
+			                            	id="input-ccf" 
+			                            	pt:placeholder="Campo CCF do cupom fiscal"
+			                            	jsfc="h:inputText"
+			                            	value="#{cadastroCompraBean.compra.documento.ccf}">
+	
+						              	</h:inputText>
+					                    
+			                		</div>		  
+
+									<div class="form-group">
+		                        
+			                            <label for="input-coo">COO</label>
+			                            <h:inputText 
+			                            	pt:type="text" 
+			                            	class="form-control input-sm m-bot15" 
+			                            	id="input-coo" 
+			                            	pt:placeholder="Campo COO do cupom fiscal"
+			                            	jsfc="h:inputText"
+			                            	value="#{cadastroCompraBean.compra.documento.coo}">
+	
+						              	</h:inputText>
+					                    
+			                		</div>		 			                		       	
+
+			                	</h:panelGroup> <!-- /.panel-cupom -->
+				                
+								<h:panelGroup
+			                		id="panel-nfe"
+			                		rendered="#{cadastroCompraBean.compra.documento != null and cadastroCompraBean.compra.documento.tipo() == 'NFE'}">
+									
+									<div class="form-group">
+		                        
+			                            <label for="input-numero">Número</label>
+			                            <h:inputText 
+			                            	pt:type="text" 
+			                            	class="form-control input-sm m-bot15" 
+			                            	id="input-numero" 
+			                            	pt:placeholder="Número do cupom fiscal"
+			                            	jsfc="h:inputText"
+			                            	value="#{cadastroCompraBean.compra.documento.numero}">
+	
+						              	</h:inputText>
+					                    
+			                		</div>		  
+
+									<div class="form-group">
+		                        
+			                            <label for="input-serie">Série</label>
+			                            <h:inputText 
+			                            	pt:type="text" 
+			                            	class="form-control input-sm m-bot15" 
+			                            	id="input-serie" 
+			                            	pt:placeholder="Série da nota fiscal"
+			                            	jsfc="h:inputText"
+			                            	value="#{cadastroCompraBean.compra.documento.serie}">
+	
+						              	</h:inputText>
+					                    
+			                		</div>		 		
+			                		
+			                        <div class="form-group">
+			                        
+			                            <label for="input-frete">Valor do frete</label>
+			                            <h:inputText 
+			                            	pt:type="text" 
+			                            	class="form-control input-sm m-bot15" 
+			                            	id="input-frete" 
+			                            	pt:placeholder="Valor do frete se cobrado"
+			                            	jsfc="h:inputText"
+			                            	value="#{cadastroCompraBean.compra.documento.valorFrete}">
+			                            	
+			                            	<f:convertNumber 
+			                            		locale="pt_BR"
+			                            		minFractionDigits="2"/>
+			                            	
+						              	</h:inputText>
+						                    
+				                	</div>			                			                		       	
+		                	
+			               	 	</h:panelGroup> <!-- /.panel-nfe -->
+			               	 	
+								<h:panelGroup
+			                		id="panel-documento"
+			                		rendered="#{cadastroCompraBean.compra.documento != null and cadastroCompraBean.compra.documento.tipo() != 'AVULSO'}">
+								
+			                        <div class="form-group">
+			                        
+			                            <label for="input-desconto">Desconto</label>
+			                            <h:inputText 
+			                            	pt:type="text" 
+			                            	class="form-control input-sm m-bot15" 
+			                            	id="input-desconto" 
+			                            	pt:placeholder="Insira o desconto caso haja"
+			                            	jsfc="h:inputText"
+			                            	value="#{cadastroCompraBean.compra.documento.desconto}">
+	
+			                            	<f:convertNumber 
+			                            		locale="pt_BR"
+			                            		minFractionDigits="2"/>
+			                            	
+						              	</h:inputText>
+						                    
+				                	</div>														
+	
+			                        <div class="form-group">
+			                        
+			                            <label for="input-subtotal">Subtotal<span class="required">*</span></label>
+			                            <h:inputText 
+			                            	pt:type="text" 
+			                            	class="form-control input-sm m-bot15" 
+			                            	id="input-subtotal" 
+			                            	pt:placeholder="Subtotal, isto é o valor bruto da compra"
+			                            	jsfc="h:inputText"
+			                            	value="#{cadastroCompraBean.compra.documento.subtotal}"
+			                            	requiredMessage="Preencha o subtotal da compra.">
+			                            	
+			                            	<f:convertNumber 
+			                            		locale="pt_BR"
+			                            		minFractionDigits="2"/>
+			                            	
+			                            	<f:ajax 
+					                        	event="blur" 
+					                        	render="m_input-subtotal" />
+					                        	
+						              	</h:inputText>
+						                    
+						                <h:message 
+						                   	id="m_input-subtotal" 
+						                   	for="input-subtotal"
+						                   	class="alert-danger fade in"/>
+				                	</div>
+				                	
+			                        <div class="form-group">
+			                        
+			                            <label for="input-data">Data<span class="required">*</span></label>
+			                            <h:inputText 
+			                            	pt:type="text" 
+			                            	class="form-control input-sm m-bot15" 
+			                            	id="input-data" 
+			                            	pt:placeholder="Data do documento da compra"
+			                            	jsfc="h:inputText"
+			                            	value="#{cadastroCompraBean.compra.documento.data}"
+			                            	requiredMessage="Preencha a data do documento.">
+			                            	
+			                            	<f:converter
+			                            	 	converterId="localDateFacesConverter"/>
+			                            	
+			                            	<f:ajax 
+					                        	event="blur" 
+					                        	render="m_input-data" />
+					                        	
+						              	</h:inputText>
+						                    
+						                <h:message 
+						                   	id="m_input-data" 
+						                   	for="input-data"
+						                   	class="alert-danger fade in"/>
+				                	</div>	
+				                
+				                </h:panelGroup>		<!-- /.panel-documento -->			               	 	
+
+				        	</div> <!-- /.panel-body -->	
+				            	
+			            </section>
+			        </div>
+
+			  	</div>
+			  	
+			  	<div class="row">
+			        
+			        <div class="col-lg-12">
+			            <section class="panel">
+			                <header class="panel-heading">
+			                    Cadastro de compra
+			                </header>
+			                
+			            <h:inputHidden
+			            	value="#{cadastroCompraBean.compra.codigo}"/>
+			            				                
+			                <div class="panel-body">
+			                    
+			                </div>
+			            </section>
+			        </div>
+				</div>  
+				
+				<div class="row">
+
+			        <div class="col-lg-10">
+			        
+		   			<h:messages 
+				      	id="messageItem"
+				      	errorClass="alert alert-block alert-danger fade in"
+				      	infoClass="alert alert-success fade in"
+				      	style="padding-left:0px;"
+				      	globalOnly="true"/>						        
+			        
+			            <section class="panel">
+
+			                <header class="panel-heading">
+			                    Item
+			                </header>
+			                
+			                <div class="panel-body">
+			                    
+	                                             
+			                </div>
+			    		</section>
+			    	</div>
+			    	
+			    	<div class="col-lg-10">
+	                    <section class="panelTelefone">
+							<header class="panel-heading">
+	                            Itens da compra
+	                        </header>
+	                        
+                          	<h:panelGroup
+                          		id="panelTable">
+							</h:panelGroup>
+							
+						</section>		    
+			    	</div>				
+				
+				</div>
+				
+				<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModal" aria-hidden="true" data-keyboard="false" data-backdrop="static">
+				    <div class="modal-dialog modal-sm">
+				        <div class="modal-content">
+				            <h:form id="myForm">
+				                <div class="modal-header">
+				                	<button aria-hidden="true" data-dismiss="modal" class="close" type="button">×</button>
+				                    <h4 class="modal-title">Confirmação de remoção</h4>
+				                </div>
+				                <div class="modal-body">
+				                <h:panelGroup 
+				                	layout="block" 
+				                	id="panelDescricao">
+				                	
+				                	Deseja realmente remover o item selecionado?
+				                	
+				                	<a  type="submit"
+				                		class="btn btn-warning btn-sm"
+				                		jsfc="h:commandLink"
+				                		action="#{cadastroCompraBean.removeItem()}">
+				                		Sim
+											<f:passThroughAttribute name="data-dismiss" value="modal" />
+										<f:ajax
+						               		execute="@this"
+						               		render="@form"/>
+									</a>
+				                		
+				                	<button 
+				                		id="close"
+				                		type="submit" 
+				                		class="btn btn-info btn-sm">Não</button>
+				                </h:panelGroup>
+				                </div>
+				
+				            </h:form>
+				        </div>
+				    </div>
+				</div>						
+				
+			</h:form> 			
+   		
+	    </ui:define>
+	</ui:composition>
+	
+</h:body>
+</html>

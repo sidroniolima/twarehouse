@@ -1,11 +1,12 @@
 package twarehouse.model.estoque;
 
 import java.math.BigDecimal;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.ArrayList;
+import java.util.List;
 
 import twarehouse.excpetion.RegraDeNegocioException;
 import twarehouse.model.Produto;
+import twarehouse.model.Unidade;
 
 /**
  * Classe utilizada no ajuste de estoque de um produto. Sua utilização pode 
@@ -21,10 +22,10 @@ public class Ajuste {
 	private Almoxarifado almOrigem;
 	private Almoxarifado almDestino;
 	
-	private Map<Produto, BigDecimal> movimentacao;
+	private List<ItemAjuste> movimentacao;
 	
 	public Ajuste() {	
-		movimentacao = new HashMap<Produto,BigDecimal>();
+		movimentacao = new ArrayList<ItemAjuste>();
 	}
 	
 	public Ajuste(
@@ -46,41 +47,74 @@ public class Ajuste {
 	 * @param qtd
 	 * @throws RegraDeNegocioException 
 	 */
-	public void adicionaMovimento(Produto produto, BigDecimal qtd) throws RegraDeNegocioException {
+	public void adicionaMovimento(Produto produto, Unidade unidade, BigDecimal qtd) throws RegraDeNegocioException {
 		
-		this.validaMovimento(produto, qtd);
+		ItemAjuste itemNovo = new ItemAjuste(this, produto, unidade, qtd);
 		
-		movimentacao.put(produto, qtd);
+		itemNovo.valida();
+		
+		movimentacao.add(itemNovo);
 	}
 	
 	/**
-	 * Valida um item de Movimentação lançando uma exceção se não 
-	 * houver um produto e quantidade não for maior que zero.
+	 * Adiciona um item a movimentação do Ajuste.
 	 * 
-	 * @param produto
-	 * @param qtd
-	 * @throws RegraDeNegocioException 
+	 * @param itemAjuste Item de ajuste.
 	 */
-	private void validaMovimento(Produto produto, BigDecimal qtd) throws RegraDeNegocioException {
-		
-		if (null == produto) {
-			throw new RegraDeNegocioException("A movimentacao deve ser de um produto.");
-		}
-		
-		if (qtd.compareTo(BigDecimal.ZERO) <= 0) {
-			throw new RegraDeNegocioException("A quantidade deve ser maior que 0.");
-		}		
+	public void adicionaMovimento(ItemAjuste itemAjuste) {
+		itemAjuste.setAjuste(this);
+		this.movimentacao.add(itemAjuste);
 	}
-
+	
 	/**
 	 * Remove uma movimentação por produto pelo índice.
 	 * 
 	 * @param produto
 	 */
-	public void removeMovimento(Produto produto) {
-		movimentacao.remove(produto);
+	public void removeItem(ItemAjuste item) {
+		movimentacao.remove(item);
 	}
 	
+	/**
+	 * Remove um item localizando pelo produto.
+	 * 
+	 * @param produto Produto a ser removido.
+	 * @throws RegraDeNegocioException 
+	 */
+	public void removeItem(Produto produto) throws RegraDeNegocioException {
+		
+		ItemAjuste itemLocalizado = this.localizaItemPeloProduto(produto);
+		
+		if (null != itemLocalizado) {
+			
+			this.removeItem(itemLocalizado);
+		} else {
+			
+			throw new RegraDeNegocioException(
+					String.format("Não existe o produto %s no ajuste.", produto.getDescricao()));
+		}
+		
+	}
+	
+	/**
+	 * Localiza um item da movimentação pelo produto.
+	 * 
+	 * @param produto Produto a ser pesquisado nos itens.
+	 * @return Item localizado ou null.
+	 */
+	public ItemAjuste localizaItemPeloProduto(Produto produto) {
+		
+		for (ItemAjuste itemAjuste : movimentacao) {
+			
+			if (itemAjuste.getProduto().equals(produto)) {
+				
+				return itemAjuste;
+			}
+			
+		}
+		
+		return null;
+	}
 	
 	/**
 	 * Tamanho do ajuste de acordo com a quantidade de itens.
@@ -182,10 +216,10 @@ public class Ajuste {
 		this.almDestino = almDestino;
 	}
 
-	public Map<Produto, BigDecimal> getMovimentacao() {
+	public List<ItemAjuste> getMovimentacao() {
 		return movimentacao;
 	}
-	public void setMovimentacao(Map<Produto, BigDecimal> movimentacao) {
+	public void setMovimentacao(List<ItemAjuste> movimentacao) {
 		this.movimentacao = movimentacao;
 	}
 

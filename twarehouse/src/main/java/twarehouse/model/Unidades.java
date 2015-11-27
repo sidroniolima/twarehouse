@@ -5,6 +5,7 @@ package twarehouse.model;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 
 import javax.enterprise.inject.Vetoed;
 import javax.persistence.EmbeddedId;
@@ -66,6 +67,8 @@ public class Unidades implements Serializable {
 		this.entrada = entrada;
 		this.saida = saida;
 		this.razao = razao;
+		
+		produto.setUnidades(this);
 	}
 	
 	public BigDecimal converteDeEntradaParaSaida(BigDecimal qtd) {
@@ -73,7 +76,7 @@ public class Unidades implements Serializable {
 	}
 	
 	public BigDecimal converteDeSaidaParaEntrada(BigDecimal qtd) {
-		return qtd.divide(this.razao).setScale(2);
+		return qtd.divide(this.razao).setScale(2, RoundingMode.HALF_UP);
 	}
 	
 	public Produto getProduto() {

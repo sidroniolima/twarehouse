@@ -15,10 +15,16 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
+import twarehouse.excpetion.RegraDeNegocioException;
+
+/**
+ * @author Sidronio
+ *
+ */
 @Entity
-@Table(name="item_entrada")
+@Table(name="item_compra")
 @Vetoed
-public class ItemEntrada implements Serializable {
+public class ItemCompra implements Serializable {
 	
 	private static final long serialVersionUID = 689564928366103260L;
 
@@ -27,8 +33,8 @@ public class ItemEntrada implements Serializable {
 	private Long codigo;
 	
 	@ManyToOne(fetch=FetchType.LAZY)
-	@JoinColumn(name="codigo_entrada")
-	private Entrada entrada;
+	@JoinColumn(name="codigo_compra")
+	private Compra compra;
 	
 	@ManyToOne(fetch=FetchType.LAZY)
 	@JoinColumn(name="codigo_produto")
@@ -39,22 +45,49 @@ public class ItemEntrada implements Serializable {
 	@Column(name="valor_unitario")
 	private BigDecimal valorUnitario;
 	
-	public ItemEntrada() {
+	public ItemCompra() {
 		valorUnitario = BigDecimal.ZERO;
 		qtd = BigDecimal.ZERO;
 	}
 	
-	public ItemEntrada(Entrada entrada, 
+	public ItemCompra(Compra compra, 
 			Produto produto,
 			BigDecimal qtd, 
 			BigDecimal valorUnitario) {
 		
 		this();
 		
-		this.entrada = entrada;
+		this.compra = compra;
 		this.produto = produto;
 		this.qtd = qtd;
 		this.valorUnitario = valorUnitario;
+	}
+	
+	/**
+	 * Valida um item:
+	 * Deve ter um produto;
+	 * Sua quantiade deve ser maior que zero.
+	 * 
+	 * @throws RegraDeNegocioException 
+	 * 
+	 */
+	public void valida() throws RegraDeNegocioException {
+		
+		if (qtd.compareTo(BigDecimal.ZERO) <= 0) {
+			throw new RegraDeNegocioException("A quantidade do item deve ser maior que 0.");
+		}
+		
+		if (null == produto) {
+			throw new RegraDeNegocioException("O item deve estar associado a um produto.");
+		}
+		
+	}
+	
+	/* Imprime o produto e quantiade do item.
+	 */
+	@Override
+	public String toString() {
+		return String.format("produto: %s, quantidade: %s", produto.getDescricao(), qtd);
 	}
 	
 	public Long getCodigo() {
@@ -64,11 +97,11 @@ public class ItemEntrada implements Serializable {
 		this.codigo = codigo;
 	}
 	
-	public Entrada getEntrada() {
-		return entrada;
+	public Compra getEntrada() {
+		return compra;
 	}
-	public void setEntrada(Entrada entrada) {
-		this.entrada = entrada;
+	public void setCompra(Compra compra) {
+		this.compra = compra;
 	}
 
 	public Produto getProduto() {
@@ -113,7 +146,7 @@ public class ItemEntrada implements Serializable {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		ItemEntrada other = (ItemEntrada) obj;
+		ItemCompra other = (ItemCompra) obj;
 		if (codigo == null) {
 			if (other.codigo != null)
 				return false;
@@ -121,5 +154,5 @@ public class ItemEntrada implements Serializable {
 			return false;
 		return true;
 	}
-	
+
 }

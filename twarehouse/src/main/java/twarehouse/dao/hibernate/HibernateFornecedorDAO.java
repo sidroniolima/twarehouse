@@ -16,7 +16,7 @@ import org.hibernate.criterion.Restrictions;
 
 import twarehouse.dao.FornecedorDAO;
 import twarehouse.model.Documento;
-import twarehouse.model.Entrada;
+import twarehouse.model.Compra;
 import twarehouse.model.Fornecedor;
 
 /**
@@ -46,9 +46,9 @@ public class HibernateFornecedorDAO extends HibernateGenericDAO<Fornecedor, Long
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public List<Entrada> listarEntradasDoFornecedor(Fornecedor fornecedor) {
+	public List<Compra> listarEntradasDoFornecedor(Fornecedor fornecedor) {
 		
-		Criteria criteria = getSession().createCriteria(Entrada.class);
+		Criteria criteria = getSession().createCriteria(Compra.class);
 		criteria.setFetchMode("documento", FetchMode.JOIN);
 		criteria.createAlias("documento", "documento");
 		

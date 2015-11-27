@@ -60,7 +60,7 @@ public class FamiliaService implements Serializable {
 	 * @return
 	 */
 	public List<Familia> listaTodas(){
-		return familiaDAO.filtrar(new Familia(), null, null);
+		return familiaDAO.filtrar(new Familia(), null, null, null, null);
 	}
 	
 	/**

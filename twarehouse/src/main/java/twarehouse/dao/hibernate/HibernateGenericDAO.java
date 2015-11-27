@@ -46,6 +46,7 @@ public class HibernateGenericDAO<T, ID extends Serializable> implements GenericD
 		
 		manager.flush();
 		manager.clear();
+
 	}
 
 	@Override
@@ -55,10 +56,27 @@ public class HibernateGenericDAO<T, ID extends Serializable> implements GenericD
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public List<T> filtrar(T entidade, List<String> propriedades, List<String> relacionamentos) {
+	public List<T> filtrar(
+			T entidade, 
+			List<String> propriedades, 
+			List<String> relacionamentos, 
+			List<String> ordenacao, 
+			List<String> aliases) {
 		
 		Session session = manager.unwrap(Session.class);
 		Criteria criteria = session.createCriteria(classeDaEntidade);
+
+		if (null != aliases) {
+			for (String alias : aliases) {
+				
+				if (alias.contains(".")) {
+					criteria.createAlias(alias, alias.substring(alias.lastIndexOf('.') + 1, alias.length()));
+				} else {
+					criteria.createAlias(alias, alias);
+				}
+				
+			}
+		}	
 		
 		if (propriedades != null) {
 			
@@ -96,6 +114,12 @@ public class HibernateGenericDAO<T, ID extends Serializable> implements GenericD
 			} 
 		}
 		
+		if (null != ordenacao) {
+			for (String ordem : ordenacao) {
+				criteria.addOrder(Order.asc(ordem));
+			}
+		}
+		
 		criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY);
 		
 		return criteria.list();
@@ -113,10 +137,14 @@ public class HibernateGenericDAO<T, ID extends Serializable> implements GenericD
 		return classeDaEntidade;
 	}
 
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	@Override
-	public List<T> listarComPaginacao(int firstResult, int numberPerPage, 
-			List<String> ordenacao, List<String> relacionamentos, List<String> aliases) {
+	public List<T> listarComPaginacao(
+			int firstResult, 
+			int numberPerPage, 
+			List<String> ordenacao, 
+			List<String> relacionamentos,
+			List<String> aliases) {
 		
 		Session session = manager.unwrap(Session.class);
 		Criteria criteriaSublist = session.createCriteria(classeDaEntidade);
@@ -125,21 +153,23 @@ public class HibernateGenericDAO<T, ID extends Serializable> implements GenericD
 		criteriaSublist.setFirstResult(firstResult);
 		criteriaSublist.setMaxResults(numberPerPage);
 		
-		if (null != relacionamentos) {
-			for (String relacionamento : relacionamentos) {
-				criteriaSublist.setFetchMode(relacionamento, FetchMode.JOIN);
-			} 
-		}		
+		if (null != ordenacao) {
+			for (String ordem : ordenacao) {
+				criteriaSublist.addOrder(Order.asc(ordem));
+			}
+		}
 		
 		if (null != aliases) {
 			for (String alias : aliases) {
-				criteriaSublist.createAlias(alias, alias);
+				
+				if (alias.contains(".")) {
+				
+					criteriaSublist.createAlias(alias, alias.substring(alias.lastIndexOf('.') + 1, alias.length()));
+				} else {
+					criteriaSublist.createAlias(alias, alias);
+				}
 			} 
 		}		
-				
-		if (null != ordenacao) {
-			ordenacao.forEach(o -> criteriaSublist.addOrder(Order.asc(o)));
-		}	
 		
 		List registrosSublist = criteriaSublist.list();
 		
@@ -150,23 +180,57 @@ public class HibernateGenericDAO<T, ID extends Serializable> implements GenericD
 		Criteria criteria = session.createCriteria(classeDaEntidade);
 		
 		if (null != relacionamentos) {
+			
 			for (String relacionamento : relacionamentos) {
+				
 				criteria.setFetchMode(relacionamento, FetchMode.JOIN);
 			} 
 		}
 		
 		if (null != aliases) {
 			for (String alias : aliases) {
-				criteria.createAlias(alias, alias);
-			} 
-		}			
-		
-		if (null != ordenacao) {
-			ordenacao.forEach(o -> criteria.addOrder(Order.asc(o)));
-		}
+				
+				if (alias.contains(".")) {
+					criteria.createAlias(alias, alias.substring(alias.lastIndexOf('.') + 1, alias.length()));
+				} else {
+					criteria.createAlias(alias, alias);
+				}
+				
+			}
+		}		
 		
 		criteria.add(Restrictions.in("codigo", registrosSublist));
+		
+		if (null != ordenacao) {
+			for (String ordem : ordenacao) {
+				criteria.addOrder(Order.asc(ordem));
+			}
+		}
+		
 		criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY);
+		
 		return criteria.list();
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public T buscarPeloCodigoComRelacionamento(ID id, List<String> relacionamentos) {
+
+		Session session = manager.unwrap(Session.class);
+		Criteria criteria = session.createCriteria(classeDaEntidade);
+
+		criteria.add(Restrictions.eq("codigo", id));
+		
+		if (null != relacionamentos) {
+		
+			for (String relacionamento : relacionamentos) {
+				
+				criteria.setFetchMode(relacionamento, FetchMode.JOIN);
+			} 
+		}
+		
+		criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY);
+		
+		return (T) criteria.uniqueResult();
 	}
 }
