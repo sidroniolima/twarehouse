@@ -18,6 +18,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 import twarehouse.excpetion.RegraDeNegocioException;
 
@@ -143,7 +144,7 @@ public class Compra implements Serializable {
 		
 		return itens
 				.stream()
-				.map(ItemCompra::getValorTotal)
+				.map(ItemCompra::valorTotal)
 				.reduce(BigDecimal.ZERO, BigDecimal::add);
 	}
 	
@@ -168,6 +169,32 @@ public class Compra implements Serializable {
 		if (null == documento) {
 			throw new RegraDeNegocioException("A compra deve possuir um documento: nota fiscal, cupom, etc...");
 		}
+		
+	}
+	
+	/**
+	 * Bridge para a propriedade tipo de documento.
+	 *  
+	 * @return
+	 */
+	@Transient
+	public String getTipoDocumento() {
+		
+		if (null == this.documento) {
+			return "";
+		}
+		
+		return this.documento.tipo().getDescricao();
+	}
+	
+	/**
+	 * Adiciona um documento à compra.
+	 * 
+	 * @param doc
+	 */
+	public void adicionaDocumento(DocumentoEntrada doc) {
+		doc.setCompra(this);
+		this.setDocumento(doc);
 	}
 	
 	/**
@@ -179,13 +206,11 @@ public class Compra implements Serializable {
 	@Override
 	public String toString() {
 		
-		if (null == fornecedor || null == documento) {
+		if (null == documento) {
 			return "";
 		}
 		
-		return String.format("Documento %s do fornecedor %s", 
-				documento.toString(), 
-				fornecedor.getPessoa().getNome());
+		return documento.identificao();
 	}
 	
 	public Long getCodigo() {

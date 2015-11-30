@@ -18,7 +18,6 @@ public class Paginator {
 			
 			firstResult = 0;
 		}
-		System.out.println(firstResult);
 	}
 	
 	public void next() {

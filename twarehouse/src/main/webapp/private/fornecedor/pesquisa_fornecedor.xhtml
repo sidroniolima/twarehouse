@@ -125,52 +125,53 @@
 				        	
 				        	</div> <!-- .table-responsive-->
 			            </section>
-			            
-			        </h:form>
-				</div>
-	
-				<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModal" aria-hidden="true" data-keyboard="false" data-backdrop="static">
-				    <div class="modal-dialog modal-sm">
-				        <div class="modal-content">
-				            <h:form id="myForm">
-				                <div class="modal-header">
-				                	<button aria-hidden="true" data-dismiss="modal" class="close" type="button">?</button>
-				                    <h4 class="modal-title">Confirma??o de exclus?o</h4>
-				                </div>
-				                <div class="modal-body">
-				                <h:panelGroup 
-				                	layout="block" 
-				                	id="panelDescricao">
-				                	
-				                	Deseja realmente excluir o registro selecionado?
-				                	
-				                	<div 
-				                		style="text-align:right"
-				                		id="bts-confirm">
-					                	
-					                	<a  type="submit"
-					                		class="btn btn-warning btn-sm"
-					                		jsfc="h:commandLink"
-					                		action="#{pesquisaFornecedorBean.excluir()}">
-					                		Sim
-												<f:passThroughAttribute name="data-dismiss" value="modal" />
-											<f:ajax
-							               		execute="@this"
-							               		render="@form"/>
-										</a>
-					                		
-					                	<button 
-					                		id="close"
-					                		type="submit" 
-					                		class="btn btn-info btn-sm">N?o</button>
-					                </div>
-				                </h:panelGroup>
-				                </div>
+		
+						<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModal" aria-hidden="true" data-keyboard="false" data-backdrop="static">
+						    <div class="modal-dialog modal-sm">
+						        <div class="modal-content">
+						            <h:form id="myForm">
+						                <div class="modal-header">
+						                	<button aria-hidden="true" data-dismiss="modal" class="close" type="button">?</button>
+						                    <h4 class="modal-title">Confirmação de exclusão</h4>
+						                </div>
+						                <div class="modal-body">
+						                <h:panelGroup 
+						                	layout="block" 
+						                	id="panelDescricao">
+						                	
+						                	Deseja realmente excluir o registro selecionado?
+						                	
+						                	<div 
+						                		style="text-align:right"
+						                		id="bts-confirm">
+							                	
+							                	<a  type="submit"
+							                		class="btn btn-warning btn-sm"
+							                		jsfc="h:commandLink"
+							                		action="#{pesquisaFornecedorBean.excluir()}">
+							                		Sim
+														<f:passThroughAttribute name="data-dismiss" value="modal" />
+													<f:ajax
+									               		execute="@this"
+									               		render="@form"/>
+												</a>
+							                		
+							                	<button 
+							                		id="close"
+							                		type="submit" 
+							                		class="btn btn-info btn-sm">Não</button>
+							                </div>
+						                </h:panelGroup>
+						                </div>
+						
+						            </h:form>
+						        </div>
+						    </div>
+						</div>
 				
-				            </h:form>
-				        </div>
-				    </div>
+					</h:form>
 				</div>
+				
 				<div class="row">
 				
 					<div class="col-md-12">

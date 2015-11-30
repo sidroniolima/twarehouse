@@ -143,6 +143,34 @@ public class Fornecedor implements Serializable {
 		return telefones.get(0);
 	}
 	
+	/**
+	 * Nome do fornecedor de acordo com a Pessoa.
+	 * 
+	 * @return
+	 */
+	public String nome() {
+		
+		if (null == pessoa) {
+			return "";
+		}
+		
+		return pessoa.getNome();
+	}
+	
+	/**
+	 * Documento do fornecedor de acordo com a Pessoa.
+	 * 
+	 * @return
+	 */
+	public Documento documento() {
+		
+		if (null == pessoa) {
+			return null;
+		}
+		
+		return pessoa.getDocumentoPrincipal();
+	}
+	
 	public Long getCodigo() {
 		return codigo;
 	}

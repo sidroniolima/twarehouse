@@ -4,7 +4,7 @@
 package twarehouse.controller;
 
 import java.io.Serializable;
-import java.util.LinkedList;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
@@ -17,8 +17,10 @@ import org.omnifaces.cdi.Param;
 import twarehouse.excpetion.RegraDeNegocioException;
 import twarehouse.factory.DocumentoEntradaFactory;
 import twarehouse.model.Compra;
+import twarehouse.model.DocumentoEntrada;
 import twarehouse.model.Fornecedor;
 import twarehouse.model.ItemCompra;
+import twarehouse.model.Produto;
 import twarehouse.model.TipoDocumentoEntrada;
 import twarehouse.service.CompraService;
 import twarehouse.service.impl.FornecedorService;
@@ -53,8 +55,8 @@ public class CadastroCompraBean extends CadastroMasterDetail implements Serializ
 	private ItemCompra itemCompra;
 	private ItemCompra itemCompraSelecionado;
 	
-	private List<Compra> produtos = new LinkedList<Compra>();
-	private List<Fornecedor> fornecedores = new LinkedList<Fornecedor>();
+	private List<Produto> produtos = new ArrayList<Produto>();
+	private List<Fornecedor> fornecedores = new ArrayList<Fornecedor>();
 	
 	private TipoDocumentoEntrada[] tiposDocumentos;
 	
@@ -72,7 +74,7 @@ public class CadastroCompraBean extends CadastroMasterDetail implements Serializ
 		
 		novoItem();
 		
-		produtos = compraService.buscaTodas();
+		produtos = produtoService.listaTodos();
 		fornecedores = fornecedorService.buscaTodos();
 		
 		tiposDocumentos = TipoDocumentoEntrada.values();
@@ -92,7 +94,7 @@ public class CadastroCompraBean extends CadastroMasterDetail implements Serializ
 	 * @param tipo
 	 */
 	public void criaDocumento(String tipo) {
-		compra.setDocumento(DocumentoEntradaFactory.cria(TipoDocumentoEntrada.valueOf(tipo)));
+		compra.adicionaDocumento(DocumentoEntradaFactory.cria(TipoDocumentoEntrada.valueOf(tipo)));
 	}
 
 	@Override
@@ -102,7 +104,13 @@ public class CadastroCompraBean extends CadastroMasterDetail implements Serializ
 
 			compraService.salva(compra);
 			
-			FacesUtil.addSuccessMessage(this.getMensagemDeInclusao(compra.toString()));
+			if (isEdicao()) {
+				
+				FacesUtil.addSuccessMessage(this.getMensagemDeAlteracao(compra.toString()));
+			}else {
+				
+				FacesUtil.addSuccessMessage(this.getMensagemDeInclusao(compra.toString()));
+			}
 			
 			novoRegistro();
 			
@@ -113,7 +121,7 @@ public class CadastroCompraBean extends CadastroMasterDetail implements Serializ
 	}
 
 	@Override
-	boolean isEdicao() {
+	public boolean isEdicao() {
 		return null != paramCodigo;
 	}
 
@@ -128,12 +136,12 @@ public class CadastroCompraBean extends CadastroMasterDetail implements Serializ
 	}
 	
 	@Override
-	boolean isEdicaoDeItem() {
+	public boolean isEdicaoDeItem() {
 		return null != itemCompraSelecionado;
 	}
 
 	@Override
-	void editaItem() {
+	public void editaItem() {
 		itemCompra = itemCompraSelecionado;
 	}
 
@@ -153,7 +161,7 @@ public class CadastroCompraBean extends CadastroMasterDetail implements Serializ
 	}
 
 	@Override
-	void adicionaItem() {
+	public void adicionaItem() {
 		
 		try {
 			
@@ -178,7 +186,7 @@ public class CadastroCompraBean extends CadastroMasterDetail implements Serializ
 	}
 
 	@Override
-	void removeItem() {
+	public void removeItem() {
 		
 		try {
 			this.compra.removeItem(itemCompraSelecionado.getProduto());
@@ -218,7 +226,7 @@ public class CadastroCompraBean extends CadastroMasterDetail implements Serializ
 		this.itemCompraSelecionado = itemCompraSelecionado;
 	}
 
-	public List<Compra> getProdutos() {
+	public List<Produto> getProdutos() {
 		return produtos;
 	}
 

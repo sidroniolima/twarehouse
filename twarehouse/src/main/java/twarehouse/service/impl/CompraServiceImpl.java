@@ -5,6 +5,7 @@ package twarehouse.service.impl;
 
 import java.io.Serializable;
 import java.util.Arrays;
+import java.util.List;
 
 import javax.ejb.Stateless;
 import javax.inject.Inject;
@@ -13,8 +14,10 @@ import twarehouse.dao.CompraDAO;
 import twarehouse.dao.GenericDAO;
 import twarehouse.excpetion.RegraDeNegocioException;
 import twarehouse.model.Compra;
+import twarehouse.model.consulta.FiltroEntrada;
 import twarehouse.service.CompraService;
 import twarehouse.service.SimpleServiceLayerImpl;
+import twarehouse.util.Paginator;
 
 /**
  * Implementação da camada Service da entidade 
@@ -51,7 +54,20 @@ public class CompraServiceImpl extends SimpleServiceLayerImpl<Compra, Long> impl
 		
 		return this.compraDAO.buscarPeloCodigoComRelacionamento(
 				codigo,
-				Arrays.asList("docuemnto", "fornecedor", "itens"));
+				Arrays.asList(
+						"documento", 
+						"fornecedor",
+						"fornecedor.pessoa",
+						"itens",
+						"itens.produto"));
+	}
+
+	@Override
+	public List<Compra> filtraPelaPesquisa(FiltroEntrada filtro, Paginator paginator) {
+		return this.compraDAO.filtrarPeloModoEspecifico(
+				filtro, 
+				paginator.getFirstResult(), 
+				paginator.getQtdPorPagina());
 	}
 	
 

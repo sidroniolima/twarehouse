@@ -41,15 +41,19 @@
 				<div class="row">
 			        
 			        <div class="col-lg-12">
+			        
 			            <section class="panel">
 			                <header class="panel-heading">
-			                    Documento da compra
+			                    Cadastro de compra
 			                </header>
+			                
+			            <h:inputHidden
+			            	value="#{cadastroCompraBean.compra.codigo}"/>			        
 			                
 		                	<div class="panel-body">
 		                		
 		                		<div class="col-lg-4">
-									<div class="info-box blue-bg">
+									<div class="info-box orange-bg">
 										<a class="btn btn-lg btn-block" 
 											jsfc="h:commandLink"
 											type="button"
@@ -67,7 +71,7 @@
 								</div>	
 								
 								<div class="col-lg-4">
-									<div class="info-box brown-bg">
+									<div class="info-box green-bg">
 										<a class="btn btn-lg btn-block" 
 											jsfc="h:commandLink"
 											type="button"
@@ -102,6 +106,11 @@
 									</div><!--/.info-box-->		
 								</div>	
 								
+								<h3>
+									<h:outputText 
+										value="#{cadastroCompraBean.compra.tipoDocumento}" />
+								</h3>
+								
 								<h:panelGroup
 			                		id="panel-cupom"
 			                		rendered="#{cadastroCompraBean.compra.documento != null and cadastroCompraBean.compra.documento.tipo() == 'CUPOM_FISCAL'}">
@@ -114,7 +123,6 @@
 			                            	class="form-control input-sm m-bot15" 
 			                            	id="input-ccf" 
 			                            	pt:placeholder="Campo CCF do cupom fiscal"
-			                            	jsfc="h:inputText"
 			                            	value="#{cadastroCompraBean.compra.documento.ccf}">
 	
 						              	</h:inputText>
@@ -129,7 +137,6 @@
 			                            	class="form-control input-sm m-bot15" 
 			                            	id="input-coo" 
 			                            	pt:placeholder="Campo COO do cupom fiscal"
-			                            	jsfc="h:inputText"
 			                            	value="#{cadastroCompraBean.compra.documento.coo}">
 	
 						              	</h:inputText>
@@ -150,7 +157,6 @@
 			                            	class="form-control input-sm m-bot15" 
 			                            	id="input-numero" 
 			                            	pt:placeholder="Número do cupom fiscal"
-			                            	jsfc="h:inputText"
 			                            	value="#{cadastroCompraBean.compra.documento.numero}">
 	
 						              	</h:inputText>
@@ -165,7 +171,6 @@
 			                            	class="form-control input-sm m-bot15" 
 			                            	id="input-serie" 
 			                            	pt:placeholder="Série da nota fiscal"
-			                            	jsfc="h:inputText"
 			                            	value="#{cadastroCompraBean.compra.documento.serie}">
 	
 						              	</h:inputText>
@@ -180,12 +185,15 @@
 			                            	class="form-control input-sm m-bot15" 
 			                            	id="input-frete" 
 			                            	pt:placeholder="Valor do frete se cobrado"
-			                            	jsfc="h:inputText"
 			                            	value="#{cadastroCompraBean.compra.documento.valorFrete}">
 			                            	
 			                            	<f:convertNumber 
 			                            		locale="pt_BR"
 			                            		minFractionDigits="2"/>
+			                            	
+			                            	<f:ajax
+			                            		event="blur"
+			                            		render="input-total"/>
 			                            	
 						              	</h:inputText>
 						                    
@@ -195,22 +203,25 @@
 			               	 	
 								<h:panelGroup
 			                		id="panel-documento"
-			                		rendered="#{cadastroCompraBean.compra.documento != null and cadastroCompraBean.compra.documento.tipo() != 'AVULSO'}">
+			                		rendered="#{cadastroCompraBean.compra.documento != null}">
 								
-			                        <div class="form-group">
-			                        
+									<div class="form-group">
+				                        
 			                            <label for="input-desconto">Desconto</label>
 			                            <h:inputText 
 			                            	pt:type="text" 
 			                            	class="form-control input-sm m-bot15" 
 			                            	id="input-desconto" 
 			                            	pt:placeholder="Insira o desconto caso haja"
-			                            	jsfc="h:inputText"
 			                            	value="#{cadastroCompraBean.compra.documento.desconto}">
 	
 			                            	<f:convertNumber 
 			                            		locale="pt_BR"
 			                            		minFractionDigits="2"/>
+			                            		
+			                            	<f:ajax
+			                            		event="blur"
+			                            		render="input-total"/>
 			                            	
 						              	</h:inputText>
 						                    
@@ -224,7 +235,6 @@
 			                            	class="form-control input-sm m-bot15" 
 			                            	id="input-subtotal" 
 			                            	pt:placeholder="Subtotal, isto é o valor bruto da compra"
-			                            	jsfc="h:inputText"
 			                            	value="#{cadastroCompraBean.compra.documento.subtotal}"
 			                            	requiredMessage="Preencha o subtotal da compra.">
 			                            	
@@ -234,7 +244,7 @@
 			                            	
 			                            	<f:ajax 
 					                        	event="blur" 
-					                        	render="m_input-subtotal" />
+					                        	render="m_input-subtotal input-total" />
 					                        	
 						              	</h:inputText>
 						                    
@@ -242,7 +252,26 @@
 						                   	id="m_input-subtotal" 
 						                   	for="input-subtotal"
 						                   	class="alert-danger fade in"/>
-				                	</div>
+				                	</div>			        
+				                	
+									<div class="form-group">
+				                        
+			                            <label for="input-total">Total</label>
+			                            <h:inputText 
+			                            	pt:type="text" 
+			                            	class="form-control input-sm m-bot15" 
+			                            	id="input-total" 
+			                            	value="#{cadastroCompraBean.compra.documento.total()}"
+			                            	disabled="true">
+	
+			                            	<f:convertNumber 
+			                            		type="currency"
+			                            		locale="pt_BR"
+			                            		minFractionDigits="2"/>
+			                            	
+						              	</h:inputText>
+						                    
+				                	</div>					                	                
 				                	
 			                        <div class="form-group">
 			                        
@@ -252,8 +281,8 @@
 			                            	class="form-control input-sm m-bot15" 
 			                            	id="input-data" 
 			                            	pt:placeholder="Data do documento da compra"
-			                            	jsfc="h:inputText"
 			                            	value="#{cadastroCompraBean.compra.documento.data}"
+			                            	required="true"
 			                            	requiredMessage="Preencha a data do documento.">
 			                            	
 			                            	<f:converter
@@ -270,8 +299,57 @@
 						                   	for="input-data"
 						                   	class="alert-danger fade in"/>
 				                	</div>	
+				                	
+				                </h:panelGroup>		<!-- /.panel-documento -->	
+			                	
+		                        <div class="form-group">
+		                        
+									<label for="select-forn">Fornecedor <span class="required">*</span></label>
+                                   	<h:selectOneMenu 
+	                                   	value="#{cadastroCompraBean.compra.fornecedor}"
+	                                   	styleClass="form-control input-sm m-bot15"
+	                                   	id="select-forn"
+	                                   	required="true"
+	                                   	requiredMessage="A compra deve ser feita de um fornecedor.">
+                                   	
+	                                   	<f:selectItem 
+	                                   		noSelectionOption="true"
+	                                   		itemLabel="Fornecedor pessoa física ou jurídica"/>
+	                                   		
+	                                   	<f:selectItems
+	                                   		itemLabel="${forn.nome()}"
+	                                   		itemValue="${forn}"
+	                                   		var="forn"
+	                                   		value="#{cadastroCompraBean.fornecedores}"/>
+	                                   		
+                                   	</h:selectOneMenu>
+                                       
+					                <h:message 
+					                   	id="m_select-forn" 
+					                   	for="select-forn"
+					                   	class="alert-danger fade in"/>                                        
+		                        </div>
 				                
-				                </h:panelGroup>		<!-- /.panel-documento -->			               	 	
+		                        <div class="form-group">
+		                        
+		                            <label for="input-obs">Observação</label>
+		                            <h:inputTextarea
+		                            	pt:type="text" 
+		                            	class="form-control input-sm m-bot15" 
+		                            	id="input-obs" 
+		                            	pt:placeholder="Observação pertinente à compra."
+		                            	value="#{cadastroCompraBean.compra.observacao}"/>
+			                	</div>					                		               	 	
+
+		                        <h:commandButton
+		                        	class="btn btn-primary"
+		                        	action="#{cadastroCompraBean.salvar()}"
+		                        	value="#{cadastroCompraBean.edicao ? 'Alterar' : 'Salvar'}">
+		                        	
+		                        	<f:ajax
+		                        		execute="@form"
+		                        		render="@form"/>
+		                        </h:commandButton>	
 
 				        	</div> <!-- /.panel-body -->	
 				            	
@@ -279,24 +357,6 @@
 			        </div>
 
 			  	</div>
-			  	
-			  	<div class="row">
-			        
-			        <div class="col-lg-12">
-			            <section class="panel">
-			                <header class="panel-heading">
-			                    Cadastro de compra
-			                </header>
-			                
-			            <h:inputHidden
-			            	value="#{cadastroCompraBean.compra.codigo}"/>
-			            				                
-			                <div class="panel-body">
-			                    
-			                </div>
-			            </section>
-			        </div>
-				</div>  
 				
 				<div class="row">
 
@@ -316,21 +376,205 @@
 			                </header>
 			                
 			                <div class="panel-body">
-			                    
+
+								<div class="form-group">
+		                        
+									<label for="select-produto">Produto <span class="required">*</span></label>
+                                   	<h:selectOneMenu 
+	                                   	value="#{cadastroCompraBean.itemCompra.produto}"
+	                                   	styleClass="form-control input-sm m-bot15"
+	                                   	id="select-produto">
+                                   	
+	                                   	<f:selectItem 
+	                                   		noSelectionOption="true"
+	                                   		itemLabel=""/>
+	                                   		
+	                                   	<f:selectItems
+	                                   		itemLabel="${produto.descricao}"
+	                                   		itemValue="${produto}"
+	                                   		var="produto"
+	                                   		value="#{cadastroCompraBean.produtos}"/>
+	                                   		                                   		
+                                   	</h:selectOneMenu>
+                                   	
+			                        <div class="form-group">
+			                        
+			                            <label for="input-qtd">Qtd<span class="required">*</span></label>
+			                            <h:inputText 
+			                            	pt:type="text" 
+			                            	class="form-control input-sm m-bot15" 
+			                            	id="input-qtd" 
+			                            	pt:placeholder="Quantidade do produto"
+			                            	value="#{cadastroCompraBean.itemCompra.qtd}">
+			                            	
+			                            	<f:convertNumber 
+			                            		locale="pt_BR"
+			                            		minFractionDigits="2"/>
+			                            	
+			                            	<f:ajax 
+					                        	event="blur" 
+					                        	execute="@this"
+					                        	render="input-vlr-total" />
+					                        	
+						              	</h:inputText>
+						           </div>
+						              	
+									<div class="form-group">
+				                        
+			                            <label for="input-vlr-unit">Valor unitário <span class="required">*</span></label>
+			                            <h:inputText 
+			                            	pt:type="text" 
+			                            	class="form-control input-sm m-bot15" 
+			                            	id="input-vlr-unit" 
+			                            	value="#{cadastroCompraBean.itemCompra.valorUnitario}">
+	
+			                            	<f:convertNumber 
+			                            		locale="pt_BR"
+			                            		minFractionDigits="2"/>
+			                            		
+			                            	<f:ajax 
+					                        	event="blur" 
+					                        	execute="@this"
+					                        	render="input-vlr-total" />			                            		
+			                            	
+						              	</h:inputText>
+						                    
+				                	</div>	
+				                	
+									<div class="form-group">
+				                        
+			                            <label for="input-vlr-total">Total</label>
+			                            <h:inputText 
+			                            	class="form-control input-sm m-bot15" 
+			                            	id="input-vlr-total" 
+			                            	value="#{cadastroCompraBean.itemCompra.valorTotal()}"
+			                            	disabled="true">
+	
+			                            	<f:convertNumber 
+			                            		type="currency"
+			                            		locale="pt_BR"
+			                            		minFractionDigits="2"/>
+			                            	
+						              	</h:inputText>
+						                    
+				                	</div>		
+
+			                        <h:commandButton
+			                        	class="btn btn-primary"
+			                        	action="#{cadastroCompraBean.adicionaItem()}"
+			                        	value="#{cadastroCompraBean.edicaoDeItem ? 'Alterar' : 'Adicionar'}">
+			                        	
+			                        	<f:ajax
+			                        		execute="@form"
+			                        		render="@form"/>
+			                        </h:commandButton>				                					                			        
+				                	
+		                        </div>			                    
 	                                             
 			                </div>
 			    		</section>
 			    	</div>
 			    	
 			    	<div class="col-lg-10">
-	                    <section class="panelTelefone">
+	                    <section class="panel-itens">
 							<header class="panel-heading">
 	                            Itens da compra
 	                        </header>
-	                        
-                          	<h:panelGroup
-                          		id="panelTable">
-							</h:panelGroup>
+	                        <div class="table-responsive">
+                          		<h:panelGroup id="panel-table">
+                          	
+									<table class="table table-striped table-advance table-hover">
+										<tbody>
+				                          	<tr>
+				                             	<th><i class="icon_pens"></i> Produto</th>
+				                             	<th><i class="icon_pens"></i> Quantidade</th>
+				                             	<th><i class="icon_pens"></i> Valor unitário</th>
+				                             	<th><i class="icon_pens"></i> Total</th>
+				                             	<th  style="width:100px"><i class="icon_cogs"></i> Controle</th>
+											</tr>
+											<ui:repeat
+										   			var="item" 
+										   			value="#{cadastroCompraBean.compra.itens}">	
+												<tr>
+												   <td>#{item.produto.descricao}</td>	
+												   
+												   <td>
+												   		<h:outputText 
+												   			value="#{item.qtd}">
+												   			
+												   			<f:convertNumber 
+												   				type="number"
+												   				locale="pt_BR"
+												   				minFractionDigits="2"/>
+												   		</h:outputText>
+												   </td>
+
+												   <td>
+												   		<h:outputText 
+												   			value="#{item.valorUnitario}">
+												   			
+												   			<f:convertNumber 
+												   				type="currency"
+												   				locale="pt_BR"
+												   				minFractionDigits="2"/>
+												   		</h:outputText>
+												   </td>
+												   
+												   <td>
+												   		<h:outputText 
+												   			value="#{item.valorTotal()}">
+												   			
+												   			<f:convertNumber 
+												   				type="currency"
+												   				locale="pt_BR"
+												   				minFractionDigits="2"/>
+												   		</h:outputText>
+												   </td>												   												   
+												   
+												   <td>
+
+													   <div class="btn-group">
+															<a class="btn btn-warning" 
+																jsfc="h:commandLink"
+																type="button"
+																action="#{cadastroCompraBean.editaItem()}">
+																
+																	<f:setPropertyActionListener 
+																		value="#{item}" 
+																		target="#{cadastroCompraBean.itemCompraSelecionado}"/>
+																
+										                        	<f:ajax
+										                        		execute="@form"
+										                        		render="@form"/>
+													        			
+																<i class="icon_check_alt2"></i>
+													        </a>
+													        
+															<a class="btn btn-danger" 
+																jsfc="h:commandLink"
+																type="button"
+																immediate="true">
+																
+																<f:setPropertyActionListener 
+																	value="#{item}" 
+																	target="#{cadastroCompraBean.itemCompraSelecionado}"/>															
+												                   												        	
+												                   <f:passThroughAttribute name="data-toggle" value="modal" />
+												                   <f:passThroughAttribute name="data-target" value="#myModal" />
+												                   <f:ajax/>
+															
+																<i class="icon_close_alt2"></i>
+															</a>
+													    </div>
+												    </td>											   
+												</tr>
+											</ui:repeat>
+										</tbody>
+									</table>                          	
+                          	
+                          	
+								</h:panelGroup> <!--  /#panel-table -->
+							</div> <!-- /.table-responsive -->
 							
 						</section>		    
 			    	</div>				

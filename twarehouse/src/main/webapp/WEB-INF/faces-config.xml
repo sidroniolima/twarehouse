@@ -44,4 +44,13 @@
 			<redirect include-view-params="true"/>
 		</navigation-case>
 	</navigation-rule>		
+	
+	<navigation-rule>
+	 	<from-view-id>/*</from-view-id>
+		<navigation-case>
+			<from-outcome>cadastro-usuario</from-outcome>
+			<to-view-id>/private/usuario/cadastro-usuario.xhtml</to-view-id>
+			<redirect include-view-params="true"/>
+		</navigation-case>
+	</navigation-rule>		
 </faces-config>

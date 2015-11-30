@@ -3,17 +3,22 @@
  */
 package twarehouse.model;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 
+import javax.enterprise.inject.Vetoed;
 import javax.persistence.DiscriminatorValue;
+import javax.persistence.Entity;
 
 /**
  * @author Sidronio
  *
  */
+@Entity
 @DiscriminatorValue("CUPOM_FISCAL")
-public class CupomFiscal extends DocumentoEntrada {
+@Vetoed
+public class CupomFiscal extends DocumentoEntrada implements Serializable {
 
 	private static final long serialVersionUID = -7221105337713266331L;
 	
@@ -41,7 +46,7 @@ public class CupomFiscal extends DocumentoEntrada {
 
 	@Override
 	public String identificao() {
-		return this.getCcf() + " - " + this.getCoo();
+		return this.tipo().getDescricao() + ": " + this.getCcf() + " - " + this.getCoo();
 	}
 	
 	@Override

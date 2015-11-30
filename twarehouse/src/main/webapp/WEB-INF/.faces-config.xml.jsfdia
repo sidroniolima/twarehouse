@@ -42,4 +42,15 @@
  </PROCESS-ITEM>
  <PROCESS-ITEM NAME="rules:#private#produto#visualiza_produto.xhtml"
   PATH="/private/produto/visualiza_produto.xhtml" SHAPE="240,369,0,0" model-entity="JSFProcessGroup"/>
+ <PROCESS-ITEM NAME="rules:#*:4" PATH="/*" SHAPE="32,465,0,0" model-entity="JSFProcessGroup">
+  <PROCESS-ITEM ID="rules:#*:4" NAME="item" PATH="/*" model-entity="JSFProcessItem">
+   <PROCESS-ITEM-OUTPUT
+    ID="cadastro-usuario::#private#usuario#cadastro-usuario.xhtml"
+    NAME="output" PATH="/private/usuario/cadastro-usuario.xhtml"
+    TARGET="rules:#private#usuario#cadastro-usuario.xhtml"
+    TITLE="cadastro-usuario" model-entity="JSFProcessItemOutput"/>
+  </PROCESS-ITEM>
+ </PROCESS-ITEM>
+ <PROCESS-ITEM NAME="rules:#private#usuario#cadastro-usuario.xhtml"
+  PATH="/private/usuario/cadastro-usuario.xhtml" SHAPE="240,481,0,0" model-entity="JSFProcessGroup"/>
 </PROCESS>

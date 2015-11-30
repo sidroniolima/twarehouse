@@ -3,7 +3,12 @@
  */
 package twarehouse.model;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
+
+import javax.enterprise.inject.Vetoed;
+import javax.persistence.DiscriminatorValue;
+import javax.persistence.Entity;
 
 /**
  * Um documento de entrada a vulso, sem documentação.
@@ -11,7 +16,10 @@ import java.math.BigDecimal;
  * @author Sidronio
  * 26/11/2015
  */
-public class EntradaAVulso extends DocumentoEntrada {
+@Entity
+@DiscriminatorValue("AVULSO")
+@Vetoed
+public class EntradaAVulso extends DocumentoEntrada implements Serializable {
 
 	private static final long serialVersionUID = -2216964131119275652L;
 

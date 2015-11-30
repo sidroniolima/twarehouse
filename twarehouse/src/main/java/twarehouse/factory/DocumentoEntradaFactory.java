@@ -5,6 +5,7 @@ package twarehouse.factory;
 
 import twarehouse.model.CupomFiscal;
 import twarehouse.model.DocumentoEntrada;
+import twarehouse.model.EntradaAVulso;
 import twarehouse.model.NotaFiscalEletronica;
 import twarehouse.model.TipoDocumentoEntrada;
 
@@ -19,7 +20,7 @@ public class DocumentoEntradaFactory {
 	public static DocumentoEntrada cria(TipoDocumentoEntrada tipo) {
 		
 		if (tipo.equals(TipoDocumentoEntrada.AVULSO)) {
-			return null;
+			return new EntradaAVulso();
 		}
 		
 		if (tipo.equals(TipoDocumentoEntrada.NFE)) {

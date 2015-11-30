@@ -90,6 +90,17 @@ public class ItemCompra implements Serializable {
 		return String.format("produto: %s, quantidade: %s", produto.getDescricao(), qtd);
 	}
 	
+	/**
+	 * Calcula o valor total mutiplicando a qtd 
+	 * pelo unitário.
+	 * 
+	 * @return
+	 */
+	public BigDecimal valorTotal() {
+		return this.getValorUnitario().multiply(qtd);
+	}
+	
+	
 	public Long getCodigo() {
 		return codigo;
 	}
@@ -123,11 +134,6 @@ public class ItemCompra implements Serializable {
 	}
 	public void setValorUnitario(BigDecimal valorUnitario) {
 		this.valorUnitario = valorUnitario;
-	}
-	
-	@Transient
-	public BigDecimal getValorTotal() {
-		return this.getValorUnitario().multiply(qtd);
 	}
 	
 	@Override

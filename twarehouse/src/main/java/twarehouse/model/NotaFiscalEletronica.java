@@ -3,18 +3,23 @@
  */
 package twarehouse.model;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 
+import javax.enterprise.inject.Vetoed;
 import javax.persistence.Column;
 import javax.persistence.DiscriminatorValue;
+import javax.persistence.Entity;
 
 /**
  * @author Sidronio
  *
  */
+@Entity
 @DiscriminatorValue("NFE")
-public class NotaFiscalEletronica extends DocumentoEntrada {
+@Vetoed
+public class NotaFiscalEletronica extends DocumentoEntrada implements Serializable{
 
 	private static final long serialVersionUID = 7461625214655940254L;
 	
@@ -42,7 +47,7 @@ public class NotaFiscalEletronica extends DocumentoEntrada {
 	
 	@Override
 	public String identificao() {
-		return this.getNumero() + " - " + this.getSerie();
+		return this.tipo().getDescricao() + ": " + this.getNumero() + " - " + this.getSerie();
 	}
 
 	public String getNumero() {

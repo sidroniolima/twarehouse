@@ -3,11 +3,9 @@
  */
 package twarehouse.model;
 
-import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
-import javax.enterprise.inject.Vetoed;
 import javax.persistence.Column;
 import javax.persistence.Convert;
 import javax.persistence.DiscriminatorColumn;
@@ -35,21 +33,18 @@ import twarehouse.converter.LocalDateDBConverter;
 @Table(name="documento_entrada")
 @Inheritance(strategy=InheritanceType.SINGLE_TABLE)
 @DiscriminatorColumn(name="tipo_documento", discriminatorType=DiscriminatorType.STRING)
-@Vetoed
-public abstract class DocumentoEntrada implements Serializable {
-
-	private static final long serialVersionUID = -3930744103038954411L;
+public abstract class DocumentoEntrada {
 
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Long codigo;
 	
+	private BigDecimal desconto;
+	private BigDecimal subtotal;
+	
 	@OneToOne(fetch=FetchType.LAZY)
 	@JoinColumn(name="compra_codigo")
 	private Compra compra;
-	
-	private BigDecimal desconto;
-	private BigDecimal subtotal;
 	
 	@Column(columnDefinition="DATE", name="data")
 	@Convert(converter=LocalDateDBConverter.class)
@@ -57,6 +52,7 @@ public abstract class DocumentoEntrada implements Serializable {
 	
 	public DocumentoEntrada() {	
 		this.desconto = BigDecimal.ZERO;
+		this.subtotal = BigDecimal.ZERO;
 		this.data = LocalDate.now();
 	}
 	
@@ -74,13 +70,6 @@ public abstract class DocumentoEntrada implements Serializable {
 	}
 	public void setCodigo(Long codigo) {
 		this.codigo = codigo;
-	}
-	
-	public Compra getCompra() {
-		return compra;
-	}
-	public void setCompra(Compra compra) {
-		this.compra = compra;
 	}
 	
 	public LocalDate getData() {
@@ -102,6 +91,13 @@ public abstract class DocumentoEntrada implements Serializable {
 	}
 	public void setDesconto(BigDecimal desconto) {
 		this.desconto = desconto;
+	}
+	
+	public Compra getCompra() {
+		return compra;
+	}
+	public void setCompra(Compra compra) {
+		this.compra = compra;
 	}
 
 	@Override
