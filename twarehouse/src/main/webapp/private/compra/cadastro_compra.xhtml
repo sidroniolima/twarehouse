@@ -339,8 +339,8 @@
 		                            	id="input-obs" 
 		                            	pt:placeholder="Observação pertinente à compra."
 		                            	value="#{cadastroCompraBean.compra.observacao}"/>
-			                	</div>					                		               	 	
-
+			                	</div>		
+			                	
 		                        <h:commandButton
 		                        	class="btn btn-primary"
 		                        	action="#{cadastroCompraBean.salvar()}"
@@ -394,8 +394,23 @@
 	                                   		itemValue="${produto}"
 	                                   		var="produto"
 	                                   		value="#{cadastroCompraBean.produtos}"/>
+	                                   		
+	                                   	<f:ajax
+	                                   		event="change"
+	                                   		render="input-un"/>
 	                                   		                                   		
                                    	</h:selectOneMenu>
+
+			                        <div class="form-group">
+			                        
+			                            <label for="input-un">Unidade</label>
+			                            <h:inputText 
+			                            	pt:type="text" 
+			                            	class="form-control input-sm m-bot15" 
+			                            	id="input-un" 
+			                            	value="#{cadastroCompraBean.itemCompra.unidade.descricao}"
+			                            	disabled="true"/>
+						           </div>                                   	
                                    	
 			                        <div class="form-group">
 			                        
@@ -458,7 +473,7 @@
 						              	</h:inputText>
 						                    
 				                	</div>		
-
+				                	
 			                        <h:commandButton
 			                        	class="btn btn-primary"
 			                        	action="#{cadastroCompraBean.adicionaItem()}"

@@ -13,9 +13,9 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
-import javax.persistence.Transient;
 
 import twarehouse.excpetion.RegraDeNegocioException;
+import twarehouse.model.estoque.ItensMovimentavies;
 
 /**
  * @author Sidronio
@@ -24,7 +24,7 @@ import twarehouse.excpetion.RegraDeNegocioException;
 @Entity
 @Table(name="item_compra")
 @Vetoed
-public class ItemCompra implements Serializable {
+public class ItemCompra implements ItensMovimentavies, Serializable {
 	
 	private static final long serialVersionUID = 689564928366103260L;
 
@@ -58,6 +58,17 @@ public class ItemCompra implements Serializable {
 		this();
 		
 		this.compra = compra;
+		this.produto = produto;
+		this.qtd = qtd;
+		this.valorUnitario = valorUnitario;
+	}
+	
+	public ItemCompra(Produto produto,
+			BigDecimal qtd, 
+			BigDecimal valorUnitario) {
+		
+		this();
+		
 		this.produto = produto;
 		this.qtd = qtd;
 		this.valorUnitario = valorUnitario;
@@ -100,6 +111,18 @@ public class ItemCompra implements Serializable {
 		return this.getValorUnitario().multiply(qtd);
 	}
 	
+	/* Fornece a unidade de entrada do item de compra.
+	 * @see twarehouse.model.estoque.ItensMovimentavies#getUnidade()
+	 */
+	public Unidade getUnidade() {
+		
+		if (null != produto) {
+			
+			return produto.getUnidades().getEntrada();
+		}
+		
+		return null; 
+	}
 	
 	public Long getCodigo() {
 		return codigo;

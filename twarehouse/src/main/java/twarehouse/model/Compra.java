@@ -51,6 +51,59 @@ public class Compra implements Serializable {
 	private List<ItemCompra> itens;
 	
 	private String observacao;
+	
+	@Transient
+	private CompraMemento estadoAnterior;
+	
+	/**
+	 * Classe do padrão Memento para salvar o estado anterior 
+	 * de uma compra (Itens) para ser utilizado na alteração 
+	 * para estorno da movimentação anterior.
+	 * 
+	 * @author Sidronio
+	 * 04/12/2015
+	 */
+	public class CompraMemento {
+		
+		private Compra estado;
+		
+		public CompraMemento() {		}
+		
+		public CompraMemento(Compra estado) {
+			this.estado = estado;
+		}
+
+		public Compra getEstado() {
+			return estado;
+		}
+		
+	}
+	
+	/**
+	 * Salva o estado anterior da compra, seus itens.
+	 */
+	public void salvaEstado() {
+		
+		estadoAnterior = new CompraMemento(new Compra());
+		
+		for (ItemCompra item : itens) {
+			
+			estadoAnterior.getEstado().adicionaItem(new ItemCompra(
+							item.getProduto(), 
+							item.getQtd(), 
+							item.getValorUnitario()));
+		}
+	}
+	
+	/**
+	 * Fornece o estado anterior da compra.
+	 * 
+	 * @return
+	 */
+	public CompraMemento getEstadoAnterior() {
+		
+		return estadoAnterior;
+	}
 
 	public Compra() {	
 		this.itens = new ArrayList<ItemCompra>();
@@ -77,6 +130,7 @@ public class Compra implements Serializable {
 	public void adicionaProduto(Produto produto, BigDecimal qtd, BigDecimal valorUnitario){
 		
 		ItemCompra item = new ItemCompra(this, produto, qtd, valorUnitario);
+		item.setCompra(this);
 		this.itens.add(item);
 	}
 	

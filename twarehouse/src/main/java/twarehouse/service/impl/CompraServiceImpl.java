@@ -16,6 +16,7 @@ import twarehouse.excpetion.RegraDeNegocioException;
 import twarehouse.model.Compra;
 import twarehouse.model.consulta.FiltroEntrada;
 import twarehouse.service.CompraService;
+import twarehouse.service.EstoqueService;
 import twarehouse.service.SimpleServiceLayerImpl;
 import twarehouse.util.Paginator;
 
@@ -33,7 +34,37 @@ public class CompraServiceImpl extends SimpleServiceLayerImpl<Compra, Long> impl
 
 	@Inject
 	private CompraDAO compraDAO;
-
+	
+	@Inject
+	private EstoqueService estoqueService;
+	
+	@Override
+	public void salva(Compra entidade) throws RegraDeNegocioException {
+		super.salva(entidade);
+		
+		if (this.isEdicao(entidade)) {
+			estoqueService.estornaCompra(entidade.getEstadoAnterior().getEstado().getItens());
+		} 
+		
+		estoqueService.realizaCompra(entidade.getItens());
+		
+	}
+	
+	/* Exclui a compra e gera o estorno da movimentação.
+	 * @see twarehouse.service.SimpleServiceLayerImpl#exclui(java.io.Serializable)
+	 */
+	@Override
+	public void exclui(Long id) throws RegraDeNegocioException {
+		
+		Compra compraComItens = 
+				this.compraDAO.buscarPeloCodigoComRelacionamento(id, Arrays.asList("itens"));
+		
+		super.exclui(id);
+		
+		this.estoqueService.estornaCompra(compraComItens.getItens());
+		
+	}
+	
 	@Override
 	public void validaInsercao(Compra compra) throws RegraDeNegocioException {
 		compra.valida();
@@ -44,6 +75,7 @@ public class CompraServiceImpl extends SimpleServiceLayerImpl<Compra, Long> impl
 		
 	}
 
+	@SuppressWarnings("rawtypes")
 	@Override
 	public GenericDAO getDAO() {
 		return this.compraDAO;
@@ -70,5 +102,23 @@ public class CompraServiceImpl extends SimpleServiceLayerImpl<Compra, Long> impl
 				paginator.getQtdPorPagina());
 	}
 	
+	/* (non-Javadoc)
+	 * @see twarehouse.service.CompraService#isEdicao(twarehouse.model.Compra)
+	 */
+	@Override
+	public boolean isEdicao(Compra entidade) {
+		return null != entidade.getCodigo();
+	}
+	
+	/* (non-Javadoc)
+	 * @see twarehouse.service.CompraService#buscaPeloCodigoComItens(java.lang.Long)
+	 */
+	@Override
+	public Compra buscaPeloCodigoComItens(Long codigo) {
+		
+		return compraDAO.buscarPeloCodigoComRelacionamento(
+				codigo, 
+				Arrays.asList("itens"));
+	}
 
 }

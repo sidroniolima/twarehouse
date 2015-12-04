@@ -8,5 +8,7 @@ public enum OrigemMovimento {
 	DEFEITO,
 	TROCA, 
 	SEPARACAO,
-	AJUSTE;
+	AJUSTE, 
+	COMPRA,
+	REQUISICAO;
 }

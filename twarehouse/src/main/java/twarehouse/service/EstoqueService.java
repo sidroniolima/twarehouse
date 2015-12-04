@@ -8,15 +8,13 @@ import java.util.List;
 
 import twarehouse.excpetion.RegraDeNegocioException;
 import twarehouse.model.Produto;
-import twarehouse.model.Unidade;
-import twarehouse.model.Unidades;
 import twarehouse.model.consulta.ProdutoEmReposicao;
 import twarehouse.model.consulta.SaldoPorAlmoxarifado;
 import twarehouse.model.estoque.Ajuste;
 import twarehouse.model.estoque.Almoxarifado;
+import twarehouse.model.estoque.ItensMovimentavies;
 import twarehouse.model.estoque.Movimento;
 import twarehouse.model.estoque.OrigemMovimento;
-import twarehouse.model.estoque.TipoMovimento;
 
 /**
  * Interface para abstração do Estoque.
@@ -136,5 +134,22 @@ public interface EstoqueService {
 	 * @return
 	 */
 	public Long qtdDeProdutosEmReposicao();
+	
+	/**
+	 * Movimenta os itens de compra dando entrada dos produtos 
+	 * no almoxarifado principal.
+	 * 
+	 * @param itens
+	 */
+	public void realizaCompra(List<? extends ItensMovimentavies> itens) throws RegraDeNegocioException;
+
+	/**
+	 * Estorna as movimentações da compra caso seja alterada 
+	 * ou excluída.
+	 * 
+	 * @param itens Itens da compra: se for editada retorna os itens
+	 * do estado anterior, i.e., antes da edição.
+	 */
+	public void estornaCompra(List<? extends ItensMovimentavies> itens) throws RegraDeNegocioException;
 	
 }

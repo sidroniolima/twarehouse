@@ -18,10 +18,12 @@ import twarehouse.model.consulta.SaldoPorAlmoxarifado;
 import twarehouse.model.estoque.Ajuste;
 import twarehouse.model.estoque.Almoxarifado;
 import twarehouse.model.estoque.ItemAjuste;
+import twarehouse.model.estoque.ItensMovimentavies;
 import twarehouse.model.estoque.Movimento;
 import twarehouse.model.estoque.MovimentoBuilder;
 import twarehouse.model.estoque.OrigemMovimento;
 import twarehouse.model.estoque.TipoMovimento;
+import twarehouse.service.AlmoxarifadoService;
 import twarehouse.service.EstoqueService;
 
 /**
@@ -38,6 +40,9 @@ public class EstoqueServiceImpl implements EstoqueService, Serializable {
 
 	@Inject
 	private EstoqueDAO estoqueDAO;
+	
+	@Inject
+	private AlmoxarifadoService almService;
 	
 	public void saida(
 			Almoxarifado almoxarifadoOrigem, 
@@ -185,6 +190,34 @@ public class EstoqueServiceImpl implements EstoqueService, Serializable {
 	@Override
 	public List<ProdutoEmReposicao> listaProdutosEmReposicao(int firstResult, int results) {
 		return estoqueDAO.listarProdutosEmReposicao(firstResult, results);
+	}
+	
+	/* Realiza a compra, i.e, movimento dos itens.
+	 * @see twarehouse.service.EstoqueService#realizaCompra(java.util.List)
+	 */
+	@Override
+	public void realizaCompra(List<? extends ItensMovimentavies> itens) throws RegraDeNegocioException {
+		
+		Almoxarifado alm = almService.buscaAlmoxarifadoPrincipal();
+		
+		for (ItensMovimentavies item : itens) {
+			
+			this.entrada(alm, item.getProduto(), item.getQtd(), OrigemMovimento.COMPRA);
+		}
+	}
+	
+	/* Estorna a movimentação da compra.
+	 * @see twarehouse.service.EstoqueService#estornaCompra(java.util.List)
+	 */
+	@Override
+	public void estornaCompra(List<? extends ItensMovimentavies> itens) throws RegraDeNegocioException {
+		
+		Almoxarifado alm = almService.buscaAlmoxarifadoPrincipal();
+		
+		for (ItensMovimentavies item : itens) {
+			
+			this.saida(alm, item.getProduto(), item.getQtd(), OrigemMovimento.COMPRA);
+		}
 	}
 
 	@Override

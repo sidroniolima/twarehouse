@@ -67,6 +67,8 @@ public class CadastroCompraBean extends CadastroMasterDetail implements Serializ
 		if (isEdicao()) {
 			
 			compra = compraService.buscaPeloCodigoCompleta(paramCodigo);
+			compra.salvaEstado();
+			
 		} else {
 			
 			compra = new Compra();

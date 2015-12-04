@@ -5,6 +5,7 @@ package twarehouse.service;
 
 import java.util.List;
 
+import twarehouse.excpetion.RegraDeNegocioException;
 import twarehouse.model.Compra;
 import twarehouse.model.consulta.FiltroEntrada;
 import twarehouse.util.Paginator;
@@ -36,4 +37,20 @@ public interface CompraService extends SimpleServiceLayer<Compra, Long>{
 	 */
 	public List<Compra> filtraPelaPesquisa(FiltroEntrada filtro, Paginator paginator);
 
+	/**
+	 * Verifica se é uma edição ou não de uma entidade compra.
+	 * 
+	 * @param entidade Compra para verificaão.
+	 * @return True se for edição, false se contrário.
+	 */
+	public boolean isEdicao(Compra entidade);
+	
+	/**
+	 * Busca uma compra pelo código e retorna-a com seus itens.
+	 * 
+	 * @param codigo Código da compra.
+	 * @return Compra com itens.
+	 */
+	public Compra buscaPeloCodigoComItens(Long codigo);
+	
 }
